@@ -1,0 +1,25 @@
+class User {
+    int username;
+    String name;
+    String password;
+    boolean read;
+    boolean write;
+}
+
+class RootUser extends User;
+
+class SpreadSheet {
+    int id;
+    String name;
+    String owner;
+    String date;
+    int columns;
+    int lines;
+}
+
+relation UserHasSpreadSheets {
+    User playsRole user;
+    SpreadSheet playsRole spreadsheet {
+        multiplicity *;
+    }
+}
