@@ -1,7 +1,8 @@
 //package
 
 class User {
-    int username;
+	//int id;
+    String username;
     String name;
     String password;
     boolean read;
@@ -11,9 +12,8 @@ class User {
 class RootUser extends User;
 
 class SpreadSheet {
-    int id;
+    //int id;
     String name;
-    String owner;
     String date;
     int columns;
     int lines;
@@ -21,34 +21,65 @@ class SpreadSheet {
 
 class Cell {
 	boolean protected;
+	int line;
+	int column;
 }
 
-class Content {
+abstract class Content;
 
-}
-
-class Function extends Content {
-
-}
+class Function extends Content;
 
 class Literal extends Content {
-
+	int literal;
 }
 
-class Reference extends Content {
+class Reference extends Content;
 
+class BinaryFunction extends Function;
+
+class Add extends BinaryFunction;
+
+class Sub extends BinaryFunction;
+
+class Mult extends BinaryFunction;
+
+class Div extends BinaryFunction;
+
+relation SpreadsheetHasCell {
+	Spreadsheet playsRole spreadsheet;
+	Cell playsRole cell {
+		multiplicity *;
+	}
 }
 
-class IntervalFunction extends Function {
-
+relation CellHasContent {
+	Cell playsRole cell;
+	Content playsRole content {
+		multiplicity 0..1;
+	}
 }
 
-class BinaryFunction extends Function {
-
+relation BinaryFunctionHasLiteral {
+	BinaryFunction playsRole binaryFunction;
+	Literal playsRole literal {
+		multiplicity 0..2;
+	}
 }
+
+relation BinaryFunctionHasReference {
+	BinaryFunction playsRole binaryFunction;
+	Reference playsRole reference {
+		multiplicity 0..2;
+}
+
 relation UserHasSpreadSheets {
     User playsRole user;
     SpreadSheet playsRole spreadsheet {
         multiplicity *;
     }
+}
+
+relation ReferenceHasCell {
+	Reference playsRole reference;
+	Cell playsRole cell;
 }
