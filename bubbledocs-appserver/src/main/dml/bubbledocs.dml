@@ -1,4 +1,4 @@
-//package
+package pt.ulisboa.tecnico.bubbledocs.domain;
 
 class User {
 	//int id;
