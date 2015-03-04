@@ -1,4 +1,4 @@
-package pt.ulisboa.tecnico.bubbledocs.domain;
+package pt.ulisboa.tecnico.bubbledocs.SetupDomain;
 
 class User {
 	//int id;
