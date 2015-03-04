@@ -1,3 +1,5 @@
+//package
+
 class User {
     int username;
     String name;
@@ -17,6 +19,33 @@ class SpreadSheet {
     int lines;
 }
 
+class Cell {
+	boolean protected;
+}
+
+class Content {
+
+}
+
+class Function extends Content {
+
+}
+
+class Literal extends Content {
+
+}
+
+class Reference extends Content {
+
+}
+
+class IntervalFunction extends Function {
+
+}
+
+class BinaryFunction extends Function {
+
+}
 relation UserHasSpreadSheets {
     User playsRole user;
     SpreadSheet playsRole spreadsheet {
