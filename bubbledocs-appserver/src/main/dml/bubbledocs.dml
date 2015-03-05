@@ -1,4 +1,4 @@
-package pt.ulisboa.tecnico.portal.domain;
+//package pt.ulisboa.tecnico.bubbledocs.SetupDomain;
 
 class Portal {
 	int userId;
@@ -31,11 +31,11 @@ class Cell {
 	int column;
 }
 
-abstract class Content;
+class Content;
 
 class Function extends Content;
 
-abstract class Argument;
+class Argument;
 
 class Literal extends Argument {
 	int literal;
@@ -70,7 +70,8 @@ relation CellHasContent {
 relation BinaryFunctionHasArgument {
 	BinaryFunction playsRole binaryFunction;
 	Argument playsRole argument {
-		multiplicity 2;
+		multiplicity 2; 
+	}
 }
 
 relation UserHasPermission {
@@ -98,6 +99,7 @@ relation PortalHasSpeadsheet {
 	Portal playsRole portal;
 	Spreadsheet playsRole spreadsheet {
 		multiplicity *;
+	}
 }
 
 relation ReferenceHasCell {
