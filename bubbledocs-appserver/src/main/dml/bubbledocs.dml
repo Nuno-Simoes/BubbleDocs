@@ -1,18 +1,24 @@
-package pt.ulisboa.tecnico.bubbledocs.SetupDomain;
+package pt.ulisboa.tecnico.portal.domain;
+
+class Portal {
+	int userId;
+	int sheetId;
+}
 
 class User {
-	//int id;
     String username;
     String name;
     String password;
-    boolean read;
-    boolean write;
+}
+
+class Permission {
+	boolean read;
+	boolean write;
 }
 
 class RootUser extends User;
 
-class SpreadSheet {
-    //int id;
+class Spreadsheet {
     String name;
     String date;
     int columns;
@@ -20,7 +26,7 @@ class SpreadSheet {
 }
 
 class Cell {
-	boolean protected;
+	boolean isProtected;
 	int line;
 	int column;
 }
@@ -29,11 +35,13 @@ abstract class Content;
 
 class Function extends Content;
 
-class Literal extends Content {
+abstract class Argument;
+
+class Literal extends Argument {
 	int literal;
 }
 
-class Reference extends Content;
+class Reference extends Argument;
 
 class BinaryFunction extends Function;
 
@@ -59,24 +67,37 @@ relation CellHasContent {
 	}
 }
 
-relation BinaryFunctionHasLiteral {
+relation BinaryFunctionHasArgument {
 	BinaryFunction playsRole binaryFunction;
-	Literal playsRole literal {
-		multiplicity 0..2;
-	}
+	Argument playsRole argument {
+		multiplicity 2;
 }
 
-relation BinaryFunctionHasReference {
-	BinaryFunction playsRole binaryFunction;
-	Reference playsRole reference {
-		multiplicity 0..2;
-}
-
-relation UserHasSpreadSheets {
+relation UserHasPermission {
     User playsRole user;
-    SpreadSheet playsRole spreadsheet {
+    Spreadsheet playsRole spreadsheet {
         multiplicity *;
     }
+}
+
+relation PermissionHasSpreadsheet {
+	Permission playsRole permission {
+		multiplicity 1..*;
+	}
+	Spreadsheet playsRole spreadsheet;
+}
+
+relation UserHasPortal {
+	User playsRole user{
+		multiplicity *;
+	}
+	Portal playsRole portal;
+}
+
+relation PortalHasSpeadsheet {
+	Portal playsRole portal;
+	Spreadsheet playsRole spreadsheet {
+		multiplicity *;
 }
 
 relation ReferenceHasCell {
