@@ -1,17 +1,17 @@
 package pt.ulisboa.tecnico.bubbledocs.exceptions;
 
-public class PermissionException extends BubbledocsException {
+public class InvalidUserException extends BubbledocsException {
 	
 	private static final long serialVersionUID = 1L;
 	private String message;
 	 
-    public PermissionException() {
+    public InvalidUserException() {
         super();
     }
  
-    public PermissionException (String message) {
+    public InvalidUserException (String message) {
         super ();
-        this.message = message + " does not have permission to perform access";
+        this.message = "user " + message + " not found";
     }
  
     @Override

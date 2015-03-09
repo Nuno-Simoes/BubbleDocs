@@ -1,15 +1,15 @@
 package pt.ulisboa.tecnico.bubbledocs.exceptions;
 
-public class SpreadsheetException extends BubbledocsException {
+public class InvalidSpreadsheetException extends BubbledocsException {
 	
 	private static final long serialVersionUID = 1L;
 	private String message;
 	 
-    public SpreadsheetException() {
+    public InvalidSpreadsheetException() {
         super();
     }
  
-    public SpreadsheetException (String message) {
+    public InvalidSpreadsheetException (String message) {
         super ();
         this.message = "spreadsheet " + message + " not found";
     }
