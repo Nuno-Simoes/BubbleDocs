@@ -18,6 +18,18 @@ public class RootUser extends RootUser_Base {
     	this.getPortal().addUsers(new User(username, name, password));
     }
     
+    public User returnUser (String username) throws InvalidUserException {
+    	
+    	for (User u : this.getPortal().getUsers()) {
+    		if (username.equals(u.getUsername())) {
+    				return u;
+    		}
+    	}
+    	
+    	throw new InvalidUserException(username);
+    	
+    }
+    
     
     //acabar
  /*	public void remove (String username) throws InvalidUserException {
