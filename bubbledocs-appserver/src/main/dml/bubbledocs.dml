@@ -67,11 +67,14 @@ relation CellHasContent {
 	}
 }
 
-relation BinaryFunctionHasArgument {
+relation BinaryFunctionHasArgument1 {
 	BinaryFunction playsRole binaryFunction;
-	Argument playsRole argument {
-		multiplicity 2; 
-	}
+	Argument playsRole argument1;
+}
+
+relation BinaryFunctionHasArgument2 {
+	BinaryFunction playsRole binaryFunction;
+	Argument playsRole argument2;
 }
 
 relation UserHasPermission {
