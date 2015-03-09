@@ -55,7 +55,7 @@ class Div extends BinaryFunction;
 
 relation SpreadsheetHasCell {
 	Spreadsheet playsRole spreadsheet;
-	Cell playsRole cell {
+	Cell playsRole cells {
 		multiplicity *;
 	}
 }
@@ -68,31 +68,31 @@ relation CellHasContent {
 }
 
 relation BinaryFunctionHasArgument1 {
-	BinaryFunction playsRole binaryFunction;
+	BinaryFunction playsRole binaryFunction1;
 	Argument playsRole argument1;
 }
 
 relation BinaryFunctionHasArgument2 {
-	BinaryFunction playsRole binaryFunction;
+	BinaryFunction playsRole binaryFunction2;
 	Argument playsRole argument2;
 }
 
 relation UserHasPermission {
     User playsRole user;
-    Spreadsheet playsRole spreadsheet {
+    Spreadsheet playsRole spreadsheets {
         multiplicity *;
     }
 }
 
 relation PermissionHasSpreadsheet {
-	Permission playsRole permission {
+	Permission playsRole permissions {
 		multiplicity 1..*;
 	}
 	Spreadsheet playsRole spreadsheet;
 }
 
 relation UserHasPortal {
-	User playsRole user{
+	User playsRole users {
 		multiplicity *;
 	}
 	Portal playsRole portal;
@@ -100,7 +100,7 @@ relation UserHasPortal {
 
 relation PortalHasSpeadsheet {
 	Portal playsRole portal;
-	Spreadsheet playsRole spreadsheet {
+	Spreadsheet playsRole spreadsheets {
 		multiplicity *;
 	}
 }
