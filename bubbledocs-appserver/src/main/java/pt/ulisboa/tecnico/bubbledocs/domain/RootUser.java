@@ -1,6 +1,7 @@
 package pt.ulisboa.tecnico.bubbledocs.domain;
 
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidUserException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.UserDoesNotExistException;
 
 public class RootUser extends RootUser_Base {
     
@@ -18,7 +19,7 @@ public class RootUser extends RootUser_Base {
     	this.getPortal().addUsers(new User(username, name, password));
     }
     
-    public User returnUser (String username) throws InvalidUserException {
+    public User returnUser (String username) throws UserDoesNotExistException {
     	
     	for (User u : this.getPortal().getUsers()) {
     		if (username.equals(u.getUsername())) {
@@ -26,7 +27,7 @@ public class RootUser extends RootUser_Base {
     		}
     	}
     	
-    	throw new InvalidUserException(username);
+    	throw new UserDoesNotExistException(username);
     	
     }
     
