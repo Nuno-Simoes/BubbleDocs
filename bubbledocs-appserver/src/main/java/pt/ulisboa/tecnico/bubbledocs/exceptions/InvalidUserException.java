@@ -11,7 +11,7 @@ public class InvalidUserException extends BubbledocsException {
  
     public InvalidUserException (String message) {
         super ();
-        this.message = "user " + message + " not found";
+        this.message = "invalid " + message + " user";
     }
  
     @Override
