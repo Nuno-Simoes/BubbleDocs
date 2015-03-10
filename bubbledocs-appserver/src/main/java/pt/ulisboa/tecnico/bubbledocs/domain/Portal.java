@@ -44,33 +44,34 @@ public class Portal extends Portal_Base {
     	}
     }
 
-    public void removeSpreasheet (int id) throws InvalidSpreadsheetException {
-    	boolean foundSpreadsheet = false;
-    	
+    public void removeSpreadsheet (int id) throws InvalidSpreadsheetException {
+    	Spreadsheet s = this.findSpreadsheet(id);
+    	this.removeSpreadsheets(s);
+    }
+    
+    public Spreadsheet findSpreadsheet (int id) throws InvalidSpreadsheetException {
     	for (Spreadsheet s : this.getSpreadsheetsSet()) {
     		if (s.getId() == id) {
-    			foundSpreadsheet = true;
-    			this.removeSpreadsheets(s);
+    			return s;
     		}
     	}
-    	if (!foundSpreadsheet) {
-    		throw new InvalidSpreadsheetException(Integer.toString(id));
-    	}
-    	
+    	throw new InvalidSpreadsheetException(Integer.toString(id)); 
     }
-
-    public void removeSpreadsheet (String name) throws InvalidSpreadsheetException {
-    	boolean foundSpreadsheet = false;
-    	
-    	for (Spreadsheet s : this.getSpreadsheetsSet()) {
-    		if (s.getName().equals(name)) {
-    			foundSpreadsheet = true;
-    			this.removeSpreadsheets(s);
+    
+    public User findUser (String username) throws InvalidUserException {
+    	for (User u : this.getUsersSet()) {
+    		if (u.getUsername().equals(username)) {
+    			return u;
     		}
     	}
-    	if (!foundSpreadsheet) {
-    		throw new InvalidSpreadsheetException(name);
-    	}	
+    	throw new InvalidUserException(username);
+    }
+    
+    public boolean isOwner (User u, Spreadsheet s) {
+    	if(u.getUsername().equals(s.getOwner())){
+    		return true;
+    	}
+    	return false;
     }
     
 }
