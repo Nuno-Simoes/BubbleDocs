@@ -1,17 +1,17 @@
 package pt.ulisboa.tecnico.bubbledocs.exceptions;
 
-public class InvalidUserException extends BubbledocsException {
+public class SpreadsheetDoesNotExistException extends BubbledocsException {
 	
 	private static final long serialVersionUID = 1L;
 	private String message;
 	 
-    public InvalidUserException() {
+    public SpreadsheetDoesNotExistException() {
         super();
     }
-    
-    public InvalidUserException(String message) {
-    	super();
-    	this.message = "invalid username: " + message;
+ 
+    public SpreadsheetDoesNotExistException (String message) {
+        super ();
+        this.message = "spreadsheet with id " + message + " not found";
     }
  
     @Override

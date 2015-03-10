@@ -2,6 +2,7 @@ package pt.ulisboa.tecnico.bubbledocs.domain;
 
 import java.util.List;
 
+import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidPermissionException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidUserException;
 
 public class User extends User_Base {
@@ -41,18 +42,18 @@ public class User extends User_Base {
 	   s.addPermissions(p);
    }
    
-   //Não tem permissoes suficientes exception?
    public void modifyPermissions (String username, int sheetId, boolean read, boolean write) 
-		   throws InvalidUserException {
+		   throws InvalidUserException, InvalidPermissionException {
 	   Permission p = this.findPermission(username, sheetId);
 	   User u = this.getPortal().findUser(username);
 	   Spreadsheet s = this.getPortal().findSpreadsheet(sheetId);
 
-	   if(this.getPortal().isOwner(u, s) || p.getWrite()) {
+	   if (this.getPortal().isOwner(u, s) || p.getWrite()) {
 		   p.setRead(read);
 		   p.setWrite(write);
-	   }   
-	   throw new InvalidUserException(username); 
+	   }
+	   
+	   throw new InvalidPermissionException(username); 
    }
    
    
@@ -65,7 +66,7 @@ public class User extends User_Base {
 			   return p;
 		   }
 	   }
-	   throw new InvalidUserException(username);
+	   throw new InvalidPermissionException(username);
    }
    
 }

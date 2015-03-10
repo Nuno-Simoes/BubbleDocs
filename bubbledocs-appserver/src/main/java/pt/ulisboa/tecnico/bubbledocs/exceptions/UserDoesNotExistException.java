@@ -11,7 +11,7 @@ public class UserDoesNotExistException extends BubbledocsException {
  
     public UserDoesNotExistException (String message) {
         super ();
-        this.message = message + " user does not exist";
+        this.message = "user " + message + " not found";
     }
  
     @Override

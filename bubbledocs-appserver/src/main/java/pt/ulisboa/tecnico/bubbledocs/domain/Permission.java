@@ -6,4 +6,14 @@ public class Permission extends Permission_Base {
         super();
     }
     
+    public Permission (boolean read, boolean write) {
+    	super();
+    	init(read, write);
+    }
+    
+    protected void init (boolean read, boolean write) {
+    	this.setRead(read);
+    	this.setWrite(write);
+    }
+    
 }

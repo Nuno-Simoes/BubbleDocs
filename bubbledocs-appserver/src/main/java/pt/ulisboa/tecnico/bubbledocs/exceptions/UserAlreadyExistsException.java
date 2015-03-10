@@ -1,17 +1,17 @@
 package pt.ulisboa.tecnico.bubbledocs.exceptions;
 
-public class InvalidSpreadsheetException extends BubbledocsException {
+public class UserAlreadyExistsException extends BubbledocsException {
 	
 	private static final long serialVersionUID = 1L;
 	private String message;
 	 
-    public InvalidSpreadsheetException() {
+    public UserAlreadyExistsException() {
         super();
     }
  
-    public InvalidSpreadsheetException (String message) {
+    public UserAlreadyExistsException (String message) {
         super ();
-        this.message = "spreadsheet " + message + " not found";
+        this.message = "username " + message + " already taken";
     }
  
     @Override

@@ -18,7 +18,8 @@ public class RootUser extends RootUser_Base {
 		FenixFramework.getDomainRoot().setRootUser(this);
 	}
     
-    public void add (String username, String name, String password) throws InvalidUserException {
+    public void add (String username, String name, String password) 
+    		throws InvalidUserException {
     	for (User u : this.getPortal().getUsersSet()) {
     		if (username.equals(u.getUsername())) {
     			throw new InvalidUserException(username);

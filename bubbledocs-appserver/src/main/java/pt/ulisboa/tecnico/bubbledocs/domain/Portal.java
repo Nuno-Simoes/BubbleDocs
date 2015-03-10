@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pt.ist.fenixframework.FenixFramework;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidSpreadsheetException;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidUserException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.SpreadsheetDoesNotExistException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.UserDoesNotExistException;
 
 public class Portal extends Portal_Base {
     
@@ -41,27 +41,27 @@ public class Portal extends Portal_Base {
     	}
     }
 
-    public void removeSpreadsheet (int id) throws InvalidSpreadsheetException {
+    public void removeSpreadsheet (int id) throws SpreadsheetDoesNotExistException {
     	Spreadsheet s = this.findSpreadsheet(id);
     	this.removeSpreadsheets(s);
     }
     
-    public Spreadsheet findSpreadsheet (int id) throws InvalidSpreadsheetException {
+    public Spreadsheet findSpreadsheet (int id) throws SpreadsheetDoesNotExistException {
     	for (Spreadsheet s : this.getSpreadsheetsSet()) {
     		if (s.getId() == id) {
     			return s;
     		}
     	}
-    	throw new InvalidSpreadsheetException(Integer.toString(id)); 
+    	throw new SpreadsheetDoesNotExistException(Integer.toString(id)); 
     }
     
-    public User findUser (String username) throws InvalidUserException {
+    public User findUser (String username) throws UserDoesNotExistException {
     	for (User u : this.getUsersSet()) {
     		if (u.getUsername().equals(username)) {
     			return u;
     		}
     	}
-    	throw new InvalidUserException(username);
+    	throw new UserDoesNotExistException(username);
     }
     
     public boolean isOwner (User u, Spreadsheet s) {
