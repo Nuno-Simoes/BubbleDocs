@@ -23,18 +23,21 @@ public class RootUser extends RootUser_Base {
     }
     
     public void add (String username, String name, String password) throws InvalidUserException {
-    	for (User u : this.getPortal().getUsers()) {
+    	for (User u : this.getPortal().getUsersSet()) {
     		if (username.equals(u.getUsername())) {
     			throw new InvalidUserException(username);
     		}
     	}
     	
+    	User user = new User(username, name, password);
+    	user.setId(this.getId());
     	this.getPortal().addUsers(new User(username, name, password));
+    	this.setId(this.getId()+1);
     }
     
     public User returnUser (String username) throws UserDoesNotExistException {
     	
-    	for (User u : this.getPortal().getUsers()) {
+    	for (User u : this.getPortal().getUsersSet()) {
     		if (username.equals(u.getUsername())) {
     				return u;
     		}
@@ -44,19 +47,23 @@ public class RootUser extends RootUser_Base {
     	
     }
     
-    
-    //acabar
- /*	public void remove (String username) throws InvalidUserException {
+    public void removeUser (String username) throws InvalidUserException {
     	if (this.getUsername().equals(username)) {
     		throw new InvalidUserException(username);
     	}
-    	
-    	for (User u : this.getPortal().getUsers()) {
+    	for (User u : this.getPortal().getUsersSet()) {
     		if (u.getUsername().equals(username)) {
-    			this.removeUsers(this.getPortal().)
+    			removeUserPermissions(u);
+    			this.getPortal().removeSpreadsheet(u);
+    			this.getPortal().removeUsers(u);
     		}
     	}
-    	
-    }*/
+    }
+
+    public void removeUserPermissions (User u) {
+    	for (Permission p : u.getPermissionsSet()) {
+    		this.removePermissions(p);;
+    	}
+    }
     
 }

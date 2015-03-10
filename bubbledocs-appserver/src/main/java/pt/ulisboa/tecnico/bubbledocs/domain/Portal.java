@@ -3,6 +3,9 @@ package pt.ulisboa.tecnico.bubbledocs.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidSpreadsheetException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidUserException;
+
 public class Portal extends Portal_Base {
     
 	private static Portal instance = null;
@@ -31,6 +34,43 @@ public class Portal extends Portal_Base {
     	} 
     	
     	return list;
+    }
+    
+    public void removeSpreadsheet (User u) {
+    	for (Spreadsheet s : this.getSpreadsheetsSet()) {
+    		if (s.getOwner().equals(u.getUsername())) {
+    			this.removeSpreadsheets(s);
+    		}
+    	}
+    }
+
+    public void removeSpreasheet (int id) throws InvalidSpreadsheetException {
+    	boolean foundSpreadsheet = false;
+    	
+    	for (Spreadsheet s : this.getSpreadsheetsSet()) {
+    		if (s.getId() == id) {
+    			foundSpreadsheet = true;
+    			this.removeSpreadsheets(s);
+    		}
+    	}
+    	if (!foundSpreadsheet) {
+    		throw new InvalidSpreadsheetException(Integer.toString(id));
+    	}
+    	
+    }
+
+    public void removeSpreadsheet (String name) throws InvalidSpreadsheetException {
+    	boolean foundSpreadsheet = false;
+    	
+    	for (Spreadsheet s : this.getSpreadsheetsSet()) {
+    		if (s.getName().equals(name)) {
+    			foundSpreadsheet = true;
+    			this.removeSpreadsheets(s);
+    		}
+    	}
+    	if (!foundSpreadsheet) {
+    		throw new InvalidSpreadsheetException(name);
+    	}	
     }
     
 }

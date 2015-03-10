@@ -84,7 +84,7 @@ relation BinaryFunctionHasArgument2 {
 
 relation UserHasPermission {
     User playsRole user;
-    Spreadsheet playsRole spreadsheets {
+    Permission playsRole permissions {
         multiplicity *;
     }
 }
