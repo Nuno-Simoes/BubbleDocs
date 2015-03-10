@@ -6,4 +6,12 @@ public class Div extends Div_Base {
         super();
     }
     
+    @Override
+    public void compute() {
+    	Double firstArgument = this.getArgument1().getValue();
+    	Double secondArgument = this.getArgument2().getValue();
+    	Double result = firstArgument / secondArgument;
+    	this.setValue(result);
+    }
+    
 }

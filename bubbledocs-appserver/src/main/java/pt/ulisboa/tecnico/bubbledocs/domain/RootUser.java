@@ -5,8 +5,21 @@ import pt.ulisboa.tecnico.bubbledocs.exceptions.UserDoesNotExistException;
 
 public class RootUser extends RootUser_Base {
     
-    public RootUser() {
+    private static RootUser instance = null;
+
+    protected RootUser() {
         super();
+        this.setName("Super User");
+        this.setUsername("root");
+        this.setPassword("rootroot");
+    }
+        
+    public static RootUser getInstance() {
+    	if (instance==null) {
+    		instance = new RootUser();
+    	}
+    	
+    	return instance;
     }
     
     public void add (String username, String name, String password) throws InvalidUserException {

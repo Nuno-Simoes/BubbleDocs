@@ -9,6 +9,7 @@ class User {
     String username;
     String name;
     String password;
+    int id;
 }
 
 class Permission {
@@ -20,9 +21,11 @@ class RootUser extends User;
 
 class Spreadsheet {
     String name;
+    String owner;
     String date;
     int columns;
     int lines;
+    int id;
 }
 
 class Cell {
@@ -31,11 +34,13 @@ class Cell {
 	int column;
 }
 
-class Content;
+class Content {
+	Double value;
+}
 
 class Function extends Content;
 
-class Argument;
+class Argument extends Content;
 
 class Literal extends Argument {
 	int literal;
