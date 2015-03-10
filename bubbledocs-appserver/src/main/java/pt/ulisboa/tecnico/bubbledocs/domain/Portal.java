@@ -3,28 +3,24 @@ package pt.ulisboa.tecnico.bubbledocs.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import pt.ist.fenixframework.FenixFramework;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidSpreadsheetException;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidUserException;
 
 public class Portal extends Portal_Base {
     
-	private static Portal instance = null;
-	
-    protected Portal() {
-        super();
-        this.setSheetId(0);
-        this.setUserId(0);
-    }
-    
-    public static Portal getInstance() {
-    	if (instance==null) {
-    		instance = new Portal();
-    	}
-    	
-    	return instance;
-    }
-    
-    public List<Spreadsheet> listSpreadsheets (User user, String str) {
+	public static Portal getInstance() {
+		Portal portal = FenixFramework.getDomainRoot().getPortal();
+		if (portal == null)
+		    portal = new Portal();
+
+		return portal;
+	}
+
+	private Portal() {
+		FenixFramework.getDomainRoot().setPortal(this);
+	}
+
+	public List<Spreadsheet> listSpreadsheets (User user, String str) {
     	List<Spreadsheet> list = new ArrayList<Spreadsheet>();
     	
     	for (User u : this.getUsersSet()) {

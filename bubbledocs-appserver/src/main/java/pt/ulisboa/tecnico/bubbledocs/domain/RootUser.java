@@ -1,26 +1,22 @@
 package pt.ulisboa.tecnico.bubbledocs.domain;
 
+import pt.ist.fenixframework.FenixFramework;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidUserException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.UserDoesNotExistException;
 
 public class RootUser extends RootUser_Base {
     
-    private static RootUser instance = null;
+	public static RootUser getInstance() {
+		RootUser user = FenixFramework.getDomainRoot().getRootUser();
+		if (user == null)
+		    user = new RootUser();
 
-    protected RootUser() {
-        super();
-        this.setName("Super User");
-        this.setUsername("root");
-        this.setPassword("rootroot");
-    }
-        
-    public static RootUser getInstance() {
-    	if (instance==null) {
-    		instance = new RootUser();
-    	}
-    	
-    	return instance;
-    }
+		return user;
+	}
+
+	private RootUser() {
+		FenixFramework.getDomainRoot().setRootUser(this);
+	}
     
     public void add (String username, String name, String password) throws InvalidUserException {
     	for (User u : this.getPortal().getUsersSet()) {
