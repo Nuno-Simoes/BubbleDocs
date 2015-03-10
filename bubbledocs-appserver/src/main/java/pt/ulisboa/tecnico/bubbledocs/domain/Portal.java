@@ -5,6 +5,7 @@ import java.util.List;
 
 import pt.ist.fenixframework.FenixFramework;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidSpreadsheetException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidUserException;
 
 public class Portal extends Portal_Base {
     
