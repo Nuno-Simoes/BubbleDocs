@@ -114,3 +114,21 @@ relation ReferenceHasCell {
 	Reference playsRole reference;
 	Cell playsRole cell;
 }
+
+relation DomainRootHasPortalApplication {
+	.pt.ist.fenixframework.DomainRoot playsRole root {
+		multiplicity 0..1;
+	}
+	Portal playsRole portal {
+		multiplicity 0..1;
+	}
+}
+
+relation DomainRootHasRootUser {
+	.pt.ist.fenixframework.DomainRoot playsRole root {
+		multiplicity 0..1;
+	}
+	RootUser playsRole rootUser {
+		multiplicity 0..1;
+	}
+}
