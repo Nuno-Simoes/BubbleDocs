@@ -22,6 +22,7 @@ public class Cell extends Cell_Base {
     	element.addContent(contentElement);
 
     	contentElement.setContent(exportToXML());
+    	
     	return element;
         }
 
@@ -34,13 +35,6 @@ public class Cell extends Cell_Base {
     		throw new ImportDocumentException();
     	}
 
-    	Element content = cellElement.getChild("content");
-
-    	for (Element contentElement : content.getChildren("contact")) {
-    		Content c = new Content();
-    		c.importFromXML(contentElement);
-    		setContent(c);
-    	}
 
         }
     

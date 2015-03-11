@@ -46,12 +46,12 @@ public class Spreadsheet extends Spreadsheet_Base {
 			cellsElement.addContent(c.exportToXML());
 		}
 		
-		Element permissionElement = new Element("permission");
+		/*Element permissionElement = new Element("permission");
 		element.addContent(permissionElement);
 
 		for (Permission p : getPermissionsSet()) {
 			permissionElement.addContent(p.exportToXML());
-		}
+		}*/
 
 		return element;
 	}
@@ -75,12 +75,12 @@ public class Spreadsheet extends Spreadsheet_Base {
 			addCells(cellp);
 		}
 		
-		Element permissions = spreadsheetElement.getChild("permission");
+		/*Element permissions = spreadsheetElement.getChild("permission");
 
 		for (Element p : permissions.getChildren("permission")) {
 			Permission permissionp = new Permission();
 			permissionp.importFromXML(p);
 			addPermissions(permissionp);
-		}
+		}*/
 	}
 }
