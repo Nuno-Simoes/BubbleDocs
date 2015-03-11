@@ -17,15 +17,13 @@ public class BinaryFunction extends BinaryFunction_Base {
     		this.setArgument1(zero);
     	}else {
     		this.setArgument1(firstArgument);
-    		}
+    	}
     	
     	if(secondArgument.equals(null)){
-    		this.setArgument2(zero);
+    		this.setArgument1(zero);
     	}else {
-    		this.setArgument2(secondArgument);
-    		}
+    		this.setArgument1(secondArgument);
+    	}
     }
-    
-    public void compute(){}
-    
+        
 }
