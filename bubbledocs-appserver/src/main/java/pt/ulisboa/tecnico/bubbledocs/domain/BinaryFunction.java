@@ -12,8 +12,18 @@ public class BinaryFunction extends BinaryFunction_Base {
     }
     
     protected void init(Argument firstArgument, Argument secondArgument) {
-    	this.setArgument1(firstArgument);
-    	this.setArgument2(secondArgument);
+    	Literal zero = new Literal(0);
+    	if(firstArgument.equals(null)){
+    		this.setArgument1(zero);
+    	}else {
+    		this.setArgument1(firstArgument);
+    		}
+    	
+    	if(secondArgument.equals(null)){
+    		this.setArgument1(zero);
+    	}else {
+    		this.setArgument1(secondArgument);
+    		}
     }
     
     public void compute(){}
