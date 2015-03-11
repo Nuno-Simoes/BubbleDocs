@@ -22,6 +22,16 @@ public class Cell extends Cell_Base {
     	this.setContent(null);
     }
     
+    public String getResult() {
+    	double result = this.getContent().getResult();
+    	
+    	if (Double.isNaN(result)) {
+    		return "#VALUE";
+    	} else {
+    		return Double.toString(result);
+    	}
+    }
+    
     public Element exportToXML() {
     	Element element = new Element("cell");
 
