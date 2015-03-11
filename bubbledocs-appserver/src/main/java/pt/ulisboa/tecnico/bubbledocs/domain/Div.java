@@ -9,12 +9,13 @@ public class Div extends Div_Base {
     }
     
     public Div (Argument firstArgument, Argument secondArgument) {
-    	super();
+    	super();    	
     	super.init(firstArgument, secondArgument);
     }
     
     @Override
     public double getResult() throws DivisionByZeroException {
+
     	Double firstArgument = this.getArgument1().getResult();
     	Double secondArgument = this.getArgument2().getResult();
     	if(secondArgument == 0){

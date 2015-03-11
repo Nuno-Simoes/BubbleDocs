@@ -18,7 +18,14 @@ public class Reference extends Reference_Base {
     @Override
     public double getResult() {
     	Content content = this.getCell().getContent();
-    	double result = content.getResult();
+    	double result;
+    	
+    	if (content.equals("#VALUE")) {
+    		result = Double.NaN;
+    	} else {
+    		result = content.getResult();
+    	}
+    	
     	return result;
     }
     

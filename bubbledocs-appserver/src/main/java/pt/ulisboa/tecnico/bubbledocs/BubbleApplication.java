@@ -21,6 +21,7 @@ public class BubbleApplication {
 	public static void main (String[] args) {
 		System.out.println("Welcome To The Bubble Docs Application!");
 		
+		
 		TransactionManager tm = FenixFramework.getTransactionManager();
     	boolean committed = false;
     	
@@ -87,9 +88,10 @@ public class BubbleApplication {
 	}
 	
     private static void setupIfNeed(Portal portal) {
-    	if (portal.getUsersSet().isEmpty());
-			SetupDomain.populateDomain();
+    	if (portal.getUsersSet().isEmpty())
+    		SetupDomain.populateDomain();
     }
+    
 	
     @Atomic
     private static void recoverFromBackup(org.jdom2.Document jdomDoc) {

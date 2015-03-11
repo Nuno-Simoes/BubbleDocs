@@ -6,6 +6,7 @@ import org.jdom2.DataConversionException;
 import org.jdom2.Element;
 
 import pt.ulisboa.tecnico.bubbledocs.exceptions.ImportDocumentException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.OutOfBoundsException;
 
 public class Spreadsheet extends Spreadsheet_Base {
 
@@ -27,6 +28,15 @@ public class Spreadsheet extends Spreadsheet_Base {
 
 		this.setLines(lines);
 		this.setColumns(columns);
+		
+		for (int i = 0; i < lines; i++) {
+			for (int j = 0; j < columns; j++) {
+				this.addCells(new Cell(i, j));
+			}
+		}
+		
+		this.setOwner("Super User");
+		
 	}
 
 	public Element exportToXML() {
@@ -82,5 +92,15 @@ public class Spreadsheet extends Spreadsheet_Base {
 			permissionp.importFromXML(p);
 			addPermissions(permissionp);
 		}*/
+	}
+	
+	public Cell getCell(int line, int column) throws OutOfBoundsException {
+		for (Cell c : this.getCellsSet()) {
+			if (c.getLine()==line && c.getColumn()==column) {
+				return c;
+			}
+		}
+		
+		throw new OutOfBoundsException();
 	}
 }

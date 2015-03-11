@@ -19,12 +19,11 @@ public class Cell extends Cell_Base {
     protected void init (int line, int column){
     	this.setLine(line);
     	this.setColumn(column);
-    	this.setContent(null);
+    	this.setContent(new Literal((int) Double.NaN));
     }
     
     public String getResult() {
     	double result = this.getContent().getResult();
-    	
     	if (Double.isNaN(result)) {
     		return "#VALUE";
     	} else {
@@ -45,7 +44,7 @@ public class Cell extends Cell_Base {
     	contentElement.setContent(exportToXML());
     	
     	return element;
-        }
+    }
 
     public void importFromXML(Element cellElement) {
     	try {

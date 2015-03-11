@@ -39,16 +39,18 @@ public class User extends User_Base {
 	   }
    }
    
-   public void createSpreadsheet(String name, int lines, int columns) {
+   public Spreadsheet createSpreadsheet(String name, int lines, int columns) {
 	   Spreadsheet s = new Spreadsheet(name, lines, columns);
 	   Permission p = new Permission (true, true);
-	   int id = this.getPortal().getSheetId();
+	   int id = Portal.getInstance().getSheetId();
 	   s.setId(id);
 	   s.setOwner(this.getUsername());
-	   this.getPortal().addSpreadsheets(s);
-	   this.getPortal().setSheetId(id+1);
+	   Portal.getInstance().addSpreadsheets(s);
+	   Portal.getInstance().setSheetId(id+1);
 	   this.addPermissions(p);
 	   s.addPermissions(p);
+	   
+	   return s;
    }
    
    public void modifyPermissions (String username, int sheetId, boolean read, boolean write) 

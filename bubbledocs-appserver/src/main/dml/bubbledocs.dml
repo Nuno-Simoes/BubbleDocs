@@ -109,7 +109,9 @@ relation PortalHasSpeadsheet {
 }
 
 relation ReferenceHasCell {
-	Reference playsRole reference;
+	Reference playsRole reference {
+		multiplicity *;
+	}
 	Cell playsRole cell;
 }
 
