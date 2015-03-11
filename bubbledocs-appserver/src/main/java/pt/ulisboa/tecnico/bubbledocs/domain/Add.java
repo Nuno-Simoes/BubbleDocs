@@ -4,6 +4,12 @@ public class Add extends Add_Base {
     
     public Add() {
         super();
+        
+    }
+    
+    public Add(Argument firstArgument, Argument secondArgument){
+    	super();
+    	super.init(firstArgument, secondArgument);
     }
     
     @Override

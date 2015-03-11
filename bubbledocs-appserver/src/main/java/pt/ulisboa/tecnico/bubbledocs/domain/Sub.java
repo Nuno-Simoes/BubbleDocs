@@ -6,6 +6,11 @@ public class Sub extends Sub_Base {
         super();
     }
     
+    public Sub(Argument firstArgument, Argument secondArgument){
+    	super();
+    	super.init(firstArgument, secondArgument);
+    }
+    
     @Override
     public void compute() {
     	Double firstArgument = this.getArgument1().getValue();

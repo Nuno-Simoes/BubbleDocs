@@ -20,9 +20,9 @@ public class BinaryFunction extends BinaryFunction_Base {
     		}
     	
     	if(secondArgument.equals(null)){
-    		this.setArgument1(zero);
+    		this.setArgument2(zero);
     	}else {
-    		this.setArgument1(secondArgument);
+    		this.setArgument2(secondArgument);
     		}
     }
     

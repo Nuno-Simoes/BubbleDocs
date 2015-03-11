@@ -6,6 +6,10 @@ public class Mult extends Mult_Base {
         super();
     }
     
+    public Mult(Argument firstArgument, Argument secondArgument){
+    	super();
+    	super.init(firstArgument, secondArgument);
+    }
     @Override
     public void compute() {
     	Double firstArgument = this.getArgument1().getValue();
