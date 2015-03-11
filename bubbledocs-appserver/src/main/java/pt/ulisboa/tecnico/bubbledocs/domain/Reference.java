@@ -6,4 +6,14 @@ public class Reference extends Reference_Base {
         super();
     }
     
+    public Reference(Cell cell){
+    	super ();
+    	this.init (cell);
+    }
+    
+    protected void init (Cell cell){
+    	this.setCell(cell);
+    }
+    
+    
 }

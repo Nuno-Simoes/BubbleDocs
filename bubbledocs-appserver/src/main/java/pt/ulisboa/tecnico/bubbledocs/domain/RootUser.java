@@ -2,7 +2,6 @@ package pt.ulisboa.tecnico.bubbledocs.domain;
 
 import pt.ist.fenixframework.FenixFramework;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidUserException;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.UserDoesNotExistException;
 
 public class RootUser extends RootUser_Base {
     

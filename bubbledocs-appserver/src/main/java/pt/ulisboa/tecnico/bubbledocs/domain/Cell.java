@@ -11,6 +11,17 @@ public class Cell extends Cell_Base {
         super();
     }
     
+    public Cell(int line , int column){
+    	super();
+    	this.init(line, column);
+    }
+    
+    protected void init (int line, int column){
+    	this.setLine(line);
+    	this.setColumn(column);
+    	this.setContent(null);
+    }
+    
     public Element exportToXML() {
     	Element element = new Element("cell");
 
