@@ -73,7 +73,7 @@ public class BubbleApplication {
 	
     private static void setupIfNeed(Portal portal) {
 	if (portal.getUsersSet().isEmpty());
-		//SetupDomanin.populateDomain();
+		SetupDomain.populateDomain();
     }
     
 }

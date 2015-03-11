@@ -45,6 +45,6 @@ public class SetupDomain {
         Argument reference4 = new Reference(cell3);
         BinaryFunction function2 = new Div(reference4, reference3);
         cell4.setContent(function2);
-        
-  
-}}
+    }
+
+}
