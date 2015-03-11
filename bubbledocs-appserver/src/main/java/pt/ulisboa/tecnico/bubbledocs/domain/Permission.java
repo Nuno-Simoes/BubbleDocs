@@ -1,10 +1,10 @@
 package pt.ulisboa.tecnico.bubbledocs.domain;
 
-import org.jdom2.DataConversionException;
+/*import org.jdom2.DataConversionException;
 import org.jdom2.Element;
 
 import pt.ulisboa.tecnico.bubbledocs.exceptions.ImportDocumentException;
-
+*/
 public class Permission extends Permission_Base {
     
     public Permission() {
@@ -21,7 +21,7 @@ public class Permission extends Permission_Base {
     	this.setWrite(write);
     }
     
-    public void importFromXML(Element permissionElement) {
+   /* public void importFromXML(Element permissionElement) {
     	try {
     		setWrite(permissionElement.getAttribute("write").getBooleanValue());
     		setRead(permissionElement.getAttribute("read").getBooleanValue());
@@ -36,6 +36,6 @@ public class Permission extends Permission_Base {
     	element.setAttribute("write", Boolean.toString(getWrite()));
 
     	return element;
-    }
+    }*/
     
 }

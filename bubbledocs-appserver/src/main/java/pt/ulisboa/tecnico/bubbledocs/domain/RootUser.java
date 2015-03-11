@@ -2,7 +2,6 @@ package pt.ulisboa.tecnico.bubbledocs.domain;
 
 import pt.ist.fenixframework.FenixFramework;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidUserException;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.UserDoesNotExistException;
 
 public class RootUser extends RootUser_Base {
     
@@ -32,17 +31,7 @@ public class RootUser extends RootUser_Base {
     	this.setId(this.getId()+1);
     }
     
-    public User returnUser (String username) throws UserDoesNotExistException {
-    	
-    	for (User u : this.getPortal().getUsersSet()) {
-    		if (username.equals(u.getUsername())) {
-    				return u;
-    		}
-    	}
-    	
-    	throw new UserDoesNotExistException(username);
-    	
-    }
+
     
     public void removeUser (String username) throws InvalidUserException {
     	if (this.getUsername().equals(username)) {

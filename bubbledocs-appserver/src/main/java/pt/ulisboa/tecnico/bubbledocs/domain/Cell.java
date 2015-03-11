@@ -11,23 +11,33 @@ public class Cell extends Cell_Base {
         super();
     }
     
+    public Cell(int line , int column){
+    	super();
+    	this.init(line, column);
+    }
+    
+    protected void init (int line, int column){
+    	this.setLine(line);
+    	this.setColumn(column);
+    	this.setContent(null);
+    }
+    
     public Element exportToXML() {
     	Element element = new Element("cell");
 
     	element.setAttribute("isProtected", Boolean.toString(getIsProtected()));
     	element.setAttribute("column", Integer.toString(getColumn()));
 		element.setAttribute("line", Integer.toString(getLine()));
-
-    	/*deve faltar a funçao add content uma vez que ja existe a predefiniçao nao criou por cima
-    	 * Element contentElement = new Element("content");
+	  
+		Element contentElement = new Element("content");
     	element.addContent(contentElement);
 
-    	contentElement.addContent(Content.exportToXML());
-    	 */
+    	contentElement.setContent(exportToXML());
+    	
     	return element;
         }
 
-        public void importFromXML(Element cellElement) {
+    public void importFromXML(Element cellElement) {
     	try {
     		setIsProtected(cellElement.getAttribute("isProtected").getBooleanValue());
     		setColumn(cellElement.getAttribute("column").getIntValue());
@@ -35,14 +45,7 @@ public class Cell extends Cell_Base {
     	} catch (DataConversionException e) { 
     		throw new ImportDocumentException();
     	}
-    	  
-    	/* Element content = cellElement.getChild("content");
-    	
-    	for (Element contentElement : content.getChildren("contact")) {
-    	    Content c = new Content();
-    	    c.importFromXML(contentElement);
-    	    addContent(c);
-    	}*/
+
 
         }
     
