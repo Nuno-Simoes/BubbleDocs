@@ -4,6 +4,8 @@ import java.util.List;
 
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidPermissionException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidUserException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.SpreadsheetDoesNotExistException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.UserDoesNotExistException;
 
 public class User extends User_Base {
     
@@ -43,7 +45,7 @@ public class User extends User_Base {
    }
    
    public void modifyPermissions (String username, int sheetId, boolean read, boolean write) 
-		   throws InvalidUserException, InvalidPermissionException {
+		   throws UserDoesNotExistException, SpreadsheetDoesNotExistException, InvalidPermissionException {
 	   Permission p = this.findPermission(username, sheetId);
 	   User u = this.getPortal().findUser(username);
 	   Spreadsheet s = this.getPortal().findSpreadsheet(sheetId);
@@ -57,7 +59,8 @@ public class User extends User_Base {
    }
    
    
-   public Permission findPermission (String username, int sheetId) throws InvalidUserException {
+   public Permission findPermission (String username, int sheetId) 
+		   throws UserDoesNotExistException, SpreadsheetDoesNotExistException, InvalidPermissionException {
 	   User u = this.getPortal().findUser(username);
 	   Spreadsheet s = this.getPortal().findSpreadsheet(sheetId);
 	   
