@@ -8,15 +8,20 @@ public class Div extends Div_Base {
         super();
     }
     
+    public Div (Argument firstArgument, Argument secondArgument) {
+    	super();
+    	super.init(firstArgument, secondArgument);
+    }
+    
     @Override
-    public void compute() throws DivisionByZeroException {
-    	Double firstArgument = this.getArgument1().getValue();
-    	Double secondArgument = this.getArgument2().getValue();
+    public double getResult() throws DivisionByZeroException {
+    	Double firstArgument = this.getArgument1().getResult();
+    	Double secondArgument = this.getArgument2().getResult();
     	if(secondArgument == 0){
     		throw new DivisionByZeroException();
     	}
     	Double result = firstArgument / secondArgument;
-    	this.setValue(result);
+    	return result;
     }
     
 }

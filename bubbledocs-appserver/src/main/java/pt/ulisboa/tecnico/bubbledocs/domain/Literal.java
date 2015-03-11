@@ -11,13 +11,18 @@ public class Literal extends Literal_Base {
 		super();
 	}
 
-	public Literal(double value) {
+	public Literal(int literal) {
 		super();
-		this.init(value);
+		this.init(literal);
 	}
 
-	protected void init(double value) {
-		this.setValue(value);
+	protected void init(int literal) {
+		this.setLiteral(literal);
+	}
+	
+	@Override
+	public double getResult() {
+		return this.getLiteral();
 	}
 	
 	public void importFromXML(Element literalElement) {

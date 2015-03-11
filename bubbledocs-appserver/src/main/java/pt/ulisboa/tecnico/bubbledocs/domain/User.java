@@ -31,6 +31,14 @@ public class User extends User_Base {
 	   }
    }
    
+   public void listSpreadsheets (List<Spreadsheet> list) {
+	   for (Spreadsheet s : this.getPortal().getSpreadsheetsSet()) {
+		   if (this.getUsername().equals(s.getOwner())) {
+			   list.add(s);
+		   }
+	   }
+   }
+   
    public void createSpreadsheet(String name, int lines, int columns) {
 	   Spreadsheet s = new Spreadsheet(name, lines, columns);
 	   Permission p = new Permission (true, true);

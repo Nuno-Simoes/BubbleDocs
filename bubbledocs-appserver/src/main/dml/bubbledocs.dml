@@ -34,9 +34,7 @@ class Cell {
 	int column;
 }
 
-class Content {
-	Double value;
-}
+class Content;
 
 class Function extends Content;
 

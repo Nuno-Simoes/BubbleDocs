@@ -6,4 +6,9 @@ public class Content extends Content_Base {
         super();
     }
     
+    //ABSTRACT METHOD
+    public double getResult() {
+    	return Double.NaN;
+    }
+    
 }

@@ -6,4 +6,20 @@ public class Reference extends Reference_Base {
         super();
     }
     
+    public Reference (Cell cell) {
+    	super();
+    	init(cell);
+    }
+    
+    protected void init (Cell cell) {
+    	this.setCell(cell);
+    }
+    
+    @Override
+    public double getResult() {
+    	Content content = this.getCell().getContent();
+    	double result = content.getResult();
+    	return result;
+    }
+    
 }
