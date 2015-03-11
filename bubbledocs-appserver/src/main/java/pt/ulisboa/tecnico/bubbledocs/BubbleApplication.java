@@ -7,6 +7,12 @@ import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
 import javax.transaction.TransactionManager;
 
+import java.util.ArrayList;
+import java.util.List;
+import org.jdom2.output.Format;
+import org.jdom2.output.XMLOutputter;
+
+import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ulisboa.tecnico.bubbledocs.domain.Portal;
 import pt.ulisboa.tecnico.bubbledocs.domain.Spreadsheet;
@@ -22,6 +28,7 @@ public class BubbleApplication {
     	    tm.begin();
     	    
     	    Portal portal = Portal.getInstance();
+    	    
     	    setupIfNeed(portal);
     		
     		portal.listUsers();
@@ -32,10 +39,17 @@ public class BubbleApplication {
     		for (Spreadsheet s : portal.listSpreadsheets("ra"))
     			System.out.println(s.getName());
     		
+    		List<org.jdom2.Document> doc = new ArrayList<org.jdom2.Document>();
+    		org.jdom2.Document file = new org.jdom2.Document();
+    		
     		for (Spreadsheet s : portal.listSpreadsheets("pf")) {
-    			//Utilizando a funcionalidade de exportacao, converte cada folha de calculo
-    			//para o formato XML e escreve no terminal o resultado desta conversao.
+    			if (s.getName().equals("Notas ES"))
+    				file = convertToXML(s);
+    			doc.add(convertToXML(s));	
     		}
+    		
+    		for (org.jdom2.Document d : doc)
+    			printDomainInXML(d);
     		
     		portal.removeSpreadsheet("pf", "Notas ES");
     		
@@ -44,8 +58,7 @@ public class BubbleApplication {
     			System.out.println(" Id: " + s.getId());
     		}
     		
-    		//Utilizar a funcionalidade de importac¸ao para criar uma folha de calculo
-    		//semelhante a que foi exportada anteriormente e que foi removida agora.
+    		recoverFromBackup(file);
     		
     		for (Spreadsheet s : portal.listSpreadsheets("pf")) {
     			System.out.print("Name: " + s.getName());
@@ -53,9 +66,11 @@ public class BubbleApplication {
     		}
     		
     		for (Spreadsheet s : portal.listSpreadsheets("pf")) {
-    			//Utilizando a funcionalidade de exportacao, converte cada folha de calculo
-    			//para o formato XML e escreve no terminal o resultado desta conversao.
-    		}   
+    			doc.add(convertToXML(s));
+    		}
+    		
+    		for (org.jdom2.Document d : doc)
+    			printDomainInXML(d);
     	    
     	    tm.commit();
     	    committed = true;
@@ -72,8 +87,28 @@ public class BubbleApplication {
 	}
 	
     private static void setupIfNeed(Portal portal) {
-	if (portal.getUsersSet().isEmpty());
-		SetupDomain.populateDomain();
+    	if (portal.getUsersSet().isEmpty());
+			SetupDomain.populateDomain();
+    }
+	
+    @Atomic
+    private static void recoverFromBackup(org.jdom2.Document jdomDoc) {
+    	Spreadsheet s = new Spreadsheet();
+    	s.importFromXML(jdomDoc.getRootElement());
+    }
+    
+    @Atomic
+    public static org.jdom2.Document convertToXML(Spreadsheet s) {
+		org.jdom2.Document jdomDoc = new org.jdom2.Document();
+		jdomDoc.setRootElement(s.exportToXML());
+		return jdomDoc;
+    }
+
+    @Atomic
+    public static void printDomainInXML(org.jdom2.Document jdomDoc) {
+		XMLOutputter xml = new XMLOutputter();
+		xml.setFormat(Format.getPrettyFormat());
+		System.out.println(xml.outputString(jdomDoc));
     }
     
 }
