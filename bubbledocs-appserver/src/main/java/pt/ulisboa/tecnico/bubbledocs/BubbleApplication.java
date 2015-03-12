@@ -1,11 +1,6 @@
 package pt.ulisboa.tecnico.bubbledocs;
 
-import javax.transaction.HeuristicMixedException;
-import javax.transaction.HeuristicRollbackException;
-import javax.transaction.NotSupportedException;
-import javax.transaction.RollbackException;
-import javax.transaction.SystemException;
-import javax.transaction.TransactionManager;
+import javax.transaction.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +54,7 @@ public class BubbleApplication {
     			System.out.println(" Id: " + s.getId());
     		}
     		
-    		recoverFromBackup(file);
+    		//recoverFromBackup(file);
     		
     		for (Spreadsheet s : portal.listSpreadsheets("pf")) {
     			System.out.print("Name: " + s.getName());

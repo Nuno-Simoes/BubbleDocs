@@ -25,13 +25,13 @@ public class Literal extends Literal_Base {
 		return this.getLiteral();
 	}
 	
-	public void importFromXML(Element literalElement) {
+	/*public void importFromXML(Element literalElement) {
 		try {
 			setLiteral(literalElement.getAttribute("value").getIntValue());
 		} catch (DataConversionException e) { 
 			throw new ImportDocumentException();
 		}
-	    }
+	    }*/
 
 	    public Element exportToXML() {
 		Element element = new Element("literal");

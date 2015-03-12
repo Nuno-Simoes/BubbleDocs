@@ -88,7 +88,7 @@ public class Cell extends Cell_Base {
     	}
     	else{
     		Literal literalVariable = new Literal();
-    		literalVariable.importFromXML(literal);
+    		//literalVariable.importFromXML(literal);
     		}
     	
     	
