@@ -29,8 +29,8 @@ public class Spreadsheet extends Spreadsheet_Base {
 		this.setLines(lines);
 		this.setColumns(columns);
 		
-		for (int i = 0; i < lines; i++) {
-			for (int j = 0; j < columns; j++) {
+		for (int i = 1; i <= lines; i++) {
+			for (int j = 1; j <= columns; j++) {
 				this.addCells(new Cell(i, j));
 			}
 		}
@@ -45,8 +45,8 @@ public class Spreadsheet extends Spreadsheet_Base {
 		element.setAttribute("name", getName());
 		element.setAttribute("owner", getOwner());
 		element.setAttribute("date", getDate());
-		element.setAttribute("columns", Integer.toString(getColumns()));
 		element.setAttribute("lines", Integer.toString(getLines()));
+		element.setAttribute("columns", Integer.toString(getColumns()));
 		element.setAttribute("id", Integer.toString(getId()));
 
 		Element cellsElement = new Element("cell");
