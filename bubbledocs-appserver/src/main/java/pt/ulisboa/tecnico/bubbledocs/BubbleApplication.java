@@ -1,6 +1,11 @@
 package pt.ulisboa.tecnico.bubbledocs;
 
-import javax.transaction.*;
+import javax.transaction.HeuristicMixedException;
+import javax.transaction.HeuristicRollbackException;
+import javax.transaction.NotSupportedException;
+import javax.transaction.RollbackException;
+import javax.transaction.SystemException;
+import javax.transaction.TransactionManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +20,6 @@ import pt.ulisboa.tecnico.bubbledocs.domain.Spreadsheet;
 public class BubbleApplication {
 	public static void main (String[] args) {
 		System.out.println("Welcome To The Bubble Docs Application!");
-		
 		
 		TransactionManager tm = FenixFramework.getTransactionManager();
     	boolean committed = false;
@@ -41,24 +45,25 @@ public class BubbleApplication {
     		for (Spreadsheet s : portal.listSpreadsheets("pf")) {
     			if (s.getName().equals("Notas ES"))
     				file = convertToXML(s);
-    			doc.add(convertToXML(s));	
+    			doc.add(convertToXML(s));
     		}
     		
-    		for (org.jdom2.Document d : doc)
+    		for (org.jdom2.Document d : doc) {
     			printDomainInXML(d);
+    		}
     		
     		portal.removeSpreadsheet("pf", "Notas ES");
     		
     		for (Spreadsheet s : portal.listSpreadsheets("pf")) {
     			System.out.print("Name: " + s.getName());
-    			System.out.println(" Id: " + s.getId());
+    			System.out.println(", Id: " + s.getId());
     		}
     		
     		//recoverFromBackup(file);
     		
     		for (Spreadsheet s : portal.listSpreadsheets("pf")) {
     			System.out.print("Name: " + s.getName());
-    			System.out.println(" Id: " + s.getId());
+    			System.out.println(", Id: " + s.getId());
     		}
     		
     		for (Spreadsheet s : portal.listSpreadsheets("pf")) {
@@ -83,8 +88,9 @@ public class BubbleApplication {
 	}
 	
     private static void setupIfNeed(Portal portal) {
-    	if (portal.getUsersSet().isEmpty())
+    	//if (portal.getUsersSet().isEmpty()) {
     		SetupDomain.populateDomain();
+    	//}
     }
     
 	

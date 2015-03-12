@@ -1,7 +1,5 @@
 package pt.ulisboa.tecnico.bubbledocs;
 
-import java.util.List;
-
 import pt.ist.fenixframework.Atomic;
 
 

@@ -55,8 +55,6 @@ public class Portal extends Portal_Base {
     
     public void removeSpreadsheet (String username, String sheetName) {
     	for (Spreadsheet s : this.getSpreadsheetsSet()) {
-    		System.out.println("Owner: " + s.getOwner());
-    		System.out.println("Name: " + s.getName());
     		if (s.getOwner().equals(username) && s.getName().equals(sheetName)) {
     			this.removeSpreadsheets(s);
     		}
@@ -97,8 +95,8 @@ public class Portal extends Portal_Base {
     public void listUsers () {
     	for (User u : this.getUsersSet()) {
     		System.out.print("Username: " + u.getUsername());
-    		System.out.print(" Name: " + u.getName());
-    		System.out.println(" Password: " + u.getPassword());
+    		System.out.print(", Name: " + u.getName());
+    		System.out.println(", Password: " + u.getPassword());
     	}
     }
     
