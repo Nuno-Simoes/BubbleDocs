@@ -20,6 +20,7 @@ public class Cell extends Cell_Base {
     	this.setLine(line);
     	this.setColumn(column);
     	this.setContent(new Literal((int) Double.NaN));
+    	this.setIsProtected(false);
     }
     
     public String getResult() {

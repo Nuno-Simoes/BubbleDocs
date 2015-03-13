@@ -1,9 +1,6 @@
 package pt.ulisboa.tecnico.bubbledocs.domain;
 
-import org.jdom2.DataConversionException;
 import org.jdom2.Element;
-
-import pt.ulisboa.tecnico.bubbledocs.exceptions.ImportDocumentException;
 
 public class Literal extends Literal_Base {
     

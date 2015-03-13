@@ -34,9 +34,6 @@ public class Spreadsheet extends Spreadsheet_Base {
 				this.addCells(new Cell(i, j));
 			}
 		}
-		
-		this.setOwner("Super User");
-		
 	}
 
 	public Element exportToXML() {
@@ -103,5 +100,11 @@ public class Spreadsheet extends Spreadsheet_Base {
 		}
 		
 		throw new OutOfBoundsException();
+	}
+	
+	public void setContent (int line, int column, Content content) 
+			throws OutOfBoundsException {
+		Cell c = getCell(line, column);
+		c.setContent(content);
 	}
 }

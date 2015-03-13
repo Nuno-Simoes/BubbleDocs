@@ -40,11 +40,11 @@ public class BubbleApplication {
     			System.out.println(s.getName());
     		
     		List<org.jdom2.Document> doc = new ArrayList<org.jdom2.Document>();
-    		org.jdom2.Document file = new org.jdom2.Document();
+    		//org.jdom2.Document file = new org.jdom2.Document();
     		
     		for (Spreadsheet s : portal.listSpreadsheets("pf")) {
-    			if (s.getName().equals("Notas ES"))
-    				file = convertToXML(s);
+    			//if (s.getName().equals("Notas ES"))
+    				//file = convertToXML(s);
     			doc.add(convertToXML(s));
     		}
     		

@@ -1,7 +1,8 @@
 package pt.ulisboa.tecnico.bubbledocs.domain;
 
 import pt.ist.fenixframework.FenixFramework;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidUserException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.UserAlreadyExistsException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.UserDoesNotExistException;
 
 public class RootUser extends RootUser_Base {
     
@@ -15,40 +16,54 @@ public class RootUser extends RootUser_Base {
 
 	private RootUser() {
 		FenixFramework.getDomainRoot().setRootUser(this);
+		FenixFramework.getDomainRoot().getRootUser().setId(0);
+		Portal.getInstance().setUserId(1);
+		FenixFramework.getDomainRoot().getRootUser().setName("Super User");
+		FenixFramework.getDomainRoot().getRootUser().setUsername("root");
 	}
     
-    public void add (String username, String name, String password) 
-    		throws InvalidUserException {
-    	for (User u : this.getPortal().getUsersSet()) {
+    public void addUser (String username, String name, String password) 
+    		throws UserAlreadyExistsException {
+    	Portal portal = Portal.getInstance();
+    	
+    	for (User u : portal.getUsersSet()) {
     		if (username.equals(u.getUsername())) {
-    			throw new InvalidUserException(username);
+    			throw new UserAlreadyExistsException(username);
     		}
     	}
     	
     	User user = new User(username, name, password);
-    	user.setId(this.getId());
-    	this.getPortal().addUsers(new User(username, name, password));
-    	this.setId(this.getId()+1);
+    	int id = portal.getUserId();
+    	user.setId(id);
+    	portal.setUserId(id+1);
+    	portal.addUsers(user);
     }
     
-
-    
-    public void removeUser (String username) throws InvalidUserException {
+    public void removeUser (String username) throws UserDoesNotExistException {
+    	Portal portal = Portal.getInstance();
+    	boolean found = false;
+    	
     	if (this.getUsername().equals(username)) {
-    		throw new InvalidUserException(username);
+    		throw new UserDoesNotExistException(username);
     	}
-    	for (User u : this.getPortal().getUsersSet()) {
+    	
+    	for (User u : portal.getUsersSet()) {
     		if (u.getUsername().equals(username)) {
     			removeUserPermissions(u);
-    			this.getPortal().removeSpreadsheet(u);
-    			this.getPortal().removeUsers(u);
+    			portal.removeSpreadsheet(u);
+    			portal.removeUsers(u);
+    			found = true;
     		}
+    	}
+    	
+    	if (!found) {
+    		throw new UserDoesNotExistException(username);
     	}
     }
 
     public void removeUserPermissions (User u) {
     	for (Permission p : u.getPermissionsSet()) {
-    		this.removePermissions(p);;
+    		this.removePermissions(p);
     	}
     }
     

@@ -19,6 +19,8 @@ public class Portal extends Portal_Base {
 
 	private Portal() {
 		FenixFramework.getDomainRoot().setPortal(this);
+		FenixFramework.getDomainRoot().getPortal().setUserId(0);
+		FenixFramework.getDomainRoot().getPortal().setSheetId(0);
 	}
 	
 	public List<Spreadsheet> listSpreadsheets (String username) {
@@ -66,7 +68,8 @@ public class Portal extends Portal_Base {
     	this.removeSpreadsheets(s);
     }
     
-    public Spreadsheet findSpreadsheet (int id) throws SpreadsheetDoesNotExistException {
+    public Spreadsheet findSpreadsheet (int id) 
+    		throws SpreadsheetDoesNotExistException {
     	for (Spreadsheet s : this.getSpreadsheetsSet()) {
     		if (s.getId() == id) {
     			return s;

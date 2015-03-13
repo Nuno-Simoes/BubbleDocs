@@ -15,13 +15,18 @@ public class Div extends Div_Base {
     
     @Override
     public double getResult() throws DivisionByZeroException {
-
     	Double firstArgument = this.getArgument1().getResult();
     	Double secondArgument = this.getArgument2().getResult();
-    	if(secondArgument == 0){
+    	Double result;
+    	
+    	if (Double.isNaN(firstArgument) || Double.isNaN(secondArgument)) {
+    		result = Double.NaN;
+    	} else if (secondArgument==0){
     		throw new DivisionByZeroException();
+    	} else {
+    		result = firstArgument + secondArgument;
     	}
-    	Double result = firstArgument / secondArgument;
+    	
     	return result;
     }
     
