@@ -59,16 +59,25 @@ public class User extends User_Base {
    
    public void modifyPermissions (String username, int sheetId, boolean read, 
 		   boolean write) throws UserDoesNotExistException, 
-		   SpreadsheetDoesNotExistException, InvalidPermissionException {
+		   SpreadsheetDoesNotExistException {
 	   Portal portal = Portal.getInstance();
 	   Permission p = findPermission(username, sheetId);
 	   User u = portal.findUser(username);
 	   Spreadsheet s = portal.findSpreadsheet(sheetId);
 
 	   if (portal.isOwner(u, s) || p.getWrite()) {
+		   try {
+			   this.findPermission(username, sheetId); 
+		   } catch (InvalidPermissionException e) {
+			   Permission pr = new Permission(read,write);
+			   this.addPermissions(pr);
+			   p.setUser(u);
+			   p.setSpreadsheet(s);
+			   s.addPermissions(pr);
+		   }
 		   p.setRead(read);
 		   p.setWrite(write);
-	   } else throw new InvalidPermissionException(username);	   
+	   }	   
    }
    
    public void modifyProtection (int sheetId, int line, 
