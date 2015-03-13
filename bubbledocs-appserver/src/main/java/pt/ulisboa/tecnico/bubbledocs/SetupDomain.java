@@ -17,33 +17,35 @@ public class SetupDomain {
     static void populateDomain() {
     	
     	Portal portal = Portal.getInstance();
+    	RootUser root = RootUser.getInstance();
     	
-    	User user1 = new User("pf", "PauL Door", "sub");
-    	Spreadsheet s = user1.createSpreadsheet("Notas ES", 300, 20);
+    	root.addUser("pf", "Paul Door", "sub");
+    	root.addUser("ra", "Step Rabbit", "cor");
     	
-    	User user2 = new User("ra", "Step Rabbit", "cor");
-    	portal.addUsers(user1);
-    	portal.addUsers(user2);
-    	    	
-    	Literal literal1 = new Literal(5);
-        Cell cell1 = s.getCell(3, 4);
-        cell1.setContent(literal1);
-
-        Cell cell2 = s.getCell(5, 6);
-        Cell cell3 = s.getCell(1, 1);
-        Reference reference1 = new Reference(cell2);
-        cell3.setContent(reference1);
-
-        Argument literal2 = new Literal(2);
-        Argument reference2 = new Reference(cell1);
-        BinaryFunction function1 = new Add(literal2, reference2);
-        cell2.setContent(function1);
-             
-        Cell cell4 = s.getCell(2, 2);
-        Argument reference3 = new Reference(cell1);
-        Argument reference4 = new Reference(cell3);
-        BinaryFunction function2 = new Div(reference4, reference3);
-        cell4.setContent(function2);
+    	User user = portal.findUser("pf");
+    	user.createSpreadsheet("Notas ES", 300, 20);
+    	
+    	Spreadsheet sheet = portal.findSpreadsheet(user, "Notas ES");
+    	
+    	Literal literal = new Literal(5);
+    	sheet.setContent(3, 4, literal);
+    	
+    	Cell cell = sheet.getCell(5, 6);
+    	Reference reference = new Reference(cell);
+    	sheet.setContent(1, 1, reference);
+    	
+    	literal.setLiteral(2);
+    	cell = sheet.getCell(3, 4);
+    	reference.setCell(cell);
+    	BinaryFunction function = new Add(literal, reference);
+    	sheet.setContent(5, 6, function);
+    	
+    	cell = sheet.getCell(1, 1);
+    	reference.setCell(cell);
+    	cell = sheet.getCell(3, 4);
+    	Reference reference2 = new Reference(cell);
+    	function = new Div(reference, reference2);
+    	sheet.setContent(2, 2, function);
     }
 
 }

@@ -17,7 +17,6 @@ public class RootUser extends RootUser_Base {
 	private RootUser() {
 		FenixFramework.getDomainRoot().setRootUser(this);
 		FenixFramework.getDomainRoot().getRootUser().setId(0);
-		Portal.getInstance().setUserId(1);
 		FenixFramework.getDomainRoot().getRootUser().setName("Super User");
 		FenixFramework.getDomainRoot().getRootUser().setUsername("root");
 	}
