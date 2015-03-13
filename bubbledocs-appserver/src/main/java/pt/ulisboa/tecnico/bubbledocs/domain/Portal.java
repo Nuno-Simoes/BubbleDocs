@@ -19,7 +19,7 @@ public class Portal extends Portal_Base {
 
 	private Portal() {
 		FenixFramework.getDomainRoot().setPortal(this);
-		FenixFramework.getDomainRoot().getPortal().setUserId(0);
+		FenixFramework.getDomainRoot().getPortal().setUserId(1);
 		FenixFramework.getDomainRoot().getPortal().setSheetId(0);
 	}
 	
@@ -78,6 +78,17 @@ public class Portal extends Portal_Base {
     	throw new SpreadsheetDoesNotExistException(Integer.toString(id)); 
     }
     
+    public Spreadsheet findSpreadsheet (User u, String name) 
+    		throws SpreadsheetDoesNotExistException {
+
+    	for (Spreadsheet s : this.getSpreadsheetsSet()) {
+    		if (s.getName().equals(name) && s.getOwner().equals(u.getUsername())) {
+    			return s;
+    		}
+    	}
+    	
+    	throw new SpreadsheetDoesNotExistException(name); 
+    }
         
     public User findUser (String username) throws UserDoesNotExistException {
     	for (User u : this.getUsersSet()) {

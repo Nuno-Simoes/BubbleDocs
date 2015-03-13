@@ -40,7 +40,7 @@ public class User extends User_Base {
 	   }
    }
    
-   public Spreadsheet createSpreadsheet(String name, int lines, int columns) {
+   public void createSpreadsheet(String name, int lines, int columns) {
 	   Portal portal = Portal.getInstance();
 	   Spreadsheet s = new Spreadsheet(name, lines, columns);
 	   Permission p = new Permission (true, true);
@@ -55,8 +55,6 @@ public class User extends User_Base {
 	   p.setUser(this);
 	   p.setSpreadsheet(s);
 	   s.addPermissions(p);
-	   
-	   return s;
    }
    
    public void modifyPermissions (String username, int sheetId, boolean read, 
