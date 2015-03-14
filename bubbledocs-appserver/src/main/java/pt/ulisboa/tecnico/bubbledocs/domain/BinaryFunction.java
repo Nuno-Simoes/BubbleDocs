@@ -1,5 +1,7 @@
 package pt.ulisboa.tecnico.bubbledocs.domain;
 
+import org.jdom2.Element;
+
 public class BinaryFunction extends BinaryFunction_Base {
     
     public BinaryFunction() {
@@ -14,6 +16,33 @@ public class BinaryFunction extends BinaryFunction_Base {
     protected void init(Argument firstArgument, Argument secondArgument) {
     	this.setArgument1(firstArgument);
     	this.setArgument2(secondArgument);
+    }
+    
+    public void importFromXML (Element element) {
+    	Element argument = element.getChild("arguments");
+    	Element first = argument.getChildren().get(0);
+    	Element second = argument.getChildren().get(1);
+    	Argument newFirst;
+    	Argument newSecond;
+    	
+    	if (first.getName().equals("reference")) {
+    		newFirst = new Reference();
+    	} else {
+    		newFirst = new Literal();
+    	}
+    	
+    	if (second.getName().equals("reference")) {
+    		newSecond = new Reference();
+    	} else {
+    		newSecond = new Literal();
+    	}
+    	
+    	newFirst.importFromXML(first, this.getCell());
+    	newSecond.importFromXML(second, this.getCell());
+
+    	
+    	this.setArgument1(newFirst);
+    	this.setArgument2(newSecond);
     }
         
 }

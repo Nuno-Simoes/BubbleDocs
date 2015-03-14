@@ -39,12 +39,11 @@ public class Spreadsheet extends Spreadsheet_Base {
 	public Element exportToXML() {
 		Element element = new Element("spreadsheet");
 
-		element.setAttribute("name", getName());
-		element.setAttribute("owner", getOwner());
-		element.setAttribute("date", getDate());
+		element.setAttribute("name", this.getName());
+		element.setAttribute("owner", this.getOwner());
+		element.setAttribute("date", this.getDate());
 		element.setAttribute("lines", Integer.toString(getLines()));
 		element.setAttribute("columns", Integer.toString(getColumns()));
-		element.setAttribute("id", Integer.toString(getId()));
 
 		Element cellsElement = new Element("cell");
 		element.addContent(cellsElement);
@@ -53,18 +52,55 @@ public class Spreadsheet extends Spreadsheet_Base {
 			cellsElement.addContent(c.exportToXML());
 		}
 		
-		/*Element permissionElement = new Element("permission");
-		element.addContent(permissionElement);
-
-		for (Permission p : getPermissionsSet()) {
-			permissionElement.addContent(p.exportToXML());
-		}*/
+		for (Permission p : this.getPermissionsSet()) {
+			this.removePermissions(p);
+		}
 		
-
 		return element;
 	}
-
-	public void importFromXML(Element spreadsheetElement) {
+	
+	public void importFromXML (Element element) {
+		this.setName(element.getAttributeValue("name"));
+		this.setOwner(element.getAttributeValue("owner"));
+		Date date = new Date();
+		String newDate = date.toString();
+		this.setDate(newDate);
+		
+		try {
+			this.setColumns(element.getAttribute("columns").getIntValue());
+			this.setLines(element.getAttribute("lines").getIntValue());
+		} catch (DataConversionException dce) {
+			throw new ImportDocumentException();
+		}
+		
+		Element cells = element.getChild("cell");
+		for (Element c : cells.getChildren("cell")) {
+			Cell newCell = new Cell();
+			
+			try {
+				newCell.setLine(c.getAttribute("line").getIntValue());
+	    		newCell.setColumn(c.getAttribute("column").getIntValue());
+	    	} catch (DataConversionException dce) {
+	    		throw new ImportDocumentException();
+	    	}
+			this.addCells(newCell);
+		}
+		
+		for (Cell c : this.getCellsSet()) {
+			for (Element e : cells.getChildren("cell")) {
+				try {
+					if (c.getLine()==e.getAttribute("line").getIntValue() 
+							&& c.getColumn()==e.getAttribute("column").getIntValue()) {
+						c.importFromXML(e);
+					}
+				} catch (DataConversionException dce) {
+					throw new ImportDocumentException();
+				}
+			}
+		}
+	}
+	
+/*	public void importFromXML(Element spreadsheetElement) {
 		Element cells = spreadsheetElement.getChild("cell");
 		setName(spreadsheetElement.getAttribute("name").getValue());
 		setOwner(spreadsheetElement.getAttribute("owner").getValue());
@@ -81,7 +117,7 @@ public class Spreadsheet extends Spreadsheet_Base {
 			Cell cellp = new Cell();
 			cellp.importFromXML(c);
 			addCells(cellp);
-		}
+		}*/
 		
 		/*Element permissions = spreadsheetElement.getChild("permission");
 
@@ -90,7 +126,7 @@ public class Spreadsheet extends Spreadsheet_Base {
 			permissionp.importFromXML(p);
 			addPermissions(permissionp);
 		}*/
-	}
+	//}
 	
 	public Cell getCell(int line, int column) throws OutOfBoundsException {
 		for (Cell c : this.getCellsSet()) {
@@ -99,7 +135,7 @@ public class Spreadsheet extends Spreadsheet_Base {
 			}
 		}
 		
-		throw new OutOfBoundsException();
+		throw new OutOfBoundsException("line " + line + " and column " + column);
 	}
 	
 	public void setContent (int line, int column, Content content) 

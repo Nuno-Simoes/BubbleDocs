@@ -1,5 +1,7 @@
 package pt.ulisboa.tecnico.bubbledocs.domain;
 
+import org.jdom2.Element;
+
 public class Add extends Add_Base {
     
     public Add() {
@@ -26,4 +28,12 @@ public class Add extends Add_Base {
     	return result;
     }
     
+    public Element exportToXML() {
+    	Element element = new Element("add");
+    	Element argumentsElement = new Element("arguments");
+    	argumentsElement.addContent(this.getArgument1().exportToXML());
+    	argumentsElement.addContent(this.getArgument2().exportToXML());
+    	element.addContent(argumentsElement);
+      	return element;
+    }
 }

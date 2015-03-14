@@ -1,11 +1,16 @@
 package pt.ulisboa.tecnico.bubbledocs;
 
 import pt.ist.fenixframework.Atomic;
-
-
-import pt.ulisboa.tecnico.bubbledocs.domain.*;
-
-
+import pt.ulisboa.tecnico.bubbledocs.domain.Add;
+import pt.ulisboa.tecnico.bubbledocs.domain.BinaryFunction;
+import pt.ulisboa.tecnico.bubbledocs.domain.Cell;
+import pt.ulisboa.tecnico.bubbledocs.domain.Div;
+import pt.ulisboa.tecnico.bubbledocs.domain.Literal;
+import pt.ulisboa.tecnico.bubbledocs.domain.Portal;
+import pt.ulisboa.tecnico.bubbledocs.domain.Reference;
+import pt.ulisboa.tecnico.bubbledocs.domain.RootUser;
+import pt.ulisboa.tecnico.bubbledocs.domain.Spreadsheet;
+import pt.ulisboa.tecnico.bubbledocs.domain.User;
 
 public class SetupDomain {
 	
@@ -34,14 +39,14 @@ public class SetupDomain {
     	Reference reference = new Reference(cell);
     	sheet.setContent(1, 1, reference);
     	
-    	literal.setLiteral(2);
+    	literal = new Literal(2);
     	cell = sheet.getCell(3, 4);
-    	reference.setCell(cell);
+    	reference = new Reference(cell);
     	BinaryFunction function = new Add(literal, reference);
     	sheet.setContent(5, 6, function);
     	
     	cell = sheet.getCell(1, 1);
-    	reference.setCell(cell);
+    	reference = new Reference(cell);
     	cell = sheet.getCell(3, 4);
     	Reference reference2 = new Reference(cell);
     	function = new Div(reference, reference2);

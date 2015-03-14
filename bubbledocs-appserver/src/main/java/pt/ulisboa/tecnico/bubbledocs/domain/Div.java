@@ -1,5 +1,7 @@
 package pt.ulisboa.tecnico.bubbledocs.domain;
 
+import org.jdom2.Element;
+
 import pt.ulisboa.tecnico.bubbledocs.exceptions.DivisionByZeroException;
 
 public class Div extends Div_Base {
@@ -28,6 +30,17 @@ public class Div extends Div_Base {
     	}
     	
     	return result;
+    }
+    
+    public Element exportToXML() {
+    	Element element = new Element("div");
+    	Element argumentsElement = new Element("arguments");
+    	
+    	argumentsElement.addContent(this.getArgument1().exportToXML());
+    	argumentsElement.addContent(this.getArgument2().exportToXML());
+    	element.addContent(argumentsElement);
+    	
+      	return element;
     }
     
 }

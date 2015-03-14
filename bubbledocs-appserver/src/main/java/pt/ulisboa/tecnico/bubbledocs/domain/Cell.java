@@ -19,7 +19,7 @@ public class Cell extends Cell_Base {
     protected void init (int line, int column){
     	this.setLine(line);
     	this.setColumn(column);
-    	this.setContent(new Literal((int) Double.NaN));
+    	this.setContent(new Literal(-1));
     	this.setIsProtected(false);
     }
     
@@ -38,28 +38,75 @@ public class Cell extends Cell_Base {
     	element.setAttribute("line", Integer.toString(getLine()));
        	element.setAttribute("column", Integer.toString(getColumn()));
     	
-    	Element referenceElement = new Element("reference");
-		element.addContent(referenceElement);
-		
-		Element addElement = new Element("add");
-		element.addContent(addElement);
-		
-		Element subElement = new Element("sub");
-		element.addContent(subElement);
-		
-		Element divElement = new Element("div");
-		element.addContent(divElement);
-		
-		Element multElement = new Element("mult");
-		element.addContent(multElement);
-		
-		Element literalElement = new Element("literal");
-		element.addContent(literalElement);
-    	
-    	return element;
+       	Content content = this.getContent();
+       	element.addContent(content.exportToXML());
+      	return element;
     }
+    
+    public void importFromXML (Element element) {
+    	try {
+    		this.setLine(element.getAttribute("line").getIntValue());
+    		this.setColumn(element.getAttribute("column").getIntValue());
+    	} catch (DataConversionException dce) {
+    		throw new ImportDocumentException();
+    	}
+    	
+    	this.setIsProtected(false);
+    	
+    	Content newContent;
+    	Element content;
+    	if ((content = element.getChild("reference"))!=null) {
+    		newContent = new Reference();
+    		Spreadsheet s = this.getSpreadsheet();
+    		
+    		try {
+    			Cell c = s.getCell(element.getAttribute("line").getIntValue(), 
+    					element.getAttribute("column").getIntValue());
+    			newContent.setCell(c);
+    		} catch (DataConversionException dce) {
+    			throw new ImportDocumentException();
+    		}
+    	} else if ((content = element.getChild("add"))!=null) {
+    		newContent = new Add();
+    	} else if ((content = element.getChild("mult"))!=null) {
+    		newContent = new Mult();
+    	} else if ((content = element.getChild("div"))!=null) {
+    		newContent = new Div();
+    	} else if ((content = element.getChild("sub"))!=null) {
+    		newContent = new Sub();
+    	} else {
+    		content = element.getChild("literal");
+    		newContent = new Literal(-1);
+    	}
+    	
+    	newContent.setCell(this);
+    	newContent.importFromXML(content);
+    	this.setContent(newContent);
+    }
+    
+    /*public void importFromXML (Element element) {
+		this.setName(element.getAttributeValue("name"));
+		this.setOwner(element.getAttributeValue("owner"));
+		Date date = new Date();
+		String newDate = date.toString();
+		this.setDate(newDate);
+		
+		try {
+			this.setColumns(element.getAttribute("column").getIntValue());
+			this.setLines(element.getAttribute("line").getIntValue());
+		} catch (DataConversionException dce) {
+			throw new ImportDocumentException();
+		}
+		
+		Element cells = element.getChild("cell");
+		for (Element c : cells.getChildren("cell")) {
+			Cell newCell = new Cell();
+			newCell.importFromXML(c);
+			this.addCells(newCell);
+		}
+	}*/
 
-    public void importFromXML(Element cellElement) {
+    //public void importFromXML(Element cellElement) {
     	/*Element add = cellElement.getChild("add");
     	Element sub = cellElement.getChild("sub");
     	Element div = cellElement.getChild("div");
@@ -93,12 +140,12 @@ public class Cell extends Cell_Base {
     		}
     	*/
     	
-    try {
+    /*try {
     		setColumn(cellElement.getAttribute("column").getIntValue());
     		setLine(cellElement.getAttribute("line").getIntValue());
     	} catch (DataConversionException e) { 
     		throw new ImportDocumentException();
     	}
-        }
+        }*/
     
 }

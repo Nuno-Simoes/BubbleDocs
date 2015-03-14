@@ -112,7 +112,7 @@ relation ReferenceHasCell {
 	Reference playsRole reference {
 		multiplicity *;
 	}
-	Cell playsRole cell;
+	Cell playsRole referencedCell;
 }
 
 relation DomainRootHasPortalApplication {

@@ -9,6 +9,7 @@ import javax.transaction.TransactionManager;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
@@ -40,11 +41,11 @@ public class BubbleApplication {
     			System.out.println(s.getName());
     		
     		List<org.jdom2.Document> doc = new ArrayList<org.jdom2.Document>();
-    		//org.jdom2.Document file = new org.jdom2.Document();
+    		org.jdom2.Document file = new org.jdom2.Document();
     		
     		for (Spreadsheet s : portal.listSpreadsheets("pf")) {
-    			//if (s.getName().equals("Notas ES"))
-    				//file = convertToXML(s);
+    			if (s.getName().equals("Notas ES"))
+    				file = convertToXML(s);
     			doc.add(convertToXML(s));
     		}
     		
@@ -59,7 +60,7 @@ public class BubbleApplication {
     			System.out.println(", Id: " + s.getId());
     		}
     		
-    		//recoverFromBackup(file);
+    		recoverFromBackup(file);
     		
     		for (Spreadsheet s : portal.listSpreadsheets("pf")) {
     			System.out.print("Name: " + s.getName());
@@ -92,11 +93,12 @@ public class BubbleApplication {
     		SetupDomain.populateDomain();
     	}
     }
-    
 	
     @Atomic
     private static void recoverFromBackup(org.jdom2.Document jdomDoc) {
+    	Portal portal = Portal.getInstance();
     	Spreadsheet s = new Spreadsheet();
+    	portal.addSpreadsheets(s);
     	s.importFromXML(jdomDoc.getRootElement());
     }
     
