@@ -5,6 +5,7 @@ import java.util.List;
 
 import pt.ist.fenixframework.FenixFramework;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.SpreadsheetDoesNotExistException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.UserAlreadyExistsException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.UserDoesNotExistException;
 
 public class Portal extends Portal_Base {
@@ -114,4 +115,9 @@ public class Portal extends Portal_Base {
     	}
     }
     
+    @Override
+    public void addUsers(User user) throws UserAlreadyExistsException {
+    	RootUser r = RootUser.getInstance();
+    	r.addUser(user.getUsername(), user.getName(), user.getPassword());
+    }
 }

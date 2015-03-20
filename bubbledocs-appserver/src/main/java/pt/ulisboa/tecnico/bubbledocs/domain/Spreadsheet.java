@@ -28,12 +28,6 @@ public class Spreadsheet extends Spreadsheet_Base {
 
 		this.setLines(lines);
 		this.setColumns(columns);
-		
-		for (int i = 1; i <= lines; i++) {
-			for (int j = 1; j <= columns; j++) {
-				this.addCells(new Cell(i, j));
-			}
-		}
 	}
 
 	public Element exportToXML() {
@@ -134,7 +128,11 @@ public class Spreadsheet extends Spreadsheet_Base {
 				return c;
 			}
 		}
-		
+		if (this.getLines() <= line && this.getColumns() <= column) {
+			Cell c = new Cell(line, column);
+			this.addCells(c);
+			return c;
+		}
 		throw new OutOfBoundsException("line " + line + " and column " + column);
 	}
 	

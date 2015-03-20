@@ -23,6 +23,7 @@ public class RootUser extends RootUser_Base {
     
     public void addUser (String username, String name, String password) 
     		throws UserAlreadyExistsException {
+    	
     	Portal portal = Portal.getInstance();
     	
     	for (User u : portal.getUsersSet()) {

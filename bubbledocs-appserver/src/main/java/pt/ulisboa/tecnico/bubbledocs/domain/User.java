@@ -1,6 +1,7 @@
 package pt.ulisboa.tecnico.bubbledocs.domain;
 
 import java.util.List;
+import java.util.Random;
 
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidPermissionException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.OutOfBoundsException;
@@ -22,6 +23,13 @@ public class User extends User_Base {
 	   this.setUsername(username);
 	   this.setName(name);
 	   this.setPassword(password);
+	   
+	   Random rand = new Random();
+	   int low = 0;
+	   int high = 9;
+	   int r = rand.nextInt(high-low) + low;
+	   
+	   this.setToken(username.concat(Integer.toString(r)));
    }
    
    public void listSpreadsheets (List<Spreadsheet> list, String str) {
