@@ -18,11 +18,11 @@ public abstract class PortalService {
 		return FenixFramework.getDomainRoot().getPortal();
 	}
 	
-	static User getUser(String username) throws UserDoesNotExistException {
-		User u = getPortal().findUser(username);
+	static User getUser(String token) throws UserDoesNotExistException {
+		User u = getPortal().findUserByToken(token);
 		
 		if (u == null) {
-			throw new UserDoesNotExistException(username);
+			throw new UserDoesNotExistException(token);
 		}
 		
 		return u;
