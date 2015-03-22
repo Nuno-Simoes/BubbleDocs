@@ -10,8 +10,8 @@ public class CreateSpreadsheetService extends PortalService {
 	private int columns;
 	private String userToken;
 	
-	public CreateSpreadsheetService(String sheetName, int lines, int columns
-			, String userToken) {
+	public CreateSpreadsheetService(String userToken, String sheetName, int lines, 
+			int columns) {
 		this.sheetName = sheetName;
 		this.lines = lines;
 		this.columns = columns;

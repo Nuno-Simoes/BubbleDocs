@@ -2,6 +2,7 @@ package pt.ulisboa.tecnico.bubbledocs.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import pt.ist.fenixframework.FenixFramework;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.SpreadsheetDoesNotExistException;
@@ -128,5 +129,20 @@ public class Portal extends Portal_Base {
     public void addUsers(User user) throws UserAlreadyExistsException {
     	RootUser r = RootUser.getInstance();
     	r.addUser(user.getUsername(), user.getName(), user.getPassword());
+    }
+    
+    @Override
+    public void removeUsers(User user) {
+    	RootUser r = RootUser.getInstance();
+    	r.removeUser(user.getUsername());
+    }
+    
+    public void createToken(User user) {
+    	Random rand = new Random();
+    	int low = 0;
+    	int high = 9;
+    	int r = rand.nextInt(high-low) + low;
+	   
+	   user.setToken(user.getUsername().concat(Integer.toString(r)));
     }
 }

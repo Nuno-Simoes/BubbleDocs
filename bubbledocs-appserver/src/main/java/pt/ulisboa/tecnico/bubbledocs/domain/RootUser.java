@@ -66,5 +66,4 @@ public class RootUser extends RootUser_Base {
     		this.removePermissions(p);
     	}
     }
-    
 }
