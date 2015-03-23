@@ -91,6 +91,17 @@ public class Portal extends Portal_Base {
     	
     	throw new SpreadsheetDoesNotExistException(name); 
     }
+    
+    public Spreadsheet findSpreadsheet (String name) 
+    		throws SpreadsheetDoesNotExistException {
+    	
+    	for (Spreadsheet s : this.getSpreadsheetsSet()) {
+    		if (s.getName().equals(name)) {
+    			return s;
+    		}
+    	}
+    	throw new SpreadsheetDoesNotExistException(name); 	
+    }
         
     public User findUser (String username) throws UserDoesNotExistException {
     	for (User u : this.getUsersSet()) {
