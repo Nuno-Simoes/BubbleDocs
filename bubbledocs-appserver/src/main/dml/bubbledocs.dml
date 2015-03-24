@@ -1,5 +1,7 @@
 package pt.ulisboa.tecnico.bubbledocs.domain;
 
+class Session;
+
 class Portal {
 	int userId;
 	int sheetId;
@@ -11,6 +13,7 @@ class User {
     String password;
     int id;
     String token;
+    long sessionTime;
 }
 
 class Permission {
@@ -56,6 +59,11 @@ class Sub extends BinaryFunction;
 class Mult extends BinaryFunction;
 
 class Div extends BinaryFunction;
+
+relation SessionHasPortal {
+	Session playsRole session;
+	Portal playsRole portal;
+}
 
 relation SpreadsheetHasCell {
 	Spreadsheet playsRole spreadsheet;

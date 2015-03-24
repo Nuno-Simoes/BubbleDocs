@@ -3,7 +3,7 @@ package pt.ulisboa.tecnico.bubbledocs.service;
 import pt.ulisboa.tecnico.bubbledocs.domain.RootUser;
 import pt.ulisboa.tecnico.bubbledocs.domain.User;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidPermissionException;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.UserDoesNotExistException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.UserNotLoggedException;
 
 
 public class RemoveUserService extends PortalService {
@@ -18,7 +18,7 @@ public class RemoveUserService extends PortalService {
 	}
 
 	@Override
-	protected void dispatch() throws UserDoesNotExistException, 
+	protected void dispatch() throws UserNotLoggedException, 
 		InvalidPermissionException {
 		User u = getUser(userToken);
 		

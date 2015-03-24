@@ -3,9 +3,10 @@ package pt.ulisboa.tecnico.bubbledocs.service;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ulisboa.tecnico.bubbledocs.domain.Portal;
+import pt.ulisboa.tecnico.bubbledocs.domain.Session;
 import pt.ulisboa.tecnico.bubbledocs.domain.User;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.PortalException;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.UserDoesNotExistException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.UserNotLoggedException;
 
 public abstract class PortalService {
 	
@@ -18,12 +19,9 @@ public abstract class PortalService {
 		return FenixFramework.getDomainRoot().getPortal();
 	}
 	
-	static User getUser(String token) throws UserDoesNotExistException {
-		User u = getPortal().findUserByToken(token);
-		
-		if (u == null) {
-			throw new UserDoesNotExistException(token);
-		}
+	static User getUser(String token) throws UserNotLoggedException {
+		Session s = Session.getInstance();
+		User u = s.findUser(token);
 		
 		return u;
 	}

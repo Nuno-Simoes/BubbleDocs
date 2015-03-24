@@ -2,7 +2,6 @@ package pt.ulisboa.tecnico.bubbledocs.domain;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import pt.ist.fenixframework.FenixFramework;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.SpreadsheetDoesNotExistException;
@@ -112,15 +111,6 @@ public class Portal extends Portal_Base {
     	throw new UserDoesNotExistException(username);
     }
     
-    public User findUserByToken (String token) throws UserDoesNotExistException {
-    	for (User u : this.getUsersSet()) {
-    		if (u.getToken().equals(token)) {
-    			return u;
-    		}
-    	}
-    	throw new UserDoesNotExistException(token);
-    }
-    
     public boolean isOwner (User u, Spreadsheet s) {
     	if(u.getUsername().equals(s.getOwner())){
     		return true;
@@ -146,14 +136,5 @@ public class Portal extends Portal_Base {
     public void removeUsers(User user) {
     	RootUser r = RootUser.getInstance();
     	r.removeUser(user.getUsername());
-    }
-    
-    public void createToken(User user) {
-    	Random rand = new Random();
-    	int low = 0;
-    	int high = 9;
-    	int r = rand.nextInt(high-low) + low;
-	   
-	   user.setToken(user.getUsername().concat(Integer.toString(r)));
     }
 }

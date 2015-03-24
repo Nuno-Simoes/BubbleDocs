@@ -1,4 +1,4 @@
-package pt.ulisboa.tecnico.bubbledocs;
+	package pt.ulisboa.tecnico.bubbledocs;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ulisboa.tecnico.bubbledocs.domain.Add;

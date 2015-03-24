@@ -10,6 +10,7 @@ import pt.ist.fenixframework.FenixFramework;
 import pt.ist.fenixframework.core.WriteOnReadError;
 import pt.ulisboa.tecnico.bubbledocs.domain.Portal;
 import pt.ulisboa.tecnico.bubbledocs.domain.RootUser;
+import pt.ulisboa.tecnico.bubbledocs.domain.Session;
 import pt.ulisboa.tecnico.bubbledocs.domain.User;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.SpreadsheetDoesNotExistException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.UserAlreadyExistsException;
@@ -65,24 +66,28 @@ public class BubbleDocsServiceTest {
     }
 
     // returns the user registered in the application whose username is equal to username
-    User getUserFromUsername(String username) throws UserDoesNotExistException {
+    public User getUserFromUsername(String username) throws UserDoesNotExistException {
     	Portal p = Portal.getInstance();
     	p.findUser(username);
     }
 
     // put a user into session and returns the token associated to it
-    String addUserToSession(String username) {
-	// add code here
+    public String addUserToSession(String username) {
+    	
     }
 
     // remove a user from session given its token
-    void removeUserFromSession(String token) {
-	// add code here
+    public void removeUserFromSession(String token) {
+    	Session s = Session.getInstance();
+    	s.removeUser(token);
+    	
     }
 
     // return the user registered in session whose token is equal to token
-    User getUserFromSession(String token) {
-	// add code here
+    public User getUserFromSession(String token) {
+    	Session s = Session.getInstance();
+    	User u = s.findUser(token);
+    	return u;
     }
 
 }
