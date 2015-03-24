@@ -62,12 +62,13 @@ public class Session extends Session_Base {
 		Portal p = Portal.getInstance();
 		User u = p.findUser(username);
 		
+		System.out.printf("username:%s\n", username);
 		if (u.getUsername().equals(username) 
 				&& u.getPassword().equals(password)) {
 			this.createToken(u);
 			this.setSessionTime(u);
-			activeSessions.add(u);
 			this.removeOldSessions();
+			activeSessions.add(u);
 		} else {
 			throw new InvalidPermissionException(username);
 		}

@@ -22,9 +22,6 @@ import pt.ulisboa.tecnico.bubbledocs.exceptions.UserDoesNotExistException;
 
 public class BubbleDocsServiceTest {
 	
-	Portal p = Portal.getInstance();
-	Session s = Session.getInstance();
-
     @Before
     public void setUp() throws Exception {
 
@@ -54,6 +51,7 @@ public class BubbleDocsServiceTest {
     // for defining the initial state and checking that the service has the expected behavior
     public User createUser(String username, String password, String name) 
     		throws UserAlreadyExistsException {
+    	Portal p = Portal.getInstance();
     	RootUser r = RootUser.getInstance();
     	r.addUser(username, name, password);
     	return p.findUser(username);
@@ -61,6 +59,7 @@ public class BubbleDocsServiceTest {
 
     public Spreadsheet createSpreadSheet(User user, String name, int row,
             int column) {
+    	Portal p = Portal.getInstance();
     	user.createSpreadsheet(name, row, column);
     	return p.findSpreadsheet(user, name);	
     }
@@ -68,16 +67,21 @@ public class BubbleDocsServiceTest {
     // returns a spreadsheet whose name is equal to name
     public Spreadsheet getSpreadSheet(String name) 
     		throws SpreadsheetDoesNotExistException {
+    	Portal p = Portal.getInstance();
     	return p.findSpreadsheet(name);
     }
 
     // returns the user registered in the application whose username is equal to username
     public User getUserFromUsername(String username) throws UserDoesNotExistException {
+    	Portal p = Portal.getInstance();
     	return p.findUser(username);
     }
 
     // put a user into session and returns the token associated to it
     public String addUserToSession(String username) {
+    	Portal p = Portal.getInstance();
+    	Session s = Session.getInstance();
+
     	User u = p.findUser(username);
     	s.login(username, u.getPassword());
     	return u.getToken();
@@ -85,12 +89,14 @@ public class BubbleDocsServiceTest {
 
     // remove a user from session given its token
     public void removeUserFromSession(String token) {
+    	Session s = Session.getInstance();
     	s.removeUser(token);
     	
     }
 
     // return the user registered in session whose token is equal to token
     public User getUserFromSession(String token) {
+    	Session s = Session.getInstance();
     	User u = s.findUser(token);
     	return u;
     }

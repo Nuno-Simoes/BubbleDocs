@@ -8,8 +8,11 @@ public class RootUser extends RootUser_Base {
     
 	public static RootUser getInstance() {
 		RootUser user = FenixFramework.getDomainRoot().getRootUser();
-		if (user == null)
+		Portal portal = Portal.getInstance();
+		if (user == null) {
 		    user = new RootUser();
+		    portal.addUsers(user);
+		}
 
 		return user;
 	}
@@ -19,6 +22,7 @@ public class RootUser extends RootUser_Base {
 		FenixFramework.getDomainRoot().getRootUser().setId(0);
 		FenixFramework.getDomainRoot().getRootUser().setName("Super User");
 		FenixFramework.getDomainRoot().getRootUser().setUsername("root");
+		FenixFramework.getDomainRoot().getRootUser().setPassword("rootroot");
 	}
     
     public void addUser (String username, String name, String password) 
