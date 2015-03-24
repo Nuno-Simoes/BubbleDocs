@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import pt.ulisboa.tecnico.bubbledocs.domain.Portal;
+
 import pt.ulisboa.tecnico.bubbledocs.domain.User;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.EmptyUsernameException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidPermissionException;
@@ -19,7 +19,6 @@ public class CreateUserTest extends BubbleDocsServiceTest {
 
     private static final String USERNAME = "ars";
     private static final String PASSWORD = "ars";
-    private static final String ROOT_USERNAME = "root";
     private static final String USERNAME_DOES_NOT_EXIST = "no-one";
 
     @Override
