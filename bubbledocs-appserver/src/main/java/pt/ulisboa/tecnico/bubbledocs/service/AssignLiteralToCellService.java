@@ -6,7 +6,10 @@ import pt.ulisboa.tecnico.bubbledocs.domain.Portal;
 import pt.ulisboa.tecnico.bubbledocs.domain.Cell;
 import pt.ulisboa.tecnico.bubbledocs.domain.Spreadsheet;
 import pt.ulisboa.tecnico.bubbledocs.domain.User;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.PortalException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.EmptyUsernameException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidPermissionException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.SpreadsheetDoesNotExistException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.UserDoesNotExistException;
 
 public class AssignLiteralToCellService extends PortalService {
 	private String result;
@@ -15,20 +18,32 @@ public class AssignLiteralToCellService extends PortalService {
 	private String cellId;
 	private String literal;
 
-	public AssignLiteralToCellService(String accessUsername, int docId, String cellId,
-			String literal) {
+	public AssignLiteralToCellService(String accessUsername, int docId,
+			String cellId, String literal) {
 		this.accessUsername = accessUsername;
 		this.docId = docId;
 		this.cellId = cellId;
 		this.literal = literal;
-
 	}
 
 	@Override
-	protected void dispatch() throws PortalException {
-		Portal portal = getPortal();
+	protected void dispatch() throws EmptyUsernameException,
+			UserDoesNotExistException, SpreadsheetDoesNotExistException,
+			InvalidPermissionException {
+
+		if (this.accessUsername.equals("")) {
+			throw new EmptyUsernameException();
+		}
+
+		Portal portal = Portal.getInstance();
 		Spreadsheet s = portal.findSpreadsheet(docId);
+		if (s.equals(null)) {
+			throw new SpreadsheetDoesNotExistException(Integer.toString(docId));
+		}
 		User u = portal.findUser(accessUsername);
+		if (u.equals(null)) {
+			throw new UserDoesNotExistException(accessUsername);
+		}
 		Permission p = u.findPermission(accessUsername, docId);
 
 		if (p.getWrite()) {
@@ -37,8 +52,9 @@ public class AssignLiteralToCellService extends PortalService {
 			int part2 = Integer.parseInt(parts[1]);
 			Cell c = s.getCell(part1, part2);
 			c.setContent(new Literal(Integer.parseInt(literal)));
+		} else {
+			throw new InvalidPermissionException(accessUsername);
 		}
-
 	}
 
 	public final String getResult() {
