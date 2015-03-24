@@ -12,8 +12,7 @@ public class RemoveUserService extends PortalService {
 	private String userToken;
 	private String Username;
 	
-	public RemoveUserService (String userToken, String Username, 
-			String password, String name) {
+	public RemoveUserService (String userToken, String Username) {
 		this.userToken = userToken;
 		this.Username = Username;
 	}
