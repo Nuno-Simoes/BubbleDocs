@@ -4,6 +4,12 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import pt.ulisboa.tecnico.bubbledocs.domain.User;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.EmptyUsernameException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidPermissionException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.UserAlreadyExistsException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.UserNotLoggedException;
+
 public class CreateUserTest extends BubbleDocsServiceTest {
 
     // the tokens
@@ -24,7 +30,7 @@ public class CreateUserTest extends BubbleDocsServiceTest {
 
     @Test
     public void success() {
-        CreateUser service = new CreateUser(root, USERNAME_DOES_NOT_EXIST, "jose",
+        CreateUserService service = new CreateUserService(root, USERNAME_DOES_NOT_EXIST, "jose",
                 "José Ferreira");
         service.execute();
 
@@ -36,30 +42,30 @@ public class CreateUserTest extends BubbleDocsServiceTest {
         assertEquals("José Ferreira", user.getName());
     }
 
-    @Test(expected = DuplicateUsernameException.class)
+    @Test(expected = UserAlreadyExistsException.class)
     public void usernameExists() {
-        CreateUser service = new CreateUser(root, USERNAME, "jose",
+        CreateUserService service = new CreateUserService(root, USERNAME, "jose",
                 "José Ferreira");
         service.execute();
     }
 
     @Test(expected = EmptyUsernameException.class)
     public void emptyUsername() {
-        CreateUser service = new CreateUser(root, "", "jose", "José Ferreira");
+        CreateUserService service = new CreateUserService(root, "", "jose", "José Ferreira");
         service.execute();
     }
 
-    @Test(expected = UnauthorizedOperationException.class)
+    @Test(expected = InvalidPermissionException.class)
     public void unauthorizedUserCreation() {
-        CreateUser service = new CreateUser(ars, USERNAME_DOES_NOT_EXIST, "jose",
+        CreateUserService service = new CreateUserService(ars, USERNAME_DOES_NOT_EXIST, "jose",
                 "José Ferreira");
         service.execute();
     }
 
-    @Test(expected = UserNotInSessionException.class)
+    @Test(expected = UserNotLoggedException.class)
     public void accessUsernameNotExist() {
         removeUserFromSession(root);
-        CreateUser service = new CreateUser(root, USERNAME_DOES_NOT_EXIST, "jose",
+        CreateUserService service = new CreateUserService(root, USERNAME_DOES_NOT_EXIST, "jose",
                 "José Ferreira");
         service.execute();
     }

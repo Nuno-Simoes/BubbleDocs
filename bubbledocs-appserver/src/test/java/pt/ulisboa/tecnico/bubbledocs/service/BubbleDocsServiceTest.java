@@ -11,14 +11,19 @@ import pt.ist.fenixframework.core.WriteOnReadError;
 import pt.ulisboa.tecnico.bubbledocs.domain.Portal;
 import pt.ulisboa.tecnico.bubbledocs.domain.RootUser;
 import pt.ulisboa.tecnico.bubbledocs.domain.Session;
+import pt.ulisboa.tecnico.bubbledocs.domain.Spreadsheet;
 import pt.ulisboa.tecnico.bubbledocs.domain.User;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.SpreadsheetDoesNotExistException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.UserAlreadyExistsException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.UserDoesNotExistException;
 
+
 // add needed import declarations
 
 public class BubbleDocsServiceTest {
+	
+	Portal p = Portal.getInstance();
+	Session s = Session.getInstance();
 
     @Before
     public void setUp() throws Exception {
@@ -46,46 +51,46 @@ public class BubbleDocsServiceTest {
     }
 
     // auxiliary methods that access the domain layer and are needed in the test classes
-    // for defining the iniital state and checking that the service has the expected behavior
-    User createUser(String username, String password, String name) 
+    // for defining the initial state and checking that the service has the expected behavior
+    public User createUser(String username, String password, String name) 
     		throws UserAlreadyExistsException {
-    	RootUser r = RootUser.getInstace();
+    	RootUser r = RootUser.getInstance();
     	r.addUser(username, name, password);
+    	return p.findUser(username);
     }
 
-    public SpreadSheet createSpreadSheet(User user, String name, int row,
+    public Spreadsheet createSpreadSheet(User user, String name, int row,
             int column) {
     	user.createSpreadsheet(name, row, column);
+    	return p.findSpreadsheet(user, name);	
     }
 
     // returns a spreadsheet whose name is equal to name
-    public SpreadSheet getSpreadSheet(String name) 
+    public Spreadsheet getSpreadSheet(String name) 
     		throws SpreadsheetDoesNotExistException {
-    	Portal p = Portal.getInstace();
-    	p.findSpreadsheet(name);
+    	return p.findSpreadsheet(name);
     }
 
     // returns the user registered in the application whose username is equal to username
     public User getUserFromUsername(String username) throws UserDoesNotExistException {
-    	Portal p = Portal.getInstance();
-    	p.findUser(username);
+    	return p.findUser(username);
     }
 
     // put a user into session and returns the token associated to it
     public String addUserToSession(String username) {
-    	
+    	User u = p.findUser(username);
+    	s.login(username, u.getPassword());
+    	return u.getToken();
     }
 
     // remove a user from session given its token
     public void removeUserFromSession(String token) {
-    	Session s = Session.getInstance();
     	s.removeUser(token);
     	
     }
 
     // return the user registered in session whose token is equal to token
     public User getUserFromSession(String token) {
-    	Session s = Session.getInstance();
     	User u = s.findUser(token);
     	return u;
     }
