@@ -4,6 +4,7 @@ import pt.ulisboa.tecnico.bubbledocs.domain.RootUser;
 import pt.ulisboa.tecnico.bubbledocs.domain.User;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.EmptyUsernameException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidPermissionException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.UserAlreadyExistsException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.UserNotLoggedException;
 
 
@@ -25,7 +26,7 @@ public class CreateUserService extends PortalService {
 
 	@Override
 	protected void dispatch() throws InvalidPermissionException, 
-		UserNotLoggedException, EmptyUsernameException {
+		UserNotLoggedException, EmptyUsernameException, UserAlreadyExistsException {
 		
 		if(this.newUsername.equals("")) {
 			throw new EmptyUsernameException();

@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import pt.ulisboa.tecnico.bubbledocs.domain.Portal;
 import pt.ulisboa.tecnico.bubbledocs.domain.User;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.EmptyUsernameException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidPermissionException;
@@ -27,7 +28,8 @@ public class CreateUserTest extends BubbleDocsServiceTest {
         root = addUserToSession("root");
         ars = addUserToSession("ars");
     }
-
+    
+    
     @Test
     public void success() {
         CreateUserService service = new CreateUserService(root, USERNAME_DOES_NOT_EXIST, "jose",
@@ -41,27 +43,27 @@ public class CreateUserTest extends BubbleDocsServiceTest {
         assertEquals("jose", user.getPassword());
         assertEquals("José Ferreira", user.getName());
     }
-
+    
     @Test(expected = UserAlreadyExistsException.class)
     public void usernameExists() {
         CreateUserService service = new CreateUserService(root, USERNAME, "jose",
                 "José Ferreira");
         service.execute();
     }
-
+    
     @Test(expected = EmptyUsernameException.class)
     public void emptyUsername() {
         CreateUserService service = new CreateUserService(root, "", "jose", "José Ferreira");
         service.execute();
     }
-
+	
     @Test(expected = InvalidPermissionException.class)
     public void unauthorizedUserCreation() {
         CreateUserService service = new CreateUserService(ars, USERNAME_DOES_NOT_EXIST, "jose",
                 "José Ferreira");
         service.execute();
     }
-
+	
     @Test(expected = UserNotLoggedException.class)
     public void accessUsernameNotExist() {
         removeUserFromSession(root);
@@ -69,5 +71,5 @@ public class CreateUserTest extends BubbleDocsServiceTest {
                 "José Ferreira");
         service.execute();
     }
-
+	
 }

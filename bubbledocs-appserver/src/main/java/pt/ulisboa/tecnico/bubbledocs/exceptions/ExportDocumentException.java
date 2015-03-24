@@ -1,11 +1,11 @@
 package pt.ulisboa.tecnico.bubbledocs.exceptions;
 
-public class ImportDocumentException extends BubbledocsException{
+public class ExportDocumentException extends BubbledocsException {
 	
 	private static final long serialVersionUID = 1L;
 	private String message;
 	 
-    public ImportDocumentException() {
+    public ExportDocumentException() {
         super();
         this.message = "Failed converting";
     }
@@ -19,4 +19,5 @@ public class ImportDocumentException extends BubbledocsException{
     public String getMessage() {
         return message;
     }
+    
 }
