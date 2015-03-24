@@ -2,13 +2,16 @@ package pt.ulisboa.tecnico.bubbledocs.service;
 
 import pt.ulisboa.tecnico.bubbledocs.domain.RootUser;
 import pt.ulisboa.tecnico.bubbledocs.domain.User;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.EmptyUsernameException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidPermissionException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.UserAlreadyExistsException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.UserNotLoggedException;
 
 
 public class RemoveUserService extends PortalService {
 	private String userToken;
 	private String Username;
+	
 	public RemoveUserService (String userToken, String Username, 
 			String password, String name) {
 		this.userToken = userToken;
@@ -19,7 +22,7 @@ public class RemoveUserService extends PortalService {
 	protected void dispatch() throws InvalidPermissionException, 
 	UserNotLoggedException, EmptyUsernameException, UserAlreadyExistsException {
 		
-		if(this.newUsername.equals("")) {
+		if(this.Username.equals("")) {
 			throw new EmptyUsernameException();
 		}
 		
