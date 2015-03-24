@@ -128,8 +128,19 @@ public class Portal extends Portal_Base {
     
     @Override
     public void addUsers(User user) throws UserAlreadyExistsException {
-    	RootUser r = RootUser.getInstance();
-    	r.addUser(user.getUsername(), user.getName(), user.getPassword());
+    	
+    	for (User u : this.getUsersSet()) {
+    		if (u.getUsername().equals(user.getUsername())) {
+    			throw new UserAlreadyExistsException(user.getUsername());
+    		}
+    	}
+    	
+    	int id = this.getUserId();
+    	user.setId(id);
+    	this.setUserId(id+1);
+    	
+    	this.getUsersSet().add(user);
+    	
     }
     
     @Override

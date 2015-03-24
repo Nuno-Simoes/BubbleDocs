@@ -25,19 +25,9 @@ public class RootUser extends RootUser_Base {
     		throws UserAlreadyExistsException {
     	
     	Portal portal = Portal.getInstance();
-    	
-    	for (User u : portal.getUsersSet()) {
-    		if (username.equals(u.getUsername())) {
-    			throw new UserAlreadyExistsException(username);
-    		}
-    	}
-    	
     	User user = new User(username, name, password);
-    	int id = portal.getUserId();
-    	user.setId(id);
-    	portal.setUserId(id+1);
-    	portal.addUsers(user);
-    }
+    	portal.addUsers(user); 	
+   }
     
     public void removeUser (String username) throws UserDoesNotExistException {
     	Portal portal = Portal.getInstance();
