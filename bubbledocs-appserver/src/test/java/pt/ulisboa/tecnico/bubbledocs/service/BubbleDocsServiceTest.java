@@ -32,7 +32,8 @@ public class BubbleDocsServiceTest {
             e1.printStackTrace();
         }
     }
-
+    
+    /*
     @After
     public void tearDown() {
         try {
@@ -41,6 +42,7 @@ public class BubbleDocsServiceTest {
             e.printStackTrace();
         }
     }
+    */
 
     // should redefine this method in the subclasses if it is needed to specify
     // some initial state

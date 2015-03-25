@@ -8,13 +8,14 @@ import java.util.Random;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidPermissionException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.UserDoesNotExistException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.UserNotLoggedException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.WrongPasswordException;
 
 
 public class Session extends Session_Base {
 	
 	private static Session instance = null;
 	private List<User> activeSessions = new ArrayList<User>();
-	private long twoHours = 7200000;
+	private long oneHours = 3600000;
 	
 	protected Session() {
 	}
@@ -36,19 +37,19 @@ public class Session extends Session_Base {
     }
 	
 	private void setSessionTime(User user) {
-		long currentTime = System.currentTimeMillis();
+		int currentTime = (int) (System.currentTimeMillis()/oneHours);
 		user.setSessionTime(currentTime);
 	}
 	
 	
 	private void removeOldSessions() {
-		long currentTime = System.currentTimeMillis();
+		int currentTime = (int) (System.currentTimeMillis()/oneHours);
 		
 		for (User u : activeSessions) {
-			if ((currentTime - u.getSessionTime()) >= twoHours) {
+			if ((currentTime - u.getSessionTime()) >= 2) {
 				u.setToken(null);
 				u.setSessionTime(0);
-				activeSessions.remove(u);
+				this.activeSessions.remove(u);
 			} else {
 				break;
 			}
@@ -57,20 +58,27 @@ public class Session extends Session_Base {
 	}
 	
 	public void login(String username, String password) 
-		throws InvalidPermissionException {
+		throws InvalidPermissionException, UserDoesNotExistException {
 		
 		Portal p = Portal.getInstance();
 		User u = p.findUser(username);
 		
-		System.out.printf("username:%s\n", username);
 		if (u.getUsername().equals(username) 
 				&& u.getPassword().equals(password)) {
+			
+			if(this.isAlreadyLogged(username)) {
+				User loggedUser = this.findUserByUsername(username);
+				loggedUser.setToken(null);
+				loggedUser.setToken(null);
+				this.activeSessions.remove(loggedUser);
+			}
+			
 			this.createToken(u);
 			this.setSessionTime(u);
 			this.removeOldSessions();
 			activeSessions.add(u);
 		} else {
-			throw new InvalidPermissionException(username);
+			throw new WrongPasswordException(username);
 		}
 	}
 	
@@ -93,4 +101,34 @@ public class Session extends Session_Base {
     	}
     	throw new UserNotLoggedException(token);
     }
+	
+	public User findUserByUsername(String username) throws UserNotLoggedException {
+		for (User u : activeSessions) {
+    		if (u.getUsername().equals(username)) {
+    			return u;
+    		}
+    	}
+    	throw new UserNotLoggedException(username);
+	}
+	
+	private boolean isAlreadyLogged(String username) {
+		for (User u : activeSessions) {
+    		if (u.getUsername().equals(username)) {
+    			return true;
+    		}
+    	}
+    	return false;
+    }
+	
+	public boolean isTokenActive(String token) {
+		for (User u : activeSessions) {
+    		if (u.getToken().equals(token)) {
+    			return true;
+    		}
+    	}
+    	return false;
+    }
+	
+	
 }
+
