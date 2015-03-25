@@ -35,24 +35,12 @@ public class RootUser extends RootUser_Base {
     
     public void removeUser (String username) throws UserDoesNotExistException {
     	Portal portal = Portal.getInstance();
-    	boolean found = false;
-    	
-    	if (this.getUsername().equals(username)) {
-    		throw new UserDoesNotExistException(username);
-    	}
-    	
-    	for (User u : portal.getUsersSet()) {
-    		if (u.getUsername().equals(username)) {
-    			removeUserPermissions(u);
-    			portal.removeSpreadsheet(u);
-    			portal.removeUsers(u);
-    			found = true;
-    		}
-    	}
-    	
-    	if (!found) {
-    		throw new UserDoesNotExistException(username);
-    	}
+    	Session s = Session.getInstance();
+    	User u = portal.findUser(username);
+    	s.removeUser(u.getToken());
+    	this.removeUserPermissions(u);
+    	portal.removeSpreadsheet(u);
+    	portal.removeUsers(u);
     }
 
     public void removeUserPermissions (User u) {

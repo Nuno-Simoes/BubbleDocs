@@ -37,13 +37,13 @@ public class Session extends Session_Base {
     }
 	
 	private void setSessionTime(User user) {
-		int currentTime = (int) (System.currentTimeMillis()/oneHours);
+		float currentTime = (float) (System.currentTimeMillis()/oneHours);
 		user.setSessionTime(currentTime);
 	}
 	
 	
 	private void removeOldSessions() {
-		int currentTime = (int) (System.currentTimeMillis()/oneHours);
+		float currentTime = (float) (System.currentTimeMillis()/oneHours);
 		
 		for (User u : activeSessions) {
 			if ((currentTime - u.getSessionTime()) >= 2) {
@@ -83,14 +83,11 @@ public class Session extends Session_Base {
 	}
 	
 	
-	public void removeUser(String token) throws UserDoesNotExistException {
-		for (User u : activeSessions) {
-			if (u.getToken().equals(token)) {
-				u.setToken(null);
-				u.setSessionTime(0);
-				activeSessions.remove(u);
-			}
-		}
+	public void removeUser(String token) throws UserNotLoggedException {
+		User u = this.findUser(token);
+		u.setToken(null);
+		u.setSessionTime(0);
+		activeSessions.remove(u);
 	}
 	
 	public User findUser(String token) throws UserNotLoggedException {
