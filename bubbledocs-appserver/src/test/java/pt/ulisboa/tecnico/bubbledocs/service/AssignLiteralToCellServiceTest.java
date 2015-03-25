@@ -6,12 +6,10 @@ import org.junit.Test;
 
 import pt.ulisboa.tecnico.bubbledocs.domain.Spreadsheet;
 import pt.ulisboa.tecnico.bubbledocs.domain.User;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.EmptyUsernameException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidContentException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidPermissionException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.OutOfBoundsException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.SpreadsheetDoesNotExistException;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.UserAlreadyExistsException;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.UserNotLoggedException;
 
 public class AssignLiteralToCellServiceTest extends BubbleDocsServiceTest {
 
@@ -62,21 +60,21 @@ public class AssignLiteralToCellServiceTest extends BubbleDocsServiceTest {
 
     @Test(expected = OutOfBoundsException.class)
     public void outOfBounds() {
-    	AssignLiteralToCellService service = new AssignLiteralToCellService(sam,
+    	AssignLiteralToCellService service = new AssignLiteralToCellService(ars,
     			id, "19;5","3");
         service.execute();
     }
 
     @Test(expected = InvalidContentException.class)
     public void notALiteral() {
-    	AssignLiteralToCellService service = new AssignLiteralToCellService(sam,
+    	AssignLiteralToCellService service = new AssignLiteralToCellService(ars,
     			id, "1;5","ola");
         service.execute();
     }
     
     @Test(expected = InvalidPermissionException.class)
     public void protectedCell() {
-    	AssignLiteralToCellService service = new AssignLiteralToCellService(sam,
+    	AssignLiteralToCellService service = new AssignLiteralToCellService(ars,
     			id, "7;3","3");
         service.execute();
     }
