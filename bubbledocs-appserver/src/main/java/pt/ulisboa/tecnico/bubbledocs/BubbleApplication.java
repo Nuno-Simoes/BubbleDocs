@@ -17,6 +17,19 @@ import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ulisboa.tecnico.bubbledocs.domain.Portal;
 import pt.ulisboa.tecnico.bubbledocs.domain.Spreadsheet;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.EmptyUsernameException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidContentException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidPermissionException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.OutOfBoundsException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.SpreadsheetDoesNotExistException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.UserAlreadyExistsException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.UserDoesNotExistException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.UserNotLoggedException;
+import pt.ulisboa.tecnico.bubbledocs.service.AssignLiteralToCellService;
+import pt.ulisboa.tecnico.bubbledocs.service.AssignReferenceCellService;
+import pt.ulisboa.tecnico.bubbledocs.service.CreateSpreadsheetService;
+import pt.ulisboa.tecnico.bubbledocs.service.CreateUserService;
+import pt.ulisboa.tecnico.bubbledocs.service.RemoveUserService;
 
 public class BubbleApplication {
 	public static void main (String[] args) {
@@ -115,5 +128,59 @@ public class BubbleApplication {
 		xml.setFormat(Format.getPrettyFormat());
 		System.out.println(xml.outputString(jdomDoc));
     }
+    
+    private static void assignLiteralToCell(String accessUsername,  int docId,
+			String cellId, String literal){
+              try{
+                 AssignLiteralToCellService service=new AssignLiteralToCellService(accessUsername,docId,cellId,literal);
+                 service.execute();
+                 }
+              catch(SpreadsheetDoesNotExistException | OutOfBoundsException
+            		 | InvalidContentException | InvalidPermissionException e){
+            	  System.err.println("Error assigning literal to cell" + e.getMessage());}
+    			}
+    
+    private static void assignReferenceToCell(String tokenUser, int sheetId, String cellId,
+            String reference){
+              try{
+                 AssignReferenceCellService service=new AssignReferenceCellService(tokenUser,sheetId,cellId,reference);
+                 service.execute();
+                 }
+              catch(SpreadsheetDoesNotExistException | OutOfBoundsException
+            		 | InvalidContentException | InvalidPermissionException e){
+            	  System.err.println("Error assigning reference to cell" + e.getMessage());}
+    			}
+    
+    private static void createSpreadsheet(String userToken, String sheetName, int lines, 
+			int columns){
+              try{
+                 CreateSpreadsheetService service=new CreateSpreadsheetService(userToken,sheetName,lines,columns);
+                 service.execute();
+                 }
+              catch(UserNotLoggedException | UserDoesNotExistException e){
+            	  System.err.println("Error creating spreadsheet" + e.getMessage());}
+    			}
+    
+    private static void createUser(String userToken, String newUsername, 
+			String password, String name){
+              try{
+                 CreateUserService service=new CreateUserService(userToken,newUsername,password,name);
+                 service.execute();
+                 }
+              catch(InvalidPermissionException |
+            			UserNotLoggedException | EmptyUsernameException | UserAlreadyExistsException e){
+            	  System.err.println("Error creating user" + e.getMessage());}
+    			}
+    
+    private static void removeUser(String userToken, String username){
+              try{
+                 RemoveUserService service=new RemoveUserService(userToken,username);
+                 service.execute();
+                 }
+              catch(InvalidPermissionException | 
+            			UserNotLoggedException | EmptyUsernameException | UserAlreadyExistsException e){
+            	  System.err.println("Error removing user" + e.getMessage());}
+    			}
+
     
 }
