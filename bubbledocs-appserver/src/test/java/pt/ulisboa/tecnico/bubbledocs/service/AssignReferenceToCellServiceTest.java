@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import pt.ulisboa.tecnico.bubbledocs.domain.Reference;
 import pt.ulisboa.tecnico.bubbledocs.domain.Spreadsheet;
 import pt.ulisboa.tecnico.bubbledocs.domain.User;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.EmptyUsernameException;
@@ -42,8 +43,9 @@ public class AssignReferenceToCellServiceTest extends BubbleDocsServiceTest {
     			id, "1;1","3;3");
         service.execute();
         Spreadsheet sheet = super.getSpreadSheet(NAME);
-        assertEquals("3", sheet.getCell(1,1).getContent().getCell().getLine());
-        assertEquals("3", sheet.getCell(1,1).getContent().getCell().getColumn());
+        Reference ref = (Reference) sheet.getCell(1, 1).getContent();
+        assertEquals(3, ref.getReferencedCell().getLine(), 0);
+        assertEquals(3, ref.getReferencedCell().getColumn(), 0);
     }
 
     @Test(expected = SpreadsheetDoesNotExistException.class)
@@ -56,13 +58,6 @@ public class AssignReferenceToCellServiceTest extends BubbleDocsServiceTest {
     @Test(expected = InvalidPermissionException.class)
     public void invalidUser() {
     	AssignReferenceCellService service = new AssignReferenceCellService(smf,
-    			id, "1;1","3;3");
-        service.execute();
-    }
-    
-    @Test(expected = EmptyUsernameException.class)
-    public void invalidUser2() {
-    	AssignReferenceCellService service = new AssignReferenceCellService("",
     			id, "1;1","3;3");
         service.execute();
     }
@@ -94,6 +89,5 @@ public class AssignReferenceToCellServiceTest extends BubbleDocsServiceTest {
     			id, "7;3","3;7");
         service.execute();
     }
-    //celula protegida tambem nao pode ser referenciada?
 
 }
