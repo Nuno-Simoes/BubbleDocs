@@ -48,6 +48,7 @@ public class ExportDocumentServiceTest extends BubbleDocsServiceTest {
         service.execute();
         byte[] result = service.getResult();
         ImportSpreadsheetService service1 = new ImportSpreadsheetService(result);
+        service1.execute();
         Spreadsheet s = service1.getResult();
         Spreadsheet s1 = getSpreadSheet(NAME);
         
