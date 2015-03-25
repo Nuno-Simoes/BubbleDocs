@@ -7,7 +7,6 @@ import org.junit.Test;
 import pt.ulisboa.tecnico.bubbledocs.domain.Reference;
 import pt.ulisboa.tecnico.bubbledocs.domain.Spreadsheet;
 import pt.ulisboa.tecnico.bubbledocs.domain.User;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.EmptyUsernameException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidPermissionException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidContentException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.OutOfBoundsException;

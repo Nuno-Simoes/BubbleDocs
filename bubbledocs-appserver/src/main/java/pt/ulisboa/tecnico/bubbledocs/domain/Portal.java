@@ -148,4 +148,10 @@ public class Portal extends Portal_Base {
     	RootUser r = RootUser.getInstance();
     	r.removeUser(user.getUsername());
     }
+    
+    public void importFromXML(org.jdom2.Element element) {
+    	Spreadsheet s = new Spreadsheet();
+    	this.addSpreadsheets(s);
+    	s.importFromXML(element);
+    }
 }
