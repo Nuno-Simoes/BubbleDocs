@@ -44,5 +44,13 @@ public class BinaryFunction extends BinaryFunction_Base {
     	this.setArgument1(newFirst);
     	this.setArgument2(newSecond);
     }
+    
+    public void delete() {
+    	this.getArgument1().delete();
+    	this.getArgument2().delete();
+    	this.setCell(null);
+    	this.setArgument1(null);
+    	this.setArgument2(null);
+    }
         
 }

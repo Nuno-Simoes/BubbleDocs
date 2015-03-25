@@ -134,5 +134,12 @@ public class User extends User_Base {
 		   s.setContent(line, column, content);
 	   }
    }
+   
+   public void delete() {
+	   for (Permission p : this.getPermissionsSet()) {
+		   p.delete();
+		   this.removePermissions(p);
+	   }
+   }
       
 }

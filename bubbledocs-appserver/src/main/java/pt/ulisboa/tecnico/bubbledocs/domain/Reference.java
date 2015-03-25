@@ -56,7 +56,7 @@ public class Reference extends Reference_Base {
     	}
     }
     
-public void importFromXML (Element element) {
+    public void importFromXML (Element element) {
     	
     	Spreadsheet s = this.getCell().getSpreadsheet();
     	
@@ -67,6 +67,11 @@ public void importFromXML (Element element) {
     	} catch (DataConversionException dce) {
     		throw new ImportDocumentException();
     	}
+    }
+    
+    public void delete() {
+    	this.setCell(null);
+    	this.setReferencedCell(null);
     }
     
 }

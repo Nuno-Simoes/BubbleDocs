@@ -38,8 +38,9 @@ public class RootUser extends RootUser_Base {
     	Session s = Session.getInstance();
     	User u = portal.findUser(username);
     	s.removeUser(u.getToken());
-    	this.removeUserPermissions(u);
-    	portal.removeSpreadsheet(u);
+    	u.delete();
+//    	this.removeUserPermissions(u);
+//    	portal.removeSpreadsheet(u);
     	portal.removeUsers(u);
     }
 

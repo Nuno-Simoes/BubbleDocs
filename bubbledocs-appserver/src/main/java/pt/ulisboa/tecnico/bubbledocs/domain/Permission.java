@@ -38,4 +38,15 @@ public class Permission extends Permission_Base {
     	return element;
     }*/
     
+    public void delete() {
+    	Spreadsheet s = this.getSpreadsheet();
+    	
+    	if (this.getUser().getUsername().equals(this.getSpreadsheet().getOwner())) {
+    		s.delete();
+    	}
+    		
+    	this.setSpreadsheet(null);
+    	this.setUser(null);
+    }
+    
 }

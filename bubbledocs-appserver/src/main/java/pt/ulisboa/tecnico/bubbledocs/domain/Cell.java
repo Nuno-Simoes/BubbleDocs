@@ -148,4 +148,9 @@ public class Cell extends Cell_Base {
     	}
         }*/
     
+    public void delete() {
+    	this.getContent().delete();
+    	this.setSpreadsheet(null);
+    }
+    
 }

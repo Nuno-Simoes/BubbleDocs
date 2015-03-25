@@ -146,4 +146,18 @@ public class Spreadsheet extends Spreadsheet_Base {
 			c.setContent(content);
 		}
 	}
+
+	public void delete() {
+    	
+		for (Permission p : this.getPermissionsSet()) {
+			   this.removePermissions(p);
+			   p.setSpreadsheet(null);
+			   p.setUser(null);
+		}
+		
+		for (Cell c : this.getCellsSet()) {
+			this.removeCells(c);
+			c.delete();
+		}
+    }
 }

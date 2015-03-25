@@ -50,4 +50,8 @@ public class Literal extends Literal_Base {
 		}
     }
 	
+	public void delete() {
+		this.setCell(null);
+	}
+	
 }

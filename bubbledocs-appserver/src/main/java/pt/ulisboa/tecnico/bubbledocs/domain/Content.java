@@ -24,4 +24,7 @@ public class Content extends Content_Base {
     //ABSTRACT METHOD
     public void importFromXML(Element e, Cell c) {}
     
+    //ABSTRACT METHOD
+    public void delete() {}
+    
 }
