@@ -44,7 +44,9 @@ public class AssignReferenceCellService extends PortalService {
     		int part4 = Integer.parseInt(part[1]);
     		
     		s.setContent(part3, part4 , new Reference(s.getCell(part1, part2)));
-    	} throw new InvalidPermissionException (u.getUsername());
+    	} else {
+    		throw new InvalidPermissionException (u.getUsername());
+    	}
   
     }
 
