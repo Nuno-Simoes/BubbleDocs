@@ -15,9 +15,8 @@ public class ImportSpreadsheetService extends PortalService {
     private final byte[] doc;
     private Spreadsheet s;
 
-    public ImportSpreadsheetService (byte[] doc, Spreadsheet s) {
+    public ImportSpreadsheetService (byte[] doc) {
     	this.doc = doc;
-    	this.s = s;
     }
 
     @Override
