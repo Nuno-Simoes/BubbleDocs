@@ -25,4 +25,8 @@ public class CreateSpreadsheetService extends PortalService {
 		
 		u.createSpreadsheet(sheetName, lines, columns);
 	}	
+	
+	public String getResult(){
+		return this.sheetName;
+	} 
 }
