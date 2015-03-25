@@ -139,14 +139,7 @@ public class Portal extends Portal_Base {
     	user.setId(id);
     	this.setUserId(id+1);
     	
-    	this.getUsersSet().add(user);
-    	
-    }
-    
-    @Override
-    public void removeUsers(User user) {
-    	RootUser r = RootUser.getInstance();
-    	r.removeUser(user.getUsername());
+    	this.getUsersSet().add(user);	
     }
     
     public void importFromXML(org.jdom2.Element element) {

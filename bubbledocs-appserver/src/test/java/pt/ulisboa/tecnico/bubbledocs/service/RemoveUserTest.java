@@ -6,7 +6,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import pt.ulisboa.tecnico.bubbledocs.domain.User;
-
+import pt.ulisboa.tecnico.bubbledocs.exceptions.UserDoesNotExistException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.UserNotLoggedException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidPermissionException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.SpreadsheetDoesNotExistException;
@@ -31,26 +31,28 @@ public class RemoveUserTest extends BubbleDocsServiceTest {
 
         root = addUserToSession(ROOT_USERNAME);
     };
-
+    
+    @Test
     public void success() {
+    	boolean deletedUser = false;
+    	boolean deletedSpreadsheet = false;
+    	
         RemoveUserService service = new RemoveUserService(root, USERNAME_TO_DELETE);
         service.execute();
-
-        boolean deleted = getUserFromUsername(USERNAME_TO_DELETE) == null;
-
-        assertTrue("user was not deleted", deleted);
-
-        assertNull("Spreadsheet was not deleted",
-                getSpreadSheet(SPREADSHEET_NAME));
-    }
-
-    /*
-     * accessUsername exists, is in session and is root toDeleteUsername exists
-     * and is not in session
-     */
-    @Test
-    public void successToDeleteIsNotInSession() {
-        success();
+        
+        try {
+        	getUserFromUsername(USERNAME_TO_DELETE);
+        } catch (UserDoesNotExistException une) {
+        	deletedUser = true;
+        }
+        assertTrue("user was not deleted", deletedUser);
+        
+        try {
+            getSpreadSheet(SPREADSHEET_NAME);
+        } catch (SpreadsheetDoesNotExistException sne) {
+        	deletedSpreadsheet = true;
+        }
+        assertTrue("User spreadsheets were not deleted", deletedSpreadsheet);
     }
 
     /*
@@ -59,12 +61,21 @@ public class RemoveUserTest extends BubbleDocsServiceTest {
      */
     @Test
     public void successToDeleteIsInSession() {
+    	boolean deleted = false;
         String token = addUserToSession(USERNAME_TO_DELETE);
-        success();
-	assertNull("Removed user but not removed from session", getUserFromSession(token));
+        
+        RemoveUserService service = new RemoveUserService(root, USERNAME_TO_DELETE);
+        service.execute();
+        
+        try { 
+        	getUserFromSession(token); 
+        } catch (UserNotLoggedException unle) {
+        	deleted = true;
+        }
+        assertTrue("Removed user but not removed from session", deleted);
     }
 
-    @Test(expected = SpreadsheetDoesNotExistException.class)
+    @Test(expected = UserDoesNotExistException.class)
     public void userToDeleteDoesNotExist() {
         new RemoveUserService(root, USERNAME_DOES_NOT_EXIST).execute();
     }
