@@ -47,9 +47,6 @@ public class AssignLiteralToCellService extends PortalService {
 
 		Portal portal = Portal.getInstance();
 		Spreadsheet s = portal.findSpreadsheet(docId);
-		if (s.equals(null)) {
-			throw new SpreadsheetDoesNotExistException(Integer.toString(docId));
-		}
 		
 		if (u.equals(null)) {
 			throw new UserDoesNotExistException(u.getUsername());
