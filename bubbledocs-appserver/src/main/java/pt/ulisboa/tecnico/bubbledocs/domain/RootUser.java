@@ -3,6 +3,7 @@ package pt.ulisboa.tecnico.bubbledocs.domain;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.UserAlreadyExistsException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.UserDoesNotExistException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.UserNotLoggedException;
 
 public class RootUser extends RootUser_Base {
     
@@ -37,7 +38,11 @@ public class RootUser extends RootUser_Base {
     	Portal portal = Portal.getInstance();
     	Session s = Session.getInstance();
     	User u = portal.findUser(username);
-    	s.removeUser(u.getToken());
+    	try {
+    		s.removeUser(u.getToken());
+    	} catch (UserNotLoggedException unle) {
+    		//ignore
+    	}
     	u.delete();
 //    	this.removeUserPermissions(u);
 //    	portal.removeSpreadsheet(u);

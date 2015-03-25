@@ -28,7 +28,8 @@ public class ExportDocumentService extends PortalService {
     }
 
     @Override
-    protected void dispatch() throws BubbledocsException, ExportDocumentException, UserNotLoggedException, InvalidPermissionException {
+    protected void dispatch() throws BubbledocsException, ExportDocumentException,
+    		UserNotLoggedException, InvalidPermissionException {
     	User u = super.getUser(userToken);
     	Portal p = Portal.getInstance();
     	Spreadsheet s = p.findSpreadsheet(this.docId);

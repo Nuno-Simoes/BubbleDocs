@@ -16,6 +16,7 @@ import pt.ulisboa.tecnico.bubbledocs.domain.User;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.SpreadsheetDoesNotExistException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.UserAlreadyExistsException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.UserDoesNotExistException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.UserNotLoggedException;
 
 
 // add needed import declarations
@@ -97,7 +98,7 @@ public class BubbleDocsServiceTest {
     }
 
     // return the user registered in session whose token is equal to token
-    public User getUserFromSession(String token) {
+    public User getUserFromSession(String token) throws UserNotLoggedException {
     	Session s = Session.getInstance();
     	User u = s.findUser(token);
     	return u;

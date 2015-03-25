@@ -12,6 +12,7 @@ import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidPermissionException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.OutOfBoundsException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.SpreadsheetDoesNotExistException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.UserDoesNotExistException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.UserNotLoggedException;
 
 public class AssignLiteralToCellService extends PortalService {
 	private String result;
@@ -31,7 +32,7 @@ public class AssignLiteralToCellService extends PortalService {
 	@Override
 	protected void dispatch() throws EmptyUsernameException,
 			UserDoesNotExistException, SpreadsheetDoesNotExistException,
-			InvalidPermissionException {
+			InvalidPermissionException, UserNotLoggedException {
 		
 		User u = super.getUser(accessUsername);
 
