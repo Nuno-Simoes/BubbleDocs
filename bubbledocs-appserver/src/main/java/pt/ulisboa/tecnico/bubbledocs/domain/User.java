@@ -2,7 +2,9 @@ package pt.ulisboa.tecnico.bubbledocs.domain;
 
 import java.util.List;
 
+import pt.ulisboa.tecnico.bubbledocs.exceptions.EmptySpreadsheetNameException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidPermissionException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidSpreadsheetSizeException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.OutOfBoundsException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.SpreadsheetDoesNotExistException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.UserDoesNotExistException;
@@ -40,8 +42,18 @@ public class User extends User_Base {
 	   }
    }
    
-   public void createSpreadsheet(String name, int lines, int columns) {
+   public void createSpreadsheet(String name, int lines, int columns) 
+		   throws EmptySpreadsheetNameException, InvalidSpreadsheetSizeException {
 	   Portal portal = Portal.getInstance();
+	   
+	   if (name.equals("")) {
+		   throw new EmptySpreadsheetNameException();
+	   }
+	   
+	   if (lines <= 0 || columns <= 0) {
+		   throw new InvalidSpreadsheetSizeException();
+	   }
+	   
 	   Spreadsheet s = new Spreadsheet(name, lines, columns);
 	   Permission p = new Permission (true, true);
 	   int id = portal.getSheetId();
