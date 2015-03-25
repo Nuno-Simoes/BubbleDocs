@@ -8,13 +8,16 @@ import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 
 import pt.ulisboa.tecnico.bubbledocs.domain.Portal;
+import pt.ulisboa.tecnico.bubbledocs.domain.Spreadsheet;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.ImportDocumentException;
 
 public class ImportSpreadsheetService extends PortalService {
     private final byte[] doc;
+    private Spreadsheet s;
 
-    public ImportSpreadsheetService (byte[] doc) {
+    public ImportSpreadsheetService (byte[] doc, Spreadsheet s) {
     	this.doc = doc;
+    	this.s = s;
     }
 
     @Override
@@ -32,7 +35,11 @@ public class ImportSpreadsheetService extends PortalService {
     	
     	Element rootElement = jdomDoc.getRootElement();
     	Portal portal = Portal.getInstance();
-    	portal.importFromXML(rootElement);
+    	this.s = portal.importFromXML(rootElement);
     }
+    
+    public final Spreadsheet getResult() {
+		return s;
+	}
     
 }
