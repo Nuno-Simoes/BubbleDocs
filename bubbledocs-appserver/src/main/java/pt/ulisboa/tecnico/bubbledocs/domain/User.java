@@ -66,17 +66,18 @@ public class User extends User_Base {
 	   Spreadsheet s = portal.findSpreadsheet(sheetId);
 
 	   if (portal.isOwner(u, s) || p.getWrite()) {
+		   Permission pr;
 		   try {
-			   this.findPermission(username, sheetId); 
+			   pr = this.findPermission(username, sheetId); 
 		   } catch (InvalidPermissionException e) {
-			   Permission pr = new Permission(read,write);
-			   this.addPermissions(pr);
-			   p.setUser(u);
-			   p.setSpreadsheet(s);
+			   pr = new Permission(read,write);
+			   u.addPermissions(pr);
+			   pr.setUser(u);
+			   pr.setSpreadsheet(s);
 			   s.addPermissions(pr);
 		   }
-		   p.setRead(read);
-		   p.setWrite(write);
+		   pr.setRead(read);
+		   pr.setWrite(write);
 	   }	   
    }
    
