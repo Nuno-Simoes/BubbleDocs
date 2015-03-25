@@ -13,9 +13,6 @@ import pt.ulisboa.tecnico.bubbledocs.exceptions.WrongPasswordException;
 
 public class LoginUserTest extends BubbleDocsServiceTest {
 
-    private String jp; // the token for user jp
-    private String root; // the token for user root
-
     private static final String USERNAME = "jp";
     private static final String PASSWORD = "jp#";
 
@@ -26,7 +23,7 @@ public class LoginUserTest extends BubbleDocsServiceTest {
 
     // returns the time of the last access for the user with token userToken.
     // It must get this data from the session object of the application
-    private int getLastAccessTimeInSession(String userToken) {
+    private float getLastAccessTimeInSession(String userToken) {
     	Session s = Session.getInstance();
     	User u = s.findUser(userToken);
     	return u.getSessionTime();
@@ -38,12 +35,11 @@ public class LoginUserTest extends BubbleDocsServiceTest {
         service.execute();
         
         String token = service.getUserToken();
-    	System.out.printf("usernameoi:%s\n", token);
 
         User user = getUserFromSession(service.getUserToken());
         assertEquals(USERNAME, user.getUsername());
         	
-        int difference = (getLastAccessTimeInSession(token) - (int) (System.currentTimeMillis()/3600000));
+        float difference = (getLastAccessTimeInSession(token) - (float) (System.currentTimeMillis()/3600000));
 
         assertTrue("Access time in session not correctly set", difference >= 0);
         assertTrue("diference in seconds greater than expected", difference < 2);
