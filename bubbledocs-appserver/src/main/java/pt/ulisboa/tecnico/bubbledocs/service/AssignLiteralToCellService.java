@@ -7,7 +7,9 @@ import pt.ulisboa.tecnico.bubbledocs.domain.Cell;
 import pt.ulisboa.tecnico.bubbledocs.domain.Spreadsheet;
 import pt.ulisboa.tecnico.bubbledocs.domain.User;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.EmptyUsernameException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidContentException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidPermissionException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.OutOfBoundsException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.SpreadsheetDoesNotExistException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.UserDoesNotExistException;
 
@@ -30,6 +32,11 @@ public class AssignLiteralToCellService extends PortalService {
 	protected void dispatch() throws EmptyUsernameException,
 			UserDoesNotExistException, SpreadsheetDoesNotExistException,
 			InvalidPermissionException {
+		try {
+			double d = Integer.parseInt(literal);
+		} catch (NumberFormatException nfe) {
+			throw new InvalidContentException();
+		}
 
 		if (this.accessUsername.equals("")) {
 			throw new EmptyUsernameException();
@@ -51,7 +58,13 @@ public class AssignLiteralToCellService extends PortalService {
 			int part1 = Integer.parseInt(parts[0]);
 			int part2 = Integer.parseInt(parts[1]);
 			Cell c = s.getCell(part1, part2);
-			c.setContent(new Literal(Integer.parseInt(literal)));
+			if (c.getIsProtected()) {
+				throw new InvalidPermissionException();
+			}
+			if (c.equals(null)) {
+				throw new OutOfBoundsException();
+			}
+			s.setContent(part1,part2,new Literal(Integer.parseInt(literal)));
 		} else {
 			throw new InvalidPermissionException(accessUsername);
 		}
