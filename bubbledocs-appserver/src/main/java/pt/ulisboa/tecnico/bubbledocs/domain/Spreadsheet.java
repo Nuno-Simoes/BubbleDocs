@@ -128,7 +128,7 @@ public class Spreadsheet extends Spreadsheet_Base {
 				return c;
 			}
 		}
-		if (this.getLines() <= line && this.getColumns() <= column) {
+		if (this.getLines() >= line && this.getColumns() >= column) {
 			Cell c = new Cell(line, column);
 			this.addCells(c);
 			return c;
