@@ -10,27 +10,27 @@ import pt.ulisboa.tecnico.bubbledocs.exceptions.UserNotLoggedException;
 
 public class RemoveUserService extends PortalService {
 	private String userToken;
-	private String Username;
+	private String username;
 	
-	public RemoveUserService (String userToken, String Username) {
+	public RemoveUserService (String userToken, String username) {
 		this.userToken = userToken;
-		this.Username = Username;
+		this.username = username;
 	}
 
 	@Override
 	protected void dispatch() throws InvalidPermissionException, 
 	UserNotLoggedException, EmptyUsernameException, UserAlreadyExistsException {
 		
-		if(this.Username.equals("")) {
+		if(this.username.equals("")) {
 			throw new EmptyUsernameException();
 		}
 		
 		User u = getUser(userToken);
 		
 		if (u instanceof RootUser) {
-			((RootUser) u).removeUser(this.Username);
+			((RootUser) u).removeUser(this.username);
 		} else {
-			throw new InvalidPermissionException(this.Username);
+			throw new InvalidPermissionException(this.username);
 		}
 	}
 }

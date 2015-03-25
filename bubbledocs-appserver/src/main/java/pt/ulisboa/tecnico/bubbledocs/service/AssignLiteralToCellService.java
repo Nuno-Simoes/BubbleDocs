@@ -32,13 +32,16 @@ public class AssignLiteralToCellService extends PortalService {
 	protected void dispatch() throws EmptyUsernameException,
 			UserDoesNotExistException, SpreadsheetDoesNotExistException,
 			InvalidPermissionException {
+		
+		User u = super.getUser(accessUsername);
+
 		try {
-			double d = Integer.parseInt(literal);
+			Integer.parseInt(literal);
 		} catch (NumberFormatException nfe) {
 			throw new InvalidContentException();
 		}
 
-		if (this.accessUsername.equals("")) {
+		if (u.getUsername().equals("")) {
 			throw new EmptyUsernameException();
 		}
 
@@ -47,11 +50,11 @@ public class AssignLiteralToCellService extends PortalService {
 		if (s.equals(null)) {
 			throw new SpreadsheetDoesNotExistException(Integer.toString(docId));
 		}
-		User u = portal.findUser(accessUsername);
+		
 		if (u.equals(null)) {
-			throw new UserDoesNotExistException(accessUsername);
+			throw new UserDoesNotExistException(u.getUsername());
 		}
-		Permission p = u.findPermission(accessUsername, docId);
+		Permission p = u.findPermission(u.getUsername(), docId);
 
 		if (p.getWrite()) {
 			String[] parts = cellId.split(";");
@@ -66,7 +69,7 @@ public class AssignLiteralToCellService extends PortalService {
 			}
 			s.setContent(part1,part2,new Literal(Integer.parseInt(literal)));
 		} else {
-			throw new InvalidPermissionException(accessUsername);
+			throw new InvalidPermissionException(u.getUsername());
 		}
 	}
 

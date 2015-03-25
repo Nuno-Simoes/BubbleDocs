@@ -6,6 +6,7 @@ import org.jdom2.DataConversionException;
 import org.jdom2.Element;
 
 import pt.ulisboa.tecnico.bubbledocs.exceptions.ImportDocumentException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidPermissionException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.OutOfBoundsException;
 
 public class Spreadsheet extends Spreadsheet_Base {
@@ -128,7 +129,7 @@ public class Spreadsheet extends Spreadsheet_Base {
 				return c;
 			}
 		}
-		if (this.getLines() <= line && this.getColumns() <= column) {
+		if (this.getLines() >= line && this.getColumns() >= column) {
 			Cell c = new Cell(line, column);
 			this.addCells(c);
 			return c;
@@ -137,8 +138,12 @@ public class Spreadsheet extends Spreadsheet_Base {
 	}
 	
 	public void setContent (int line, int column, Content content) 
-			throws OutOfBoundsException {
+			throws OutOfBoundsException, InvalidPermissionException {
 		Cell c = getCell(line, column);
-		c.setContent(content);
+		if (c.getIsProtected()) {
+			throw new InvalidPermissionException();
+		} else {
+			c.setContent(content);
+		}
 	}
 }

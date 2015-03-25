@@ -41,7 +41,7 @@ public class AssignLiteralToCellServiceTest extends BubbleDocsServiceTest {
     			id, "1;5","3");
         service.execute();
         Spreadsheet sheet = super.getSpreadSheet(NAME);
-        assertEquals(3, sheet.getCell(1, 5).getContent().getResult());
+        assertEquals(3, sheet.getCell(1, 5).getContent().getResult(), 0);
     }
 
     @Test(expected = SpreadsheetDoesNotExistException.class)
