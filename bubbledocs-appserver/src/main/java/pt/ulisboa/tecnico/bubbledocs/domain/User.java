@@ -61,7 +61,7 @@ public class User extends User_Base {
 		   boolean write) throws UserDoesNotExistException, 
 		   SpreadsheetDoesNotExistException {
 	   Portal portal = Portal.getInstance();
-	   Permission p = findPermission(username, sheetId);
+	   Permission p = findPermission(this.getUsername(), sheetId);
 	   User u = portal.findUser(username);
 	   Spreadsheet s = portal.findSpreadsheet(sheetId);
 
