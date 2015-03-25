@@ -95,34 +95,6 @@ public class Spreadsheet extends Spreadsheet_Base {
 		}
 	}
 	
-/*	public void importFromXML(Element spreadsheetElement) {
-		Element cells = spreadsheetElement.getChild("cell");
-		setName(spreadsheetElement.getAttribute("name").getValue());
-		setOwner(spreadsheetElement.getAttribute("owner").getValue());
-		setDate(spreadsheetElement.getAttribute("date").getValue());
-		try {
-			setColumns(spreadsheetElement.getAttribute("columns").getIntValue());
-			setLines(spreadsheetElement.getAttribute("lines").getIntValue());
-			setId(spreadsheetElement.getAttribute("id").getIntValue());
-    	} catch (DataConversionException e) { 
-    		throw new ImportDocumentException();
-    	}
-		
-		for (Element c : cells.getChildren("cell")) {
-			Cell cellp = new Cell();
-			cellp.importFromXML(c);
-			addCells(cellp);
-		}*/
-		
-		/*Element permissions = spreadsheetElement.getChild("permission");
-
-		for (Element p : permissions.getChildren("permission")) {
-			Permission permissionp = new Permission();
-			permissionp.importFromXML(p);
-			addPermissions(permissionp);
-		}*/
-	//}
-	
 	public Cell getCell(int line, int column) throws OutOfBoundsException {
 		for (Cell c : this.getCellsSet()) {
 			if (c.getLine()==line && c.getColumn()==column) {

@@ -83,71 +83,7 @@ public class Cell extends Cell_Base {
     	newContent.importFromXML(content);
     	this.setContent(newContent);
     }
-    
-    /*public void importFromXML (Element element) {
-		this.setName(element.getAttributeValue("name"));
-		this.setOwner(element.getAttributeValue("owner"));
-		Date date = new Date();
-		String newDate = date.toString();
-		this.setDate(newDate);
-		
-		try {
-			this.setColumns(element.getAttribute("column").getIntValue());
-			this.setLines(element.getAttribute("line").getIntValue());
-		} catch (DataConversionException dce) {
-			throw new ImportDocumentException();
-		}
-		
-		Element cells = element.getChild("cell");
-		for (Element c : cells.getChildren("cell")) {
-			Cell newCell = new Cell();
-			newCell.importFromXML(c);
-			this.addCells(newCell);
-		}
-	}*/
-
-    //public void importFromXML(Element cellElement) {
-    	/*Element add = cellElement.getChild("add");
-    	Element sub = cellElement.getChild("sub");
-    	Element div = cellElement.getChild("div");
-    	Element mult = cellElement.getChild("mult");
-    	Element literal = cellElement.getChild("literal");
-    	Element reference = cellElement.getChild("reference");
-    	
-    	if(add.getContent() instanceof Add){
-    		Add addVariable = new Add(); 
-    		addVariable.equals(cellElement.getChild("add").getContent());
-    	}
-    	else if(sub.getContent() instanceof Sub){
-    		Sub subVariable = new Sub();
-    		subVariable.equals(cellElement.getChild("sub").getContent());
-    	}
-    	else if(mult.getContent() instanceof Mult){
-    		Mult multVariable = new Mult();
-    		multVariable.importFromXML(mult);
-    	}
-    	else if(div.getContent() instanceof Div){
-    		Div divVariable = new Div();
-    		divVariable.importFromXML(div);
-    	}
-    	else if(reference.getContent() instanceof Reference){
-    		Reference referenceVariable = new Reference();
-    		referenceVariable.importFromXML(reference);
-    	}
-    	else{
-    		Literal literalVariable = new Literal();
-    		literalVariable.importFromXML(literal);
-    		}
-    	*/
-    	
-    /*try {
-    		setColumn(cellElement.getAttribute("column").getIntValue());
-    		setLine(cellElement.getAttribute("line").getIntValue());
-    	} catch (DataConversionException e) { 
-    		throw new ImportDocumentException();
-    	}
-        }*/
-    
+      
     public void delete() {
     	this.getContent().delete();
     	this.setSpreadsheet(null);
