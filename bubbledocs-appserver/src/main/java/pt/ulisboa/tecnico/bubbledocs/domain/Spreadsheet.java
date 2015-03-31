@@ -47,10 +47,6 @@ public class Spreadsheet extends Spreadsheet_Base {
 			cellsElement.addContent(c.exportToXML());
 		}
 		
-		for (Permission p : this.getPermissionsSet()) {
-			this.removePermissions(p);
-		}
-		
 		return element;
 	}
 	
@@ -93,6 +89,15 @@ public class Spreadsheet extends Spreadsheet_Base {
 				}
 			}
 		}
+		
+		Permission perm = new Permission(true, true);
+		Portal p = Portal.getInstance();
+		User u = p.findUser(this.getOwner());
+		perm.setUser(u);
+		perm.setSpreadsheet(this);
+		this.addPermissions(perm);
+		u.addPermissions(perm);
+		
 	}
 	
 	public Cell getCell(int line, int column) throws OutOfBoundsException {
@@ -118,12 +123,12 @@ public class Spreadsheet extends Spreadsheet_Base {
 			c.setContent(content);
 		}
 	}
-
+	
 	public void delete() {
-    	
 		for (Permission p : this.getPermissionsSet()) {
 			   this.removePermissions(p);
 			   p.setSpreadsheet(null);
+			   p.getUser().removePermissions(p);
 			   p.setUser(null);
 		}
 		

@@ -40,9 +40,5 @@ public class CreateUserService extends PortalService {
 		} else {
 			throw new InvalidPermissionException(this.newUsername);
 		}
-	}	
-	
-	public String getResult(){
-		return this.userToken;
 	}
 }

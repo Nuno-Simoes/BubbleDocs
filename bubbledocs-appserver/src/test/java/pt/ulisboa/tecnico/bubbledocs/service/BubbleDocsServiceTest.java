@@ -38,7 +38,9 @@ public class BubbleDocsServiceTest {
     @After
     public void tearDown() {
         try {
+        	deleteRemains();
             FenixFramework.getTransactionManager().rollback();
+            
         } catch (IllegalStateException | SecurityException | SystemException e) {
             e.printStackTrace();
         }
@@ -48,6 +50,14 @@ public class BubbleDocsServiceTest {
     // should redefine this method in the subclasses if it is needed to specify
     // some initial state
     public void populate4Test() {
+    }
+    
+    public void deleteRemains() {
+    	Portal p = Portal.getInstance();
+    	RootUser r = RootUser.getInstance();
+    	for ( User u : p.getUsersSet()) {
+    		r.removeUser(u.getUsername());
+    	}
     }
 
     // auxiliary methods that access the domain layer and are needed in the test classes

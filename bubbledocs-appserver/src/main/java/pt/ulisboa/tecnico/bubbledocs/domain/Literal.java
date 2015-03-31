@@ -40,7 +40,6 @@ public class Literal extends Literal_Base {
 	public void importFromXML (Element element) {
 		try {
 			if (element.getAttribute("value").getValue().equals("#VALUE")) {
-				System.out.println("IGUAL");
 				this.setLiteral(-1);
 			} else {
 				this.setLiteral((int)element.getAttribute("value").getDoubleValue());

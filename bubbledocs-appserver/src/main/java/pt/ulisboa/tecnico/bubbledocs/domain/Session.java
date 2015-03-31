@@ -77,6 +77,7 @@ public class Session extends Session_Base {
 			this.setSessionTime(u);
 			this.removeOldSessions();
 			activeSessions.add(u);
+			
 		} else {
 			throw new WrongPasswordException(username);
 		}
@@ -110,7 +111,7 @@ public class Session extends Session_Base {
 	
 	private boolean isAlreadyLogged(String username) {
 		for (User u : activeSessions) {
-    		if (u.getUsername().equals(username)) {
+    		if ( u.getUsername().equals(username)) {
     			return true;
     		}
     	}

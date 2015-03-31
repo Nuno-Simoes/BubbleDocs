@@ -60,13 +60,13 @@ public class User extends User_Base {
 	   
 	   s.setId(id);
 	   s.setOwner(this.getUsername());
-	   portal.addSpreadsheets(s);
 	   portal.setSheetId(id+1);
-	   
-	   this.addPermissions(p);
+	  
 	   p.setUser(this);
 	   p.setSpreadsheet(s);
 	   s.addPermissions(p);
+	   this.addPermissions(p);
+	   portal.addSpreadsheets(s);
    }
    
    public void modifyPermissions (String username, int sheetId, boolean read, 
@@ -114,8 +114,9 @@ public class User extends User_Base {
 	   Portal portal = Portal.getInstance();
 	   User u = portal.findUser(username);
 	   Spreadsheet s = portal.findSpreadsheet(sheetId);
+
 	   
-	   for (Permission p : this.getPermissionsSet()) {
+	   for (Permission p : u.getPermissionsSet()) {
 		   if(p.getUser().equals(u) && p.getSpreadsheet().equals(s)) {
 			   return p;
 		   }

@@ -28,7 +28,6 @@ public class CreateUserTest extends BubbleDocsServiceTest {
         ars = addUserToSession("ars");
     }
     
-    
     @Test
     public void success() {
         CreateUserService service = new CreateUserService(root, USERNAME_DOES_NOT_EXIST, "jose",
@@ -42,6 +41,7 @@ public class CreateUserTest extends BubbleDocsServiceTest {
         assertEquals("jose", user.getPassword());
         assertEquals("José Ferreira", user.getName());
     }
+    
     
     @Test(expected = UserAlreadyExistsException.class)
     public void usernameExists() {
@@ -70,5 +70,4 @@ public class CreateUserTest extends BubbleDocsServiceTest {
                 "José Ferreira");
         service.execute();
     }
-	
 }

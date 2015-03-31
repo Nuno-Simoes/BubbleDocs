@@ -33,7 +33,7 @@ public class ExportDocumentService extends PortalService {
     	User u = super.getUser(userToken);
     	Portal p = Portal.getInstance();
     	Spreadsheet s = p.findSpreadsheet(this.docId);
-    	Permission perm = u.findPermission(u.getUsername(), this.docId);
+    	Permission perm = u.findPermission(u.getUsername(), s.getId());
     	
     	if(p.isOwner(u, s) || perm.getWrite() || perm.getRead()){
 	    	org.jdom2.Document jdomDoc = new org.jdom2.Document();

@@ -12,16 +12,31 @@ public class Portal extends Portal_Base {
     
 	public static Portal getInstance() {
 		Portal portal = FenixFramework.getDomainRoot().getPortal();
-		if (portal == null)
+		if (portal == null) {
 		    portal = new Portal();
-
+		}
+		
+		RootUser root = RootUser.getInstance();
+		boolean flag = true;
+		
+		for (User u : portal.getUsersSet()) {
+			if (u.getUsername().equals(root.getUsername())) {
+				flag = false;
+				break;
+			}
+		}
+		
+		if (flag) {
+			portal.addUsers(root);
+		}
+		
 		return portal;
 	}
 
 	private Portal() {
 		FenixFramework.getDomainRoot().setPortal(this);
-		FenixFramework.getDomainRoot().getPortal().setUserId(1);
-		FenixFramework.getDomainRoot().getPortal().setSheetId(0);
+		this.setUserId(0);
+		this.setSheetId(0);
 	}
 	
 	public List<Spreadsheet> listSpreadsheets (String username) {
@@ -51,6 +66,7 @@ public class Portal extends Portal_Base {
     public void removeSpreadsheet (User u) {
     	for (Spreadsheet s : this.getSpreadsheetsSet()) {
     		if (s.getOwner().equals(u.getUsername())) {
+    			s.delete();
     			this.removeSpreadsheets(s);
     		}
     	}
@@ -59,6 +75,7 @@ public class Portal extends Portal_Base {
     public void removeSpreadsheet (String username, String sheetName) {
     	for (Spreadsheet s : this.getSpreadsheetsSet()) {
     		if (s.getOwner().equals(username) && s.getName().equals(sheetName)) {
+    			s.delete();
     			this.removeSpreadsheets(s);
     		}
     	}
@@ -66,6 +83,7 @@ public class Portal extends Portal_Base {
 
     public void removeSpreadsheet (int id) throws SpreadsheetDoesNotExistException {
     	Spreadsheet s = this.findSpreadsheet(id);
+		s.delete();
     	this.removeSpreadsheets(s);
     }
     
