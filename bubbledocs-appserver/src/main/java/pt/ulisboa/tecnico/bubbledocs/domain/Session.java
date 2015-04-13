@@ -8,7 +8,7 @@ import java.util.Random;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidPermissionException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.UserDoesNotExistException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.UserNotLoggedException;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.WrongPasswordException;
+import pt.ulisboa.tecnico.bubbledocs.exception.LoginBubbleDocsException;
 
 
 public class Session extends Session_Base {
@@ -58,10 +58,15 @@ public class Session extends Session_Base {
 	}
 	
 	public void login(String username, String password) 
-		throws InvalidPermissionException, UserDoesNotExistException {
+		throws InvalidPermissionException, UserDoesNotExistException,
+		LoginBubbleDocsException, UnavailableServiceException {
 		
 		Portal p = Portal.getInstance();
 		User u = p.findUser(username);
+		
+		if ((u.getPassword()).equals(null)) {
+			throw new UnavailableServiceException();
+		}
 		
 		if (u.getUsername().equals(username) 
 				&& u.getPassword().equals(password)) {
@@ -79,34 +84,34 @@ public class Session extends Session_Base {
 			activeSessions.add(u);
 			
 		} else {
-			throw new WrongPasswordException(username);
+			throw new LoginBubbleDocsException(username, password);
 		}
 	}
 	
 	
-	public void removeUser(String token) throws UserNotLoggedException {
+	public void removeUser(String token) throws LoginBubbleDocsExeption {
 		User u = this.findUser(token);
 		u.setToken(null);
 		u.setSessionTime(0);
 		activeSessions.remove(u);
 	}
 	
-	public User findUser(String token) throws UserNotLoggedException {
+	public User findUser(String token) throws LoginBubbleDocsExeption {
     	for (User u : activeSessions) {
     		if (u.getToken().equals(token)) {
     			return u;
     		}
     	}
-    	throw new UserNotLoggedException(token);
+    	throw new LoginBubbleDocsExeption(token);
     }
 	
-	public User findUserByUsername(String username) throws UserNotLoggedException {
+	public User findUserByUsername(String username) throws LoginBubbleDocsExeption {
 		for (User u : activeSessions) {
     		if (u.getUsername().equals(username)) {
     			return u;
     		}
     	}
-    	throw new UserNotLoggedException(username);
+    	throw new LoginBubbleDocsExeption(username);
 	}
 	
 	private boolean isAlreadyLogged(String username) {
