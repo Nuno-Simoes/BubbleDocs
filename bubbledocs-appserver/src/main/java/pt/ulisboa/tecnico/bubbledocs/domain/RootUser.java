@@ -22,11 +22,11 @@ public class RootUser extends RootUser_Base {
 		this.setPassword("rootroot");
 	}
     
-    public void addUser (String username, String name, String password) 
+    public void addUser (String username, String name, String email) 
     		throws UserAlreadyExistsException {
     	
     	Portal portal = Portal.getInstance();
-    	User user = new User(username, name, password);
+    	User user = new User(username, name, email);
     	portal.addUsers(user); 	
    }
     

@@ -15,15 +15,15 @@ public class User extends User_Base {
         super();
     }
    
-   public User(String username, String name, String password) {
+   public User(String username, String name, String email) {
 	   super();
-	   this.init(username, name, password);
+	   this.init(username, name, email);
    }
    
-   protected void init(String username, String name, String password) {
+   protected void init(String username, String name, String email) {
 	   this.setUsername(username);
 	   this.setName(name);
-	   this.setPassword(password);
+	   this.setEmail(email);
    }
    
    public void listSpreadsheets (List<Spreadsheet> list, String str) {

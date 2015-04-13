@@ -140,7 +140,7 @@ public class Portal extends Portal_Base {
     	for (User u : this.getUsersSet()) {
     		System.out.print("Username: " + u.getUsername());
     		System.out.print(", Name: " + u.getName());
-    		System.out.println(", Password: " + u.getPassword());
+    		System.out.println(", Email: " + u.getEmail());
     	}
     }
     
