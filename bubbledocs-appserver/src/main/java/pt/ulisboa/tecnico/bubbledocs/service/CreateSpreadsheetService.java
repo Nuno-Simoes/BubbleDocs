@@ -1,8 +1,8 @@
 package pt.ulisboa.tecnico.bubbledocs.service;
 
 import pt.ulisboa.tecnico.bubbledocs.domain.User;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.UserDoesNotExistException;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.UserNotLoggedException;
 
 public class CreateSpreadsheetService extends PortalService {
 	
@@ -20,7 +20,7 @@ public class CreateSpreadsheetService extends PortalService {
 	}
 
 	@Override
-	protected void dispatch() throws UserDoesNotExistException, UserNotLoggedException {
+	protected void dispatch() throws UserDoesNotExistException, LoginBubbleDocsException {
 		User u = super.getUser(userToken);
 		
 		u.createSpreadsheet(sheetName, lines, columns);

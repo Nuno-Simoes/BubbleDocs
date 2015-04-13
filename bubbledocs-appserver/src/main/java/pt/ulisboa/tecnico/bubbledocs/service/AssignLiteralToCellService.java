@@ -6,13 +6,13 @@ import pt.ulisboa.tecnico.bubbledocs.domain.Portal;
 import pt.ulisboa.tecnico.bubbledocs.domain.Cell;
 import pt.ulisboa.tecnico.bubbledocs.domain.Spreadsheet;
 import pt.ulisboa.tecnico.bubbledocs.domain.User;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.EmptyUsernameException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidContentException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidPermissionException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidUsernameException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.OutOfBoundsException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.SpreadsheetDoesNotExistException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.UserDoesNotExistException;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.UserNotLoggedException;
 
 public class AssignLiteralToCellService extends PortalService {
 	private String result;
@@ -30,9 +30,9 @@ public class AssignLiteralToCellService extends PortalService {
 	}
 
 	@Override
-	protected void dispatch() throws EmptyUsernameException,
+	protected void dispatch() throws InvalidUsernameException,
 			UserDoesNotExistException, SpreadsheetDoesNotExistException,
-			InvalidPermissionException, UserNotLoggedException {
+			InvalidPermissionException, LoginBubbleDocsException {
 		
 		User u = super.getUser(accessUsername);
 
@@ -43,7 +43,7 @@ public class AssignLiteralToCellService extends PortalService {
 		}
 
 		if (u.getUsername().equals("")) {
-			throw new EmptyUsernameException();
+			throw new InvalidUsernameException();
 		}
 
 		Portal portal = Portal.getInstance();

@@ -21,7 +21,7 @@ import pt.ulisboa.tecnico.bubbledocs.domain.Spreadsheet;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.ExportDocumentException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.ImportDocumentException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidPermissionException;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.UserNotLoggedException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
 import pt.ulisboa.tecnico.bubbledocs.service.AssignLiteralToCellService;
 import pt.ulisboa.tecnico.bubbledocs.service.AssignReferenceCellService;
 import pt.ulisboa.tecnico.bubbledocs.service.CreateSpreadsheetService;
@@ -141,7 +141,7 @@ public class BubbleApplication {
     		ExportDocumentService exportService = new ExportDocumentService(userToken, docId);
     		exportService.execute();
     		return exportService.getResult();
-    	} catch (ExportDocumentException | UserNotLoggedException | 
+    	} catch (ExportDocumentException | LoginBubbleDocsException | 
     		InvalidPermissionException e) {
     		System.err.println("Error in exporting to XML: " + e.getMessage());
     	}

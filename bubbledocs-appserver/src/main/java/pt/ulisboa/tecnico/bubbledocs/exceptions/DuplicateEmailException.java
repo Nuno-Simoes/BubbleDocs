@@ -1,17 +1,17 @@
 package pt.ulisboa.tecnico.bubbledocs.exceptions;
 
-public class WrongPasswordException extends BubbledocsException {
-	
+public class DuplicateEmailException extends BubbledocsException {
+
 	private static final long serialVersionUID = 1L;
 	private String message;
 	 
-    public WrongPasswordException() {
+    public DuplicateEmailException() {
         super();
     }
  
-    public WrongPasswordException (String message) {
+    public DuplicateEmailException (String message) {
         super ();
-        this.message = message + ": incorrect password ";
+        this.message = "email " + message + " already taken";
     }
  
     @Override

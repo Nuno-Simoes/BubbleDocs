@@ -1,13 +1,17 @@
 package pt.ulisboa.tecnico.bubbledocs.exceptions;
 
-public class EmptyUsernameException extends BubbledocsException {
+public class InvalidUsernameException extends BubbledocsException {
 	
 	private static final long serialVersionUID = 1L;
 	private String message;
 	 
-    public EmptyUsernameException() {
+    public InvalidUsernameException() {
         super();
-        this.message = "insert a valid username";
+    }
+ 
+    public InvalidUsernameException (String message) {
+        super ();
+        this.message = "username " + message + " already taken";
     }
  
     @Override

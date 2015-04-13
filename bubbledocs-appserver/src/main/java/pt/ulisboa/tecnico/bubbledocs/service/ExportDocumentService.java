@@ -11,7 +11,7 @@ import pt.ulisboa.tecnico.bubbledocs.domain.User;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.ExportDocumentException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.BubbledocsException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidPermissionException;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.UserNotLoggedException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
 
 public class ExportDocumentService extends PortalService {
     private byte[] docXML;
@@ -29,7 +29,8 @@ public class ExportDocumentService extends PortalService {
 
     @Override
     protected void dispatch() throws BubbledocsException, ExportDocumentException,
-    		UserNotLoggedException, InvalidPermissionException {
+    	LoginBubbleDocsException, InvalidPermissionException {
+    	
     	User u = super.getUser(userToken);
     	Portal p = Portal.getInstance();
     	Spreadsheet s = p.findSpreadsheet(this.docId);

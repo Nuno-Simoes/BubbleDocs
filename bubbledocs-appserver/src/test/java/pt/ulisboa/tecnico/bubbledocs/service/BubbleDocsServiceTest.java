@@ -13,13 +13,11 @@ import pt.ulisboa.tecnico.bubbledocs.domain.RootUser;
 import pt.ulisboa.tecnico.bubbledocs.domain.Session;
 import pt.ulisboa.tecnico.bubbledocs.domain.Spreadsheet;
 import pt.ulisboa.tecnico.bubbledocs.domain.User;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.DuplicateUsernameException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.SpreadsheetDoesNotExistException;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.UserAlreadyExistsException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.UserDoesNotExistException;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.UserNotLoggedException;
 
-
-// add needed import declarations
 
 public class BubbleDocsServiceTest {
 	
@@ -63,7 +61,7 @@ public class BubbleDocsServiceTest {
     // auxiliary methods that access the domain layer and are needed in the test classes
     // for defining the initial state and checking that the service has the expected behavior
     public User createUser(String username, String password, String name) 
-    		throws UserAlreadyExistsException {
+    		throws DuplicateUsernameException {
     	Portal p = Portal.getInstance();
     	RootUser r = RootUser.getInstance();
     	r.addUser(username, name, password);
@@ -108,7 +106,7 @@ public class BubbleDocsServiceTest {
     }
 
     // return the user registered in session whose token is equal to token
-    public User getUserFromSession(String token) throws UserNotLoggedException {
+    public User getUserFromSession(String token) throws LoginBubbleDocsException {
     	Session s = Session.getInstance();
     	User u = s.findUser(token);
     	return u;

@@ -1,9 +1,9 @@
 package pt.ulisboa.tecnico.bubbledocs.domain;
 
 import pt.ist.fenixframework.FenixFramework;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.UserAlreadyExistsException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.DuplicateUsernameException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.UserDoesNotExistException;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.UserNotLoggedException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
 
 public class RootUser extends RootUser_Base {
     
@@ -23,7 +23,7 @@ public class RootUser extends RootUser_Base {
 	}
     
     public void addUser (String username, String name, String password) 
-    		throws UserAlreadyExistsException {
+    		throws DuplicateUsernameException {
     	
     	Portal portal = Portal.getInstance();
     	User user = new User(username, name, password);
@@ -36,7 +36,7 @@ public class RootUser extends RootUser_Base {
     	User u = portal.findUser(username);
     	try {
     		s.removeUser(u.getToken());
-    	} catch (UserNotLoggedException unle) {
+    	} catch (LoginBubbleDocsException le) {
     		//ignore
     	}
     	u.delete();

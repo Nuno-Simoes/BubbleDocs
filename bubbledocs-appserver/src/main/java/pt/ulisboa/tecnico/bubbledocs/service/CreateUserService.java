@@ -2,11 +2,10 @@ package pt.ulisboa.tecnico.bubbledocs.service;
 
 import pt.ulisboa.tecnico.bubbledocs.domain.RootUser;
 import pt.ulisboa.tecnico.bubbledocs.domain.User;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.EmptyUsernameException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.DuplicateUsernameException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidPermissionException;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.UserAlreadyExistsException;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.UserNotLoggedException;
-
+import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidUsernameException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
 
 public class CreateUserService extends PortalService {
 	
@@ -26,10 +25,10 @@ public class CreateUserService extends PortalService {
 
 	@Override
 	protected void dispatch() throws InvalidPermissionException, 
-		UserNotLoggedException, EmptyUsernameException, UserAlreadyExistsException {
+	LoginBubbleDocsException, InvalidUsernameException, DuplicateUsernameException {
 		
 		if(this.newUsername.equals("")) {
-			throw new EmptyUsernameException();
+			throw new InvalidUsernameException();
 		}
 		
 		User u = super.getUser(userToken);

@@ -5,8 +5,8 @@ import pt.ist.fenixframework.FenixFramework;
 import pt.ulisboa.tecnico.bubbledocs.domain.Portal;
 import pt.ulisboa.tecnico.bubbledocs.domain.Session;
 import pt.ulisboa.tecnico.bubbledocs.domain.User;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.PortalException;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.UserNotLoggedException;
 
 public abstract class PortalService {
 	
@@ -19,7 +19,7 @@ public abstract class PortalService {
 		return FenixFramework.getDomainRoot().getPortal();
 	}
 	
-	static User getUser(String token) throws UserNotLoggedException {
+	static User getUser(String token) throws LoginBubbleDocsException {
 		Session s = Session.getInstance();
 		User u = s.findUser(token);
 		

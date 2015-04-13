@@ -4,12 +4,11 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-
 import pt.ulisboa.tecnico.bubbledocs.domain.User;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.EmptyUsernameException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.DuplicateUsernameException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidPermissionException;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.UserAlreadyExistsException;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.UserNotLoggedException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidUsernameException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
 
 public class CreateUserTest extends BubbleDocsServiceTest {
 
@@ -43,14 +42,14 @@ public class CreateUserTest extends BubbleDocsServiceTest {
     }
     
     
-    @Test(expected = UserAlreadyExistsException.class)
+    @Test(expected = DuplicateUsernameException.class)
     public void usernameExists() {
         CreateUserService service = new CreateUserService(root, USERNAME, "jose",
                 "José Ferreira");
         service.execute();
     }
     
-    @Test(expected = EmptyUsernameException.class)
+    @Test(expected = InvalidUsernameException.class)
     public void emptyUsername() {
         CreateUserService service = new CreateUserService(root, "", "jose", "José Ferreira");
         service.execute();
@@ -63,7 +62,7 @@ public class CreateUserTest extends BubbleDocsServiceTest {
         service.execute();
     }
 	
-    @Test(expected = UserNotLoggedException.class)
+    @Test(expected = LoginBubbleDocsException.class)
     public void accessUsernameNotExist() {
         removeUserFromSession(root);
         CreateUserService service = new CreateUserService(root, USERNAME_DOES_NOT_EXIST, "jose",

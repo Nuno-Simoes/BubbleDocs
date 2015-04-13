@@ -1,8 +1,8 @@
 package pt.ulisboa.tecnico.bubbledocs.service.remote;
 
-import pt.ulisboa.tecnico.bubbledocs.exception.CannotStoreDocumentException;
-import pt.ulisboa.tecnico.bubbledocs.exception.CannotLoadDocumentException;
-import pt.ulisboa.tecnico.bubbledocs.exception.RemoteInvocationException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.CannotStoreDocumentException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.CannotLoadDocumentException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.RemoteInvocationException;
 
 public class StoreRemoteServices {
     public void storeDocument(String username, String docName, byte[] document)
@@ -12,4 +12,5 @@ public class StoreRemoteServices {
     public byte[] loadDocument(String username, String docName)
            throws CannotLoadDocumentException, RemoteInvocationException {
        // TODO : the connection and invocation of the remote service
+        return new byte[0];
 } }

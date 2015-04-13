@@ -1,17 +1,13 @@
 package pt.ulisboa.tecnico.bubbledocs.exceptions;
 
-public class UserNotLoggedException extends BubbledocsException {
-	
+public class LoginBubbleDocsException extends BubbledocsException{
+
 	private static final long serialVersionUID = 1L;
 	private String message;
 	 
-    public UserNotLoggedException() {
+    public LoginBubbleDocsException() {
         super();
-    }
- 
-    public UserNotLoggedException (String message) {
-        super ();
-        this.message = "user " + message + " currently logged";
+        this.message = "Invalid username or password";
     }
  
     @Override

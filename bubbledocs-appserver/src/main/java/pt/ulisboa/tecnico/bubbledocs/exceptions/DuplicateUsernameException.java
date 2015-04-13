@@ -1,15 +1,15 @@
 package pt.ulisboa.tecnico.bubbledocs.exceptions;
 
-public class UserAlreadyExistsException extends BubbledocsException {
+public class DuplicateUsernameException extends BubbledocsException {
 	
 	private static final long serialVersionUID = 1L;
 	private String message;
 	 
-    public UserAlreadyExistsException() {
+    public DuplicateUsernameException() {
         super();
     }
  
-    public UserAlreadyExistsException (String message) {
+    public DuplicateUsernameException (String message) {
         super ();
         this.message = "username " + message + " already taken";
     }

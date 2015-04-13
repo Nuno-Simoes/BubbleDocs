@@ -6,8 +6,8 @@ import org.junit.Test;
 
 import pt.ulisboa.tecnico.bubbledocs.domain.Session;
 import pt.ulisboa.tecnico.bubbledocs.domain.User;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.UserDoesNotExistException;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.WrongPasswordException;
 
 // add needed import declarations
 
@@ -69,7 +69,7 @@ public class LoginUserTest extends BubbleDocsServiceTest {
         service.execute();
     }
 
-    @Test(expected = WrongPasswordException.class)
+    @Test(expected = LoginBubbleDocsException.class)
     public void loginUserWithinWrongPassword() {
         LoginUserService service = new LoginUserService(USERNAME, "jp2");
         service.execute();

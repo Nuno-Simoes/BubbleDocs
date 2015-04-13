@@ -2,11 +2,13 @@ package pt.ulisboa.tecnico.bubbledocs.service;
 
 import pt.ulisboa.tecnico.bubbledocs.domain.RootUser;
 import pt.ulisboa.tecnico.bubbledocs.domain.User;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.EmptyUsernameException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.DuplicateUsernameException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidUsernameException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.RemoteInvocationException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidPermissionException;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.UserAlreadyExistsException;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.UserNotLoggedException;
-
+import pt.ulisboa.tecnico.bubbledocs.exceptions.UnavailableServiceException;
+import pt.ulisboa.tecnico.bubbledocs.service.remote.IDRemoteServices;
 
 public class RemoveUserService extends PortalService {
 	private String userToken;
@@ -19,16 +21,22 @@ public class RemoveUserService extends PortalService {
 
 	@Override
 	protected void dispatch() throws InvalidPermissionException, 
-	UserNotLoggedException, EmptyUsernameException, UserAlreadyExistsException {
+	LoginBubbleDocsException, DuplicateUsernameException {
 		
 		if(this.username.equals("")) {
-			throw new EmptyUsernameException();
+			throw new InvalidUsernameException();
 		}
 		
 		User u = getUser(userToken);
 		
 		if (u instanceof RootUser) {
-			((RootUser) u).removeUser(this.username);
+			try {
+				IDRemoteServices remove = new IDRemoteServices();
+				remove.removeUser(username);
+				((RootUser) u).removeUser(this.username);
+			} catch (RemoteInvocationException rie) {
+				throw new UnavailableServiceException();
+			}
 		} else {
 			throw new InvalidPermissionException(this.username);
 		}

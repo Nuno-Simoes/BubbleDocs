@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pt.ist.fenixframework.FenixFramework;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.DuplicateUsernameException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.SpreadsheetDoesNotExistException;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.UserAlreadyExistsException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.UserDoesNotExistException;
 
 public class Portal extends Portal_Base {
@@ -145,11 +145,11 @@ public class Portal extends Portal_Base {
     }
     
     @Override
-    public void addUsers(User user) throws UserAlreadyExistsException {
+    public void addUsers(User user) throws DuplicateUsernameException {
     	
     	for (User u : this.getUsersSet()) {
     		if (u.getUsername().equals(user.getUsername())) {
-    			throw new UserAlreadyExistsException(user.getUsername());
+    			throw new DuplicateUsernameException(user.getUsername());
     		}
     	}
     	

@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Random;
 
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidPermissionException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.UnavailableServiceException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.UserDoesNotExistException;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.UserNotLoggedException;
-import pt.ulisboa.tecnico.bubbledocs.exception.LoginBubbleDocsException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
 
 
 public class Session extends Session_Base {
@@ -84,34 +84,34 @@ public class Session extends Session_Base {
 			activeSessions.add(u);
 			
 		} else {
-			throw new LoginBubbleDocsException(username, password);
+			throw new LoginBubbleDocsException();
 		}
 	}
 	
 	
-	public void removeUser(String token) throws LoginBubbleDocsExeption {
+	public void removeUser(String token) throws LoginBubbleDocsException {
 		User u = this.findUser(token);
 		u.setToken(null);
 		u.setSessionTime(0);
 		activeSessions.remove(u);
 	}
 	
-	public User findUser(String token) throws LoginBubbleDocsExeption {
+	public User findUser(String token) throws LoginBubbleDocsException {
     	for (User u : activeSessions) {
     		if (u.getToken().equals(token)) {
     			return u;
     		}
     	}
-    	throw new LoginBubbleDocsExeption(token);
+    	throw new LoginBubbleDocsException();
     }
 	
-	public User findUserByUsername(String username) throws LoginBubbleDocsExeption {
+	public User findUserByUsername(String username) throws LoginBubbleDocsException {
 		for (User u : activeSessions) {
     		if (u.getUsername().equals(username)) {
     			return u;
     		}
     	}
-    	throw new LoginBubbleDocsExeption(username);
+    	throw new LoginBubbleDocsException();
 	}
 	
 	private boolean isAlreadyLogged(String username) {

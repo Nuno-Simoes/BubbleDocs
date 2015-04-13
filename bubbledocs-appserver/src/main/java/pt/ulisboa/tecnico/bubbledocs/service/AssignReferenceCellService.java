@@ -8,7 +8,7 @@ import pt.ulisboa.tecnico.bubbledocs.domain.Permission;
 import pt.ulisboa.tecnico.bubbledocs.domain.Portal;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidContentException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidPermissionException;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.UserNotLoggedException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
 
 public class AssignReferenceCellService extends PortalService {
 	
@@ -28,7 +28,7 @@ public class AssignReferenceCellService extends PortalService {
     }
 
     @Override
-    protected void dispatch() throws InvalidPermissionException, UserNotLoggedException {
+    protected void dispatch() throws InvalidPermissionException, LoginBubbleDocsException {
     	User u = getUser(tokenUser);
     	Portal p = Portal.getInstance();
     	Spreadsheet s = p.findSpreadsheet(sheetId);

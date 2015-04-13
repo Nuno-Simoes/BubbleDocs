@@ -11,6 +11,7 @@ import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidPermissionException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.OutOfBoundsException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.SpreadsheetDoesNotExistException;
 
+
 public class AssignLiteralToCellServiceTest extends BubbleDocsServiceTest {
 
     // the tokens
