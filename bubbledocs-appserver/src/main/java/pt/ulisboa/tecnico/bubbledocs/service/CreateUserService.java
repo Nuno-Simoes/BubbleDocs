@@ -7,6 +7,7 @@ import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidPermissionException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidUsernameException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.RemoteInvocationException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.UnavailableServiceException;
 import pt.ulisboa.tecnico.bubbledocs.service.remote.IDRemoteServices;
 
 public class CreateUserService extends PortalService {
@@ -28,26 +29,25 @@ public class CreateUserService extends PortalService {
 	@Override
 	protected void dispatch() throws InvalidPermissionException, 
 		LoginBubbleDocsException, InvalidUsernameException, DuplicateUsernameException {
-
+			
+		if(this.newUsername.equals("")) {
+			throw new InvalidUsernameException();
+		}
+			
 		try {
 			IDRemoteServices service = new IDRemoteServices();
 			service.createUser(newUsername, email);
-
-			if(this.newUsername.equals("")) {
-				throw new InvalidUsernameException();
-			}
-
-			User u = super.getUser(userToken);
-
-			if (u instanceof RootUser) {
-				((RootUser) u).addUser(newUsername, name, 
-						email);
-			} else {
-				throw new InvalidPermissionException(newUsername);
-			}
-		} catch (RemoteInvocationException rie) {
-		} /*finally {
+		} catch( RemoteInvocationException rie) {
 			throw new UnavailableServiceException();
-		}*/
+		}
+			
+		User u = super.getUser(userToken);
+		if (u instanceof RootUser) {
+			((RootUser) u).addUser(newUsername, name, 
+					email);
+		} else {
+			throw new InvalidPermissionException(newUsername);
+		}
+
 	}
 }

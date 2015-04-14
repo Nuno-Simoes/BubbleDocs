@@ -1,7 +1,5 @@
 package pt.ulisboa.tecnico.bubbledocs.service.remote;
 
-import pt.ulisboa.tecnico.bubbledocs.domain.Portal;
-import pt.ulisboa.tecnico.bubbledocs.domain.User;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.DuplicateEmailException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.DuplicateUsernameException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidEmailException;
@@ -20,17 +18,16 @@ public class IDRemoteServices {
     public void loginUser(String username, String password)
            throws LoginBubbleDocsException, RemoteInvocationException {
        // TODO : the connection and invocation of the remote service
-    	Portal portal = Portal.getInstance();
-    	User u = portal.findUser(username);
-    	if ((u.getPassword())!=password) {
-    		u.setPassword(password);
-    	}
-}
+    	
+    }
+    
     public void removeUser(String username)
            throws LoginBubbleDocsException, RemoteInvocationException {
        // TODO : the connection and invocation of the remote service
-}
+    }
+    
    public void renewPassword(String username)
            throws LoginBubbleDocsException, RemoteInvocationException {
        // TODO : the connection and invocation of the remote service
-} }
+   } 
+}

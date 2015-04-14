@@ -20,7 +20,9 @@ public class LoginUserService extends PortalService {
 
 	@Override
 	protected void dispatch() throws InvalidPermissionException, 
-		LoginBubbleDocsException, RemoteInvocationException {
+		LoginBubbleDocsException, RemoteInvocationException,
+		UnavailableServiceException {
+		
 		try {
 			IDRemoteServices service = new IDRemoteServices();
 			service.loginUser(username, password);
@@ -28,9 +30,7 @@ public class LoginUserService extends PortalService {
 			Session s = Session.getInstance();
 			s.login(username, password);
 			this.userToken = s.findUserByUsername(username).getToken();
-		} /* finally {
-			throw new UnavailableServiceException();
-		}*/
+		} 		
 	}
 
 	public final String getUserToken() {

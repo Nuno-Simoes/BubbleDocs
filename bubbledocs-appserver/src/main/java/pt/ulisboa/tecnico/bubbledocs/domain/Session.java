@@ -64,7 +64,9 @@ public class Session extends Session_Base {
 		Portal p = Portal.getInstance();
 		User u = p.findUser(username);
 		
-		if ((u.getPassword()).equals(null)) {
+		try {
+			u.getPassword();  
+			} catch ( NullPointerException npe) {
 			throw new UnavailableServiceException();
 		}
 		
@@ -84,7 +86,7 @@ public class Session extends Session_Base {
 			activeSessions.add(u);
 			
 		} else {
-			throw new LoginBubbleDocsException();
+			throw new UnavailableServiceException();
 		}
 	}
 	
