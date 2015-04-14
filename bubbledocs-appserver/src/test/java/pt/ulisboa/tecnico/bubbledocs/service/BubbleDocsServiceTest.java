@@ -60,11 +60,12 @@ public class BubbleDocsServiceTest {
 
     // auxiliary methods that access the domain layer and are needed in the test classes
     // for defining the initial state and checking that the service has the expected behavior
-    public User createUser(String username, String password, String name) 
+    public User createUser(String username, String name, String email) 
     		throws DuplicateUsernameException {
     	Portal p = Portal.getInstance();
     	RootUser r = RootUser.getInstance();
-    	r.addUser(username, name, password);
+    	r.addUser(username, name, email);
+    	
     	return p.findUser(username);
     }
 

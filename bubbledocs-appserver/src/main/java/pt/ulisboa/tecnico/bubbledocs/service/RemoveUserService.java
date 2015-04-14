@@ -21,7 +21,8 @@ public class RemoveUserService extends PortalService {
 
 	@Override
 	protected void dispatch() throws InvalidPermissionException, 
-	LoginBubbleDocsException, DuplicateUsernameException {
+		LoginBubbleDocsException, DuplicateUsernameException,
+		UnavailableServiceException {
 		
 		if(this.username.equals("")) {
 			throw new InvalidUsernameException();
