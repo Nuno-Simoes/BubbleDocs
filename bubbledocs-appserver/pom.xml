@@ -90,6 +90,12 @@
             <version>${version.fenixframework}</version>
         </dependency>
         <dependency>
+   			<groupId>mockit</groupId>
+   			<artifactId>jmockit</artifactId>
+   			<version>0.999</version>
+   			<scope>test</scope>
+		</dependency>
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>${version.junit}</version>
