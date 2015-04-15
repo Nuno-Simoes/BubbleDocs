@@ -18,6 +18,7 @@ import pt.ulisboa.tecnico.bubbledocs.domain.Literal;
 import pt.ulisboa.tecnico.bubbledocs.domain.Portal;
 import pt.ulisboa.tecnico.bubbledocs.domain.Reference;
 import pt.ulisboa.tecnico.bubbledocs.domain.Spreadsheet;
+import pt.ulisboa.tecnico.bubbledocs.domain.User;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.ExportDocumentException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.ImportDocumentException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidPermissionException;
@@ -43,24 +44,24 @@ public class BubbleApplication {
 		portal.listUsers();
 		int id = 0;
 		
-		for (Spreadsheet s : portal.listSpreadsheets("pf")) {
+		for (Spreadsheet s : portal.listSpreadsheets("pfsss")) {
 			System.out.println(s.getName());
 			id = s.getId();
 		}
 		
-		for (Spreadsheet s : portal.listSpreadsheets("ra")) {
+		for (Spreadsheet s : portal.listSpreadsheets("rasss")) {
 			System.out.println(s.getName());
 		}
 		
-		LoginUserService login = new LoginUserService("pf", "sub");
+		LoginUserService login = new LoginUserService("pfsss", "sub");
 		login.execute();
 		String userToken = login.getUserToken();
 				
 		byte[] file = convertToXML(userToken, id);
 		
-		portal.removeSpreadsheet("pf", "Notas ES");
+		portal.removeSpreadsheet("pfsss", "Notas ES");
 		
-    	for (Spreadsheet s : portal.listSpreadsheets("pf")) {
+    	for (Spreadsheet s : portal.listSpreadsheets("pfsss")) {
     		System.out.print("Name: " + s.getName());
     		System.out.println(", Id: " + s.getId());
     	}
@@ -79,7 +80,6 @@ public class BubbleApplication {
     private static void setupIfNeed(Portal portal) {
     		String root = null;
 
-
     		try {
     			LoginUserService service  = new LoginUserService("root", "rootroot");
     			service.execute();
@@ -88,13 +88,18 @@ public class BubbleApplication {
     			System.err.println("Error in login " + ie.getMessage());
     		}
 
-    		CreateUserService createUser1 = new CreateUserService(root, "pf", "sub", "Paul Door");
+    		CreateUserService createUser1 = new CreateUserService(root, "pfsss", "pf@pf.com", "Paul Door");
     		createUser1.execute();
 
-    		CreateUserService createUser2 = new CreateUserService(root, "ra", "cor", "Step Rabbit");
+    		CreateUserService createUser2 = new CreateUserService(root, "rasss", "ra@ra.com", "Step Rabbit");
     		createUser2.execute();
-
-    		LoginUserService login = new LoginUserService("pf", "sub");
+    		
+    		Portal p = Portal.getInstance();
+    		
+    		User pf = p.findUser("pfsss");
+    		pf.setPassword("sub");
+    		
+    		LoginUserService login = new LoginUserService("pfsss", "sub");
     		login.execute();
     		String user = login.getUserToken();
     		

@@ -106,7 +106,7 @@ public class CreateUserServiceTest extends BubbleDocsServiceTest {
     		result = new RemoteInvocationException();
     	}};
     	
-    	new CreateUserService(root, USERNAME_DOES_NOT_EXIST, EMAIL, NAME);
+    	new CreateUserService(root, USERNAME_DOES_NOT_EXIST, EMAIL, NAME).execute();
     	
     }
     

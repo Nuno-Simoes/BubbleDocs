@@ -9,7 +9,7 @@ import pt.ulisboa.tecnico.bubbledocs.domain.Spreadsheet;
 import pt.ulisboa.tecnico.bubbledocs.domain.User;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.*;
 
-public class CreateSpreadsheetTest extends BubbleDocsServiceTest {
+public class CreateSpreadsheetServiceTest extends BubbleDocsServiceTest {
 	
 	private String lars;
 	

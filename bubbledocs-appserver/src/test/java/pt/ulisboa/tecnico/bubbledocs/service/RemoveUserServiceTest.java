@@ -120,7 +120,7 @@ public class RemoveUserServiceTest extends BubbleDocsServiceTest {
      
     @Mocked IDRemoteServices remote;
     @Test(expected = UnavailableServiceException.class)
-    public void UnavailableService() {
+    public void unavailableService() {
     	
     	new Expectations() {{
     		remote.removeUser(anyString); 

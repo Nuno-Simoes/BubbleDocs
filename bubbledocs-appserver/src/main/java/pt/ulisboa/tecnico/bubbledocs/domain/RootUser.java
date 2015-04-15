@@ -4,7 +4,6 @@ import pt.ist.fenixframework.FenixFramework;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.DuplicateUsernameException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidUsernameException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.UserDoesNotExistException;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
 
 public class RootUser extends RootUser_Base {
     
@@ -21,6 +20,9 @@ public class RootUser extends RootUser_Base {
 		this.setName("Super User");
 		this.setUsername("root");
 		this.setPassword("rootroot");
+		this.setIsInSession(false);
+		this.setSessionTime(0);
+		this.setToken(null);
 	}    
 
     public void addUser (String username, String name, String email) 
@@ -37,13 +39,7 @@ public class RootUser extends RootUser_Base {
     
     public void removeUser (String username) throws UserDoesNotExistException {
     	Portal portal = Portal.getInstance();
-    	Session s = Session.getInstance();
     	User u = portal.findUser(username);
-    	try {
-    		s.removeUser(u.getToken());
-    	} catch (LoginBubbleDocsException le) {
-    		//ignore
-    	}
     	u.delete();
     	portal.removeUsers(u);
     }

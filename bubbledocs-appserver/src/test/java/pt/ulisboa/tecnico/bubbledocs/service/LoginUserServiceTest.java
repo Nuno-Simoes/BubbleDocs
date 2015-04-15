@@ -7,9 +7,7 @@ import mockit.Mocked;
 import org.junit.Test;
 
 import pt.ulisboa.tecnico.bubbledocs.domain.Portal;
-import pt.ulisboa.tecnico.bubbledocs.domain.Session;
 import pt.ulisboa.tecnico.bubbledocs.domain.User;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.RemoteInvocationException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.UnavailableServiceException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.UserDoesNotExistException;
@@ -36,8 +34,8 @@ public class LoginUserServiceTest extends BubbleDocsServiceTest {
     // returns the time of the last access for the user with token userToken.
     // It must get this data from the session object of the application
     private float getLastAccessTimeInSession(String userToken) {
-    	Session s = Session.getInstance();
-    	User u = s.findUser(userToken);
+    	Portal p = Portal.getInstance();
+    	User u = p.findUserByToken(userToken);
     	return u.getSessionTime();
     }
     
@@ -47,8 +45,10 @@ public class LoginUserServiceTest extends BubbleDocsServiceTest {
         service.execute();
         
         String token = service.getUserToken();
-
-        User user = getUserFromSession(service.getUserToken());
+        
+        System.out.println(token);
+        
+        User user = getUserFromSession(token);
         assertEquals(USERNAME, user.getUsername());
         	
         float difference = (getLastAccessTimeInSession(token) - (float) (System.currentTimeMillis()/3600000));
@@ -58,21 +58,19 @@ public class LoginUserServiceTest extends BubbleDocsServiceTest {
     }
     
     @Test
-    public void successLoginTwice() {
-    	Session s = Session.getInstance();
-    	
+    public void successLoginTwice() {    	
         LoginUserService service = new LoginUserService(USERNAME, PASSWORD);
-
+        
         service.execute();
         String token1 = service.getUserToken();
-
+        User user1 = getUserFromSession(token1);
+        
         service.execute();
         String token2 = service.getUserToken();
+        User user2 = getUserFromSession(token2);
         
-        
-        assertFalse(s.isTokenActive(token1));
-        User user = getUserFromSession(token2);
-        assertEquals(USERNAME, user.getUsername());
+        assertEquals(USERNAME, user1.getUsername());
+        assertEquals(USERNAME, user2.getUsername());
     }
     
     @Test
@@ -82,18 +80,12 @@ public class LoginUserServiceTest extends BubbleDocsServiceTest {
     	LoginUserService service = new LoginUserService(USERNAME, NEW_PASSWORD);
     	service.execute();
     	
-    	assertEquals(ars.getPassword(), NEW_PASSWORD);
+    	assertEquals(NEW_PASSWORD, ars.getPassword());
     }
 
     @Test(expected = UserDoesNotExistException.class)
     public void loginUnknownUser() {
     	LoginUserService service = new LoginUserService(USERNAME_DOES_NOT_EXIST, PASSWORD);
-        service.execute();
-    }
-
-    @Test(expected = LoginBubbleDocsException.class)
-    public void loginUserWithinWrongPassword() {
-        LoginUserService service = new LoginUserService(USERNAME, WRONG_PASSWORD);
         service.execute();
     }
         
@@ -108,8 +100,19 @@ public class LoginUserServiceTest extends BubbleDocsServiceTest {
     		result = new RemoteInvocationException();
     	}};
     	
-    	new LoginUserService(USERNAME, WRONG_PASSWORD);
+    	new LoginUserService(USERNAME, WRONG_PASSWORD).execute();
     	
+    }
+    
+    @Test(expected = UnavailableServiceException.class)
+    public void loginUserWithinWrongPassword() {
+    	new Expectations() {{
+    		remote.loginUser(anyString, anyString);
+    		result = new RemoteInvocationException();
+    	}};
+ 
+        LoginUserService service = new LoginUserService(USERNAME, WRONG_PASSWORD);
+        service.execute();
     }
     
     @Test

@@ -2,14 +2,26 @@ package pt.ulisboa.tecnico.bubbledocs.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import pt.ist.fenixframework.FenixFramework;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.DuplicateUsernameException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidPermissionException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.SpreadsheetDoesNotExistException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.UnavailableServiceException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.UserDoesNotExistException;
 
 public class Portal extends Portal_Base {
     
+	final long oneHours = 3600000;
+	
+	private Portal() {
+		FenixFramework.getDomainRoot().setPortal(this);
+		this.setUserId(0);
+		this.setSheetId(0);
+	}
+	
 	public static Portal getInstance() {
 		Portal portal = FenixFramework.getDomainRoot().getPortal();
 		if (portal == null) {
@@ -31,12 +43,6 @@ public class Portal extends Portal_Base {
 		}
 		
 		return portal;
-	}
-
-	private Portal() {
-		FenixFramework.getDomainRoot().setPortal(this);
-		this.setUserId(0);
-		this.setSheetId(0);
 	}
 	
 	public List<Spreadsheet> listSpreadsheets (String username) {
@@ -166,4 +172,74 @@ public class Portal extends Portal_Base {
     	s.importFromXML(element);
     	return s;
     }
+    
+    private void createToken(User user) {
+    	Random rand = new Random();
+    	int low = 0;
+    	int high = 9;
+    	int r = rand.nextInt(high-low) + low;
+	   
+    	user.setToken(user.getUsername().concat(Integer.toString(r)));
+    }
+    
+    private void setSessionTime(User user) {
+		float currentTime = (float) (System.currentTimeMillis()/oneHours);
+		user.setSessionTime(currentTime);
+	}
+    
+    public void localLogin(String username, String password)
+    	throws InvalidPermissionException, UserDoesNotExistException,
+    	LoginBubbleDocsException, UnavailableServiceException {
+    		
+    	User u = this.findUser(username);
+    		
+    	try{
+    		u.getPassword();
+    	} catch ( NullPointerException npe) {
+    		throw new UnavailableServiceException();
+    	}
+    	
+    	if (u.getUsername().equals(username) 
+    			&& u.getPassword().equals(password)) {
+    		this.login(username, password);
+    	} else {
+    		throw new UnavailableServiceException();
+    	}
+    }
+    
+    public void login(String username, String password) 
+    	throws UserDoesNotExistException {
+    	
+    	User user = this.findUser(username);
+    	if(user.getIsInSession()) {
+    		user.setToken(null);
+    	}
+    	this.createToken(user);
+    	this.setSessionTime(user);
+    	user.setIsInSession(true);
+    }
+    
+    public void logout(User u) {
+    	u.setSessionTime(0);
+    	u.setIsInSession(false);
+    	u.setToken(null);
+    }
+    
+    public User findUserByToken(String token) throws LoginBubbleDocsException {
+    	for (User u : this.getUsersSet()) {
+    		if ((!(u.getToken() == null)) && (u.getToken().equals(token))) {
+    			return u;
+    		}
+    	}
+    	throw new LoginBubbleDocsException();
+    }
+	
+	public User findUserByUsername(String username) throws LoginBubbleDocsException {
+		for (User u : this.getUsersSet()) {
+    		if (u.getUsername().equals(username)) {
+    			return u;
+    		}
+    	}
+    	throw new LoginBubbleDocsException();
+	}  
 }

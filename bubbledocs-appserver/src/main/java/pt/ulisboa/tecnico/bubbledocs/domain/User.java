@@ -24,6 +24,9 @@ public class User extends User_Base {
 	   this.setUsername(username);
 	   this.setName(name);
 	   this.setEmail(email);
+	   this.setSessionTime(0);
+	   this.setIsInSession(false);
+	   this.setToken(null);
    }
    
    public void listSpreadsheets (List<Spreadsheet> list, String str) {
