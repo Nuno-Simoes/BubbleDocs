@@ -2,6 +2,7 @@ package pt.ulisboa.tecnico.bubbledocs.domain;
 
 import pt.ist.fenixframework.FenixFramework;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.DuplicateUsernameException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidUsernameException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.UserDoesNotExistException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
 
@@ -23,7 +24,11 @@ public class RootUser extends RootUser_Base {
 	}    
 
     public void addUser (String username, String name, String email) 
-    		throws DuplicateUsernameException {
+    		throws DuplicateUsernameException, InvalidUsernameException {
+    	
+    	if (username.equals("") || username.length() < 3 || username.length() > 8) {
+ 		   throw new InvalidUsernameException();
+ 	   }
     	
     	Portal portal = Portal.getInstance();
     	User user = new User(username, name, email);

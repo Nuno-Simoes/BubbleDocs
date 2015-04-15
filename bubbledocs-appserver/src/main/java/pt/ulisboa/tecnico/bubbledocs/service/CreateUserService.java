@@ -30,10 +30,6 @@ public class CreateUserService extends PortalService {
 	protected void dispatch() throws InvalidPermissionException, 
 		LoginBubbleDocsException, InvalidUsernameException, DuplicateUsernameException {
 			
-		if(this.newUsername.equals("")) {
-			throw new InvalidUsernameException();
-		}
-			
 		try {
 			IDRemoteServices service = new IDRemoteServices();
 			service.createUser(newUsername, email);
