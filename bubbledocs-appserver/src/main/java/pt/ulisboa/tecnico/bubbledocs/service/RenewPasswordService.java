@@ -17,13 +17,14 @@ public class RenewPasswordService extends PortalService {
 
 	@Override
 	protected void dispatch() throws InvalidPermissionException, 
-		LoginBubbleDocsException, DuplicateUsernameException {
+		LoginBubbleDocsException, DuplicateUsernameException,
+		UnavailableServiceException {
 		
 		User u = getUser(userToken);
 		
 		try {
 			IDRemoteServices renew = new IDRemoteServices();
-			renew.removeUser(u.getUsername());
+			renew.renewPassword(u.getToken());
 			u.setPassword(null);
 		} catch (RemoteInvocationException rie) {
 			throw new UnavailableServiceException();

@@ -45,9 +45,7 @@ public class LoginUserServiceTest extends BubbleDocsServiceTest {
         service.execute();
         
         String token = service.getUserToken();
-        
-        System.out.println(token);
-        
+                
         User user = getUserFromSession(token);
         assertEquals(USERNAME, user.getUsername());
         	

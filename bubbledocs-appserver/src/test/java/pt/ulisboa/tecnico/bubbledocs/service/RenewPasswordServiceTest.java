@@ -8,8 +8,8 @@ import org.junit.Test;
 
 import pt.ulisboa.tecnico.bubbledocs.domain.User;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.RemoteInvocationException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.UnavailableServiceException;
 import pt.ulisboa.tecnico.bubbledocs.service.remote.IDRemoteServices;
-
 
 public class RenewPasswordServiceTest extends BubbleDocsServiceTest {
 	
@@ -33,25 +33,24 @@ public class RenewPasswordServiceTest extends BubbleDocsServiceTest {
     	service.execute();
     	User user = getUserFromSession(logars);
     	
-    	try{
-    		user.getPassword();
-    	}catch(NullPointerException npe){
+    	if(user.getPassword() == null) {
     		pass = true;
     	}
+    		
     	assertTrue("Local copy was not set invalid" , pass);
     }
 	
 	
-	@Mocked
-	IDRemoteServices remote;
-	@Test
-	public void UnavailableService(){
-		new Expectations() {{
-			remote.renewPassword(anyString);
-			result= new RemoteInvocationException();
-		}};
-		
-		new RenewPasswordService(logars).execute();
-	}
+	@Mocked IDRemoteServices remote;
+    @Test(expected = UnavailableServiceException.class)
+    public void unavailableService() {
+    	
+    	new Expectations() {{
+    		remote.renewPassword(anyString); 
+    		result = new RemoteInvocationException();
+    	}};
+    	
+        new RenewPasswordService(logars).execute();
+    }
 
 }
