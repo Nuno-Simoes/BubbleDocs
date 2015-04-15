@@ -1,12 +1,17 @@
 package pt.ulisboa.tecnico.bubbledocs.service;
 
 import static org.junit.Assert.assertEquals;
+import mockit.Expectations;
+import mockit.Mocked;
 
 import org.junit.Test;
 
 import pt.ulisboa.tecnico.bubbledocs.domain.Spreadsheet;
 import pt.ulisboa.tecnico.bubbledocs.domain.User;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidPermissionException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.RemoteInvocationException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.UnavailableServiceException;
+import pt.ulisboa.tecnico.bubbledocs.service.remote.StoreRemoteServices;
 
 
 public class ExportDocumentServiceTest extends BubbleDocsServiceTest {
@@ -79,6 +84,15 @@ public class ExportDocumentServiceTest extends BubbleDocsServiceTest {
     }
     
     
-	
-
+    @Mocked StoreRemoteServices remote1;
+    @Test(expected = UnavailableServiceException.class)
+    public void UnavailableService() {
+    	
+    	new Expectations() {{
+    		remote1.storeDocument(anyString, anyString, withNotNull()); 
+    		result = new RemoteInvocationException();
+    	}};
+    	
+        new ExportDocumentService("ars", id).execute();
+    }
 }

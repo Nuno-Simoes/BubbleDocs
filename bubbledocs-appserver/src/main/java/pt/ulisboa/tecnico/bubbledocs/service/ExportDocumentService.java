@@ -12,6 +12,9 @@ import pt.ulisboa.tecnico.bubbledocs.exceptions.ExportDocumentException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.BubbledocsException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidPermissionException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.RemoteInvocationException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.UnavailableServiceException;
+import pt.ulisboa.tecnico.bubbledocs.service.remote.StoreRemoteServices;
 
 public class ExportDocumentService extends PortalService {
     private byte[] docXML;
@@ -50,6 +53,16 @@ public class ExportDocumentService extends PortalService {
 	        }
     	} else {
     		throw new InvalidPermissionException(u.getUsername());
+    	}
+    	
+      	String userName = u.getUsername();
+    	String docName = s.getName();
+    	
+    	try {
+    		StoreRemoteServices service = new StoreRemoteServices();
+    		service.storeDocument(userName, docName, docXML);
+    	} catch (RemoteInvocationException rie){
+    		throw new UnavailableServiceException();
     	}
     }
 
