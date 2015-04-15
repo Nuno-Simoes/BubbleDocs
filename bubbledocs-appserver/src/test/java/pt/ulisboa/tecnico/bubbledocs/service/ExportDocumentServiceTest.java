@@ -17,10 +17,10 @@ import pt.ulisboa.tecnico.bubbledocs.service.remote.StoreRemoteServices;
 public class ExportDocumentServiceTest extends BubbleDocsServiceTest {
 	
 	// the tokens
-    private String ars;
-    private String sam;
-    private String ton;
-    private String mik;
+    private String lars;
+    private String lsam;
+    private String lton;
+    private String lmik;
     private int id;
     
     private static final String USERNAME = "ars";
@@ -40,16 +40,16 @@ public class ExportDocumentServiceTest extends BubbleDocsServiceTest {
     	id = s.getId();
     	u.modifyPermissions(u1.getUsername(), id, true, false);
     	u.modifyPermissions(u2.getUsername(), id, false, true);
-    	ars = addUserToSession("ars");
-    	sam = addUserToSession("sam");
-    	ton = addUserToSession("ton");
-    	mik = addUserToSession("mik");
+    	lars = addUserToSession("ars");
+    	lsam = addUserToSession("sam");
+    	lton = addUserToSession("ton");
+    	lmik = addUserToSession("mik");
     	
     }
     
     @Test
     public void success() {
-    	ExportDocumentService service = new ExportDocumentService(ars,id);
+    	ExportDocumentService service = new ExportDocumentService(lars,id);
         service.execute();
         byte[] result = service.getResult();
         ImportSpreadsheetService service1 = new ImportSpreadsheetService(result);
@@ -66,20 +66,20 @@ public class ExportDocumentServiceTest extends BubbleDocsServiceTest {
     
     @Test
     public void success1() {
-    	ExportDocumentService service = new ExportDocumentService(sam,id);
+    	ExportDocumentService service = new ExportDocumentService(lsam,id);
         service.execute();
     }
     
     @Test
     public void success2() {
-    	ExportDocumentService service = new ExportDocumentService(ton,id);
+    	ExportDocumentService service = new ExportDocumentService(lton,id);
         service.execute();
     }
     
     
     @Test(expected = InvalidPermissionException.class)
     public void invalidPermission() {
-    	ExportDocumentService service = new ExportDocumentService(mik,id);
+    	ExportDocumentService service = new ExportDocumentService(lmik,id);
         service.execute();
     }
     
@@ -93,6 +93,6 @@ public class ExportDocumentServiceTest extends BubbleDocsServiceTest {
     		result = new RemoteInvocationException();
     	}};
     	
-        new ExportDocumentService("ars", id).execute();
+        new ExportDocumentService(lars, id).execute();
     }
 }
