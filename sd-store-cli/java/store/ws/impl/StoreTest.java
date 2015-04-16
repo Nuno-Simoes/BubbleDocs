@@ -8,8 +8,6 @@ public class StoreTest {
 	String name = "SdStore";
 	SDStore port;
 		    	
-    // static members
-    // one-time initialization and clean-up
     @BeforeClass
     public static void oneTimeSetUp() {
     	UDDINaming uddiNaming = new UDDINaming(uddiURL);
@@ -23,8 +21,6 @@ public class StoreTest {
     	
     }
 
-    // members
-    // initialization and clean-up for each test
     @Before
     public void setUp() {}
 
