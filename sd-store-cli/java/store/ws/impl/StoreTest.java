@@ -6,22 +6,22 @@ public class StoreTest {
 
 	String uddiURL = "http://localhost:8081";
 	String name = "SdStore";
-	
-	<ws.url>http://localhost:8080/store-ws/endpoint</ws.url>
-	    	
+	SDStore port;
+		    	
     // static members
     // one-time initialization and clean-up
     @BeforeClass
     public static void oneTimeSetUp() {
     	UDDINaming uddiNaming = new UDDINaming(uddiURL);
     	String endpointAdress = uddiNaming.lookup(name);
+    	SDStore_Service service = new SDStore_Service();
+    	port = service.getSDStoreImplPort();
     }
 
     @AfterClass
     public static void oneTimeTearDown() {
-
+    	
     }
-
 
     // members
     // initialization and clean-up for each test
@@ -30,5 +30,4 @@ public class StoreTest {
 
     @After
     public void tearDown() {}
-
 }
