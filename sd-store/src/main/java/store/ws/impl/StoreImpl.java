@@ -16,7 +16,6 @@ import pt.ulisboa.tecnico.sdis.store.ws.SDStore;
 import pt.ulisboa.tecnico.sdis.store.ws.UserDoesNotExist;
 import pt.ulisboa.tecnico.sdis.store.ws.UserDoesNotExist_Exception;
 
-// endpointInterface="http://localhost:8080/store-ws/endpoint"
 @WebService(
 		endpointInterface="pt.ulisboa.tecnico.sdis.store.ws.SDStore",
 		wsdlLocation="SD-STORE.1_1.wsdl",
