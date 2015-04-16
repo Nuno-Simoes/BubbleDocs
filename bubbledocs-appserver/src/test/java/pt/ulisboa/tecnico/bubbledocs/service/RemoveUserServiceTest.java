@@ -27,20 +27,28 @@ public class RemoveUserServiceTest extends BubbleDocsServiceTest {
     private static final String ROOT_USERNAME = "root";
     private static final String USERNAME_DOES_NOT_EXIST = "no-one";
     private static final String SPREADSHEET_NAME = "spread";
-
-    // the tokens for user root
+    private static final String NOT_LOGGED_USERNAME = "zecabra";
+    private static final String NOT_LOGGED_NAME = "José Cabra";
+    private static final String NOT_LOGGED_EMAIL = "zecabra@deixeitudoporela.pt";
+    
     private String root;
+    private String logzecabra;
     
     @Override
     public void populate4Test() {
         User ars = createUser(USERNAME, NAME, EMAIL);
         ars.setPassword(PASSWORD);
         
-        User smf = createUser(USERNAME_TO_DELETE, NAME_TO_DELETE, EMAIL_TO_DELETE);
+        User smf = createUser(USERNAME_TO_DELETE,
+        		NAME_TO_DELETE, EMAIL_TO_DELETE);
         smf.setPassword(PASSWORD);
+        
+        User zecabra = createUser(NOT_LOGGED_USERNAME,
+        		NOT_LOGGED_NAME, NOT_LOGGED_EMAIL);
         
         createSpreadSheet(smf, USERNAME_TO_DELETE, 20, 20);
         
+        logzecabra = zecabra.getToken();
         root = addUserToSession(ROOT_USERNAME);
     };
     
@@ -85,6 +93,13 @@ public class RemoveUserServiceTest extends BubbleDocsServiceTest {
         	deleted = true;
         }
         assertTrue("Removed user but not removed from session", deleted);
+    }
+    
+    @Test(expected = LoginBubbleDocsException.class)
+    public void userNotLogged() {
+    	RemoveUserService service = new RemoveUserService(logzecabra,
+    			USERNAME_DOES_NOT_EXIST);;
+    	service.execute();
     }
 
     @Test(expected = UserDoesNotExistException.class)

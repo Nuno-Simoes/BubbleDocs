@@ -14,7 +14,7 @@ import pt.ulisboa.tecnico.bubbledocs.exceptions.UserDoesNotExistException;
 
 public class Portal extends Portal_Base {
     
-	final long oneHours = 3600000;
+	final long oneHour = 3600000;
 	
 	private Portal() {
 		FenixFramework.getDomainRoot().setPortal(this);
@@ -183,7 +183,7 @@ public class Portal extends Portal_Base {
     }
     
     private void setSessionTime(User user) {
-		float currentTime = (float) (System.currentTimeMillis()/oneHours);
+		float currentTime = (float) (System.currentTimeMillis()/oneHour);
 		user.setSessionTime(currentTime);
 	}
     
@@ -241,5 +241,5 @@ public class Portal extends Portal_Base {
     		}
     	}
     	throw new LoginBubbleDocsException();
-	}  
+	} 
 }

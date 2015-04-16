@@ -12,6 +12,7 @@ import pt.ulisboa.tecnico.bubbledocs.exceptions.*;
 public class CreateSpreadsheetServiceTest extends BubbleDocsServiceTest {
 	
 	private String lars;
+	private String logcav;
 	
 	private static final String USERNAME = "ars";
     private static final String NAME = "António Rito Silva";
@@ -21,6 +22,9 @@ public class CreateSpreadsheetServiceTest extends BubbleDocsServiceTest {
     private static final String NO_PERMISSION_USERNAME = "sam";
     private static final String NO_PERMISSION_NAME = "Sam";
     private static final String NO_PERMISSION_EMAIL = "sam@sam.com";
+    private static final String NOT_LOGGED_USERNAME = "cavaco";
+    private static final String NOT_LOGGED_NAME = "Cavaco Silva";
+    private static final String NOT_LOGGED_EMAIL = "cavaquinho@presidencia.pt";
 	
     @Override
     public void populate4Test() {
@@ -30,15 +34,21 @@ public class CreateSpreadsheetServiceTest extends BubbleDocsServiceTest {
     	User sam = createUser(NO_PERMISSION_USERNAME, NO_PERMISSION_NAME, 
     			NO_PERMISSION_EMAIL);
     	sam.setPassword(PASSWORD);
+    	
+    	User cavaquinho = createUser(NOT_LOGGED_USERNAME, NOT_LOGGED_NAME,
+    			NOT_LOGGED_EMAIL);
+    	
     	createSpreadSheet(sam, SHEET_NAME, 20, 20);
     	
     	lars = addUserToSession("ars");
+    	logcav = cavaquinho.getToken();
     	addUserToSession("sam");
     }
 	
     @Test
 	public void success() {
-		CreateSpreadsheetService service = new CreateSpreadsheetService(lars, SHEET_NAME, 20, 20);
+		CreateSpreadsheetService service = new CreateSpreadsheetService(lars, 
+				SHEET_NAME, 20, 20);
 		service.execute();
 		Spreadsheet s = super.getSpreadSheet(SHEET_NAME);
 		assertEquals("ars", s.getOwner());
@@ -50,7 +60,8 @@ public class CreateSpreadsheetServiceTest extends BubbleDocsServiceTest {
     @Test
     public void sucess2() {
     	boolean found = false;
-    	CreateSpreadsheetService service = new CreateSpreadsheetService(lars, SHEET_NAME, 20, 20);
+    	CreateSpreadsheetService service = new CreateSpreadsheetService(lars, 
+    			SHEET_NAME, 20, 20);
     	service.execute();
     	Spreadsheet s = super.getSpreadSheet(SHEET_NAME);
     	for (Permission p : s.getPermissionsSet()) {
@@ -64,7 +75,8 @@ public class CreateSpreadsheetServiceTest extends BubbleDocsServiceTest {
     @Test
     public void sucess3() {
     	boolean found = false;
-    	CreateSpreadsheetService service = new CreateSpreadsheetService(lars, SHEET_NAME, 20, 20);
+    	CreateSpreadsheetService service = new CreateSpreadsheetService(lars,
+    			SHEET_NAME, 20, 20);
     	service.execute();
     	Spreadsheet s = super.getSpreadSheet(SHEET_NAME);
     	for (Permission p : s.getPermissionsSet()) {
@@ -73,6 +85,13 @@ public class CreateSpreadsheetServiceTest extends BubbleDocsServiceTest {
     		}
     	}
     	assertTrue(found);
+    }
+    
+    @Test(expected = LoginBubbleDocsException.class)
+    public void userNotLogged() {
+    	CreateSpreadsheetService service = new CreateSpreadsheetService(logcav,
+    			SHEET_NAME, 20, 20);
+    	service.execute();
     }
     
     @Test(expected = EmptySpreadsheetNameException.class)

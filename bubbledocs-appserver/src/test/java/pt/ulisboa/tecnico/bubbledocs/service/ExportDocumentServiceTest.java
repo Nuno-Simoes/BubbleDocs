@@ -9,7 +9,9 @@ import org.junit.Test;
 import pt.ulisboa.tecnico.bubbledocs.domain.Spreadsheet;
 import pt.ulisboa.tecnico.bubbledocs.domain.User;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidPermissionException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.RemoteInvocationException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.SpreadsheetDoesNotExistException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.UnavailableServiceException;
 import pt.ulisboa.tecnico.bubbledocs.service.remote.StoreRemoteServices;
 
@@ -22,20 +24,26 @@ public class ExportDocumentServiceTest extends BubbleDocsServiceTest {
     private String lton;
     private String lmik;
     private int id;
+    private String logana;
     
     private static final String USERNAME = "ars";
-    private static final String PASSWORD = "ars";
+    private static final String UNAME = "arsdasdas";
+    private static final String EMAIL = "ars@ars.pt";
     private static final String USERNAMER = "sam";
     private static final String USERNAMEL = "ton";
     private static final String USERNAMEFF = "mik";
     private static final String NAME = "folha";
+    private static final String NOT_LOGGED_USERNAME = "amalhoa";
+    private static final String NOT_LOGGED_NAME = "Ana Malhoa";
+    private static final String NOT_LOGGED_EMAIL = "amalhoa@turbinada.pt";
     
     @Override
     public void populate4Test() {
-    	User u = createUser(USERNAME, PASSWORD, "António");
-    	User u1 = createUser(USERNAMER, PASSWORD, "Sam");
-    	User u2 = createUser(USERNAMEL, PASSWORD, "Ton");
-    	createUser(USERNAMEFF, PASSWORD, "Mik");
+    	User u = createUser(USERNAME, UNAME, EMAIL);
+    	User u1 = createUser(USERNAMER, UNAME, EMAIL);
+    	User u2 = createUser(USERNAMEL, UNAME, EMAIL);
+    	User ana = createUser(NOT_LOGGED_USERNAME, NOT_LOGGED_NAME, NOT_LOGGED_EMAIL);
+    	createUser(USERNAMEFF, UNAME, EMAIL);
     	Spreadsheet s = createSpreadSheet(u, NAME, 10, 10);
     	id = s.getId();
     	u.modifyPermissions(u1.getUsername(), id, true, false);
@@ -44,6 +52,7 @@ public class ExportDocumentServiceTest extends BubbleDocsServiceTest {
     	lsam = addUserToSession("sam");
     	lton = addUserToSession("ton");
     	lmik = addUserToSession("mik");
+    	logana = ana.getToken();
     	
     }
     
@@ -76,6 +85,11 @@ public class ExportDocumentServiceTest extends BubbleDocsServiceTest {
         service.execute();
     }
     
+    @Test(expected = LoginBubbleDocsException.class)
+    public void userNotLogged() {
+    	ExportDocumentService service = new ExportDocumentService(logana,id);
+    	service.execute();
+    }
     
     @Test(expected = InvalidPermissionException.class)
     public void invalidPermission() {
@@ -83,6 +97,11 @@ public class ExportDocumentServiceTest extends BubbleDocsServiceTest {
         service.execute();
     }
     
+    @Test(expected = SpreadsheetDoesNotExistException.class)
+    public void noSpreadSheet() {
+    	ExportDocumentService service = new ExportDocumentService(lsam, 123456789);
+    	service.execute();
+    }
     
     @Mocked StoreRemoteServices remote1;
     @Test(expected = UnavailableServiceException.class)

@@ -10,6 +10,7 @@ import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidContentException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidPermissionException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.OutOfBoundsException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.SpreadsheetDoesNotExistException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
 
 
 public class AssignLiteralToCellServiceTest extends BubbleDocsServiceTest {
@@ -17,7 +18,9 @@ public class AssignLiteralToCellServiceTest extends BubbleDocsServiceTest {
     // the tokens
     private String logars;
     private String logsam;
+    private String logp44;
     private int id;
+    private int p44id;
 
     private static final String USERNAME = "ars";
     private static final String NAME = "António Rito Silva";
@@ -28,6 +31,9 @@ public class AssignLiteralToCellServiceTest extends BubbleDocsServiceTest {
     private static final String PASSWORD = "randomm";
     private static final String SPREADNAME = "whatever";
     private static final int ID_DOES_NOT_EXIST = 100;
+    private static final String NOT_LOGGED_USERNAME = "preso44";
+    private static final String NOT_LOGGED_NAME = "José Sócrates";
+    private static final String NOT_LOGGED_EMAIL = "preso44@evora.pt";
     
     @Override
     public void populate4Test() {
@@ -38,9 +44,15 @@ public class AssignLiteralToCellServiceTest extends BubbleDocsServiceTest {
         		NO_PERMISSION_EMAIL);
         sam.setPassword(PASSWORD);
         
+        User preso44 = createUser(NOT_LOGGED_USERNAME, NOT_LOGGED_NAME,
+        		NOT_LOGGED_EMAIL);
+        
+        Spreadsheet ps = createSpreadSheet(preso44, "Contas Suiça", 10, 100);
         Spreadsheet s = createSpreadSheet(ars, SPREADNAME, 10, 10);
         s.getCell(7, 3).setIsProtected(true);
+        p44id = ps.getId();
         id = s.getId();
+        logp44 = preso44.getToken();
         logars = addUserToSession(USERNAME);
         logsam = addUserToSession(NO_PERMISSION_USERNAME);
     }
@@ -52,6 +64,13 @@ public class AssignLiteralToCellServiceTest extends BubbleDocsServiceTest {
         service.execute();
         Spreadsheet sheet = super.getSpreadSheet(SPREADNAME);
         assertEquals(3, sheet.getCell(1, 5).getContent().getResult(), 0);
+    }
+    
+    @Test(expected = LoginBubbleDocsException.class)
+    public void userNotLogged() {
+    	AssignLiteralToCellService service = new AssignLiteralToCellService(logp44,
+    			p44id, "1;5", "3");
+    	service.execute();
     }
 
     @Test(expected = SpreadsheetDoesNotExistException.class)

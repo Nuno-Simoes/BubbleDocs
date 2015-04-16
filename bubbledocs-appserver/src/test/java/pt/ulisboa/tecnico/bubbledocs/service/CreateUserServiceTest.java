@@ -19,6 +19,7 @@ public class CreateUserServiceTest extends BubbleDocsServiceTest {
 
     private String root;
     private String lsmf;
+    private String logquim;
 
     private static final String USERNAME = "ars";
     private static final String USERNAME_TOO_SHORT = "ar";
@@ -31,6 +32,9 @@ public class CreateUserServiceTest extends BubbleDocsServiceTest {
     private static final String EMAIL_WITHOUT_PERMISSION = "smf@smf.com";
     private static final String USERNAME_DOES_NOT_EXIST = "no-one";
     private static final String ROOT_NAME = "root";
+    private static final String NOT_LOGGED_USERNAME = "Quim";
+    private static final String NOT_LOGGED_NAME = "Quim Barreiros";
+    private static final String NOT_LOGGED_EMAIL = "qbarreiros@garagemdavizinha.pt";
 
     @Override
     public void populate4Test() {
@@ -39,7 +43,10 @@ public class CreateUserServiceTest extends BubbleDocsServiceTest {
     	
     	User smf = createUser(USERNAME_WITHOUT_PERMISSION, NAME_WITHOUT_PERMISSION, EMAIL_WITHOUT_PERMISSION);
     	smf.setPassword(PASSWORD);
+    	
+    	User quim = createUser(NOT_LOGGED_USERNAME, NOT_LOGGED_NAME, NOT_LOGGED_EMAIL);
         
+    	logquim =quim.getToken();
         root = addUserToSession(ROOT_NAME);
         lsmf = addUserToSession(USERNAME_WITHOUT_PERMISSION);
     }
@@ -57,6 +64,12 @@ public class CreateUserServiceTest extends BubbleDocsServiceTest {
         assertEquals(null, user.getPassword());
     }
     
+    @Test(expected = LoginBubbleDocsException.class)
+    public void userNotLogged() {
+    	CreateUserService service = new CreateUserService(logquim, 
+    			USERNAME, EMAIL, NAME);
+    	service.execute();
+    }
     
     @Test(expected = DuplicateUsernameException.class)
     public void usernameExists() {
