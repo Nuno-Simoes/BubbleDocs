@@ -6,7 +6,6 @@ import pt.ulisboa.tecnico.bubbledocs.domain.Reference;
 import pt.ulisboa.tecnico.bubbledocs.domain.User;
 import pt.ulisboa.tecnico.bubbledocs.domain.Permission;
 import pt.ulisboa.tecnico.bubbledocs.domain.Portal;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidContentException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidPermissionException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
 
@@ -36,26 +35,13 @@ public class AssignReferenceCellService extends PortalService {
     	
     	if (p.isOwner(u, s) || perm.getWrite()) {
     		String string = cellId;
-    		String[] parts = string.split(";");
-    		int part1 = Integer.parseInt(parts[0]); 
-    		int part2 = Integer.parseInt(parts[1]);
-    		
     		String strings = reference;
-    		String[] part = strings.split(";");
-    		int part3, part4;
-    		try {
-    			part3 = Integer.parseInt(part[0]); 
-    			part4 = Integer.parseInt(part[1]);
-    		} catch (NumberFormatException nfe) {
-    			throw new InvalidContentException();
-    		}
     		
-    		Cell c = s.getCell(part1, part2);
-    		Cell refCell = s.getCell(part3, part4);
+    		Cell c = s.splitCellId(string);
+    		Cell refCell = s.splitCellReference(strings);
     		Reference ref = new Reference(refCell);
-
-    		s.setContent(c.getLine(), c.getColumn() , ref);
-    	
+    		
+    		s.setContent(c.getLine(), c.getColumn() , ref);	
     	} else {
     		throw new InvalidPermissionException (u.getUsername());
     	}

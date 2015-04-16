@@ -6,6 +6,7 @@ import org.jdom2.DataConversionException;
 import org.jdom2.Element;
 
 import pt.ulisboa.tecnico.bubbledocs.exceptions.ImportDocumentException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidContentException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidPermissionException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.OutOfBoundsException;
 
@@ -31,6 +32,28 @@ public class Spreadsheet extends Spreadsheet_Base {
 		this.setColumns(columns);
 	}
 
+    public Cell splitCellId(String cellId){
+		String string = cellId;
+		String[] parts = string.split(";");
+		int part1 = Integer.parseInt(parts[0]); 
+		int part2 = Integer.parseInt(parts[1]);
+		
+		return getCell(part1, part2);
+    }
+    
+    public Cell splitCellReference(String reference){
+    	String strings = reference;
+		String[] part = strings.split(";");
+		int part3, part4;
+		try {
+			part3 = Integer.parseInt(part[0]); 
+			part4 = Integer.parseInt(part[1]);
+		} catch (NumberFormatException nfe) {
+			throw new InvalidContentException();
+		}
+		return getCell(part3, part4);
+    }
+    
 	public Element exportToXML() {
 		Element element = new Element("spreadsheet");
 
