@@ -55,17 +55,15 @@ public class AssignLiteralToCellService extends PortalService {
 		Permission p = u.findPermission(u.getUsername(), docId);
 
 		if (p.getWrite()) {
-			String[] parts = cellId.split(";");
-			int part1 = Integer.parseInt(parts[0]);
-			int part2 = Integer.parseInt(parts[1]);
-			Cell c = s.getCell(part1, part2);
+			String part = cellId;
+			Cell c = s.splitCellId(part);
 			if (c.getIsProtected()) {
 				throw new InvalidPermissionException();
 			}
 			if (c.equals(null)) {
 				throw new OutOfBoundsException();
 			}
-			s.setContent(part1,part2,new Literal(Integer.parseInt(literal)));
+			s.setContent(c.getLine(), c.getColumn(), new Literal(Integer.parseInt(literal)));
 		} else {
 			throw new InvalidPermissionException(u.getUsername());
 		}
