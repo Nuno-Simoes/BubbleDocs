@@ -103,7 +103,11 @@ public class StoreImpl implements SDStore {
 		}
 		
 		// 2 - Else, list name of all documents in said repository.
-		return user.getRepository().listDocuments();
+		if (user.getRepository()==null) {
+			return new ArrayList<String>();
+		} else {
+			return user.getRepository().listDocuments();
+		}
 	}
 
 	// Writes docUserPair.getDocumentId() for user docUserPair.getUserId()
