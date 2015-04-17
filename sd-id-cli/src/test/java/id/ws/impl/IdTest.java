@@ -7,9 +7,9 @@ import javax.xml.ws.BindingProvider;
 
 import org.junit.*;
 
-import pt.ulisboa.tecnico.sdis.Id.ws.SDId;
-import pt.ulisboa.tecnico.sdis.Id.ws.SDId_Service;
-import Id.ws.uddi.UDDINaming;
+import pt.ulisboa.tecnico.sdis.id.ws.SDId;
+import pt.ulisboa.tecnico.sdis.id.ws.SDId_Service;
+import id.ws.uddi.UDDINaming;
 import static javax.xml.ws.BindingProvider.ENDPOINT_ADDRESS_PROPERTY;
 
 public class IdTest {
