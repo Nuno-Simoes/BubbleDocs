@@ -9,7 +9,7 @@ import org.junit.*;
 
 import pt.ulisboa.tecnico.sdis.store.ws.SDStore;
 import pt.ulisboa.tecnico.sdis.store.ws.SDStore_Service;
-import store.ws.impl.uddi.UDDINaming;
+import store.ws.uddi.UDDINaming;
 import static javax.xml.ws.BindingProvider.ENDPOINT_ADDRESS_PROPERTY;
 
 public class StoreTest {
@@ -18,8 +18,8 @@ public class StoreTest {
 	static private String name = "SdStore";
 	static protected SDStore port;
 		    	
-    // static members
-    // one-time initialisation and clean-up
+    //static members
+    //one-time initialisation and clean-up
     @BeforeClass
     public static void oneTimeSetUp() throws JAXRException {
     	UDDINaming uddiNaming = new UDDINaming(uddiURL);
@@ -36,8 +36,8 @@ public class StoreTest {
     	port = null;
     }
 
-    // members
-    // initialization and clean-up for each test
+    //members
+    //initialisation and clean-up for each test
     @Before
     public void setUp() {}
 

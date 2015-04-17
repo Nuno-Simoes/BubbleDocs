@@ -64,6 +64,7 @@ public class StoreImpl implements SDStore {
 		User user = findUser(userID);
 		if (user==null) {
 			user = new User(userID);
+			users.add(user);
 		}
 		
 		// 2 - Verify if user does not have a repository. If true, create a
