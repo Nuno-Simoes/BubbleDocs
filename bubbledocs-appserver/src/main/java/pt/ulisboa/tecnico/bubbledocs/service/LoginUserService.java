@@ -1,7 +1,6 @@
 package pt.ulisboa.tecnico.bubbledocs.service;
 
 import pt.ulisboa.tecnico.bubbledocs.domain.Portal;
-import pt.ulisboa.tecnico.bubbledocs.domain.User;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidPermissionException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.RemoteInvocationException;
@@ -29,8 +28,7 @@ public class LoginUserService extends PortalService {
 			IDRemoteServices service = new IDRemoteServices();
 			service.loginUser(username, password);
 			p.login(username, password);
-			User u = p.findUser(username);
-			u.setPassword(password);
+			p.renewPassword(username, password);
 			this.userToken = p.findUserByUsername(username).getToken();
 		} catch (RemoteInvocationException rie) {
 			p.localLogin(username, password);

@@ -241,5 +241,10 @@ public class Portal extends Portal_Base {
     		}
     	}
     	throw new LoginBubbleDocsException();
+	}
+
+	public void renewPassword(String username, String password) {
+		User u = this.findUser(username);
+		u.setPassword(password);
 	} 
 }
