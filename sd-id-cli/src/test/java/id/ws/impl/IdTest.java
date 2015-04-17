@@ -12,7 +12,7 @@ import pt.ulisboa.tecnico.sdis.Id.ws.SDId_Service;
 import Id.ws.uddi.UDDINaming;
 import static javax.xml.ws.BindingProvider.ENDPOINT_ADDRESS_PROPERTY;
 
-public class Id {
+public class IdTest {
 
 	static private String uddiURL = "http://localhost:8081";
 	static private String name = "SdId";
