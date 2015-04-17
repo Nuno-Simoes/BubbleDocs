@@ -12,7 +12,7 @@ import pt.ulisboa.tecnico.sdis.store.ws.SDStore_Service;
 import store.ws.uddi.UDDINaming;
 import static javax.xml.ws.BindingProvider.ENDPOINT_ADDRESS_PROPERTY;
 
-public class StoreTest {
+public class StoreServiceTest {
 
 	static private String uddiURL = "http://localhost:8081";
 	static private String name = "SdStore";
@@ -35,12 +35,5 @@ public class StoreTest {
     public static void oneTimeTearDown() {
     	port = null;
     }
-
-    //members
-    //initialisation and clean-up for each test
-    @Before
-    public void setUp() {}
-
-    @After
-    public void tearDown() {}
 }
+
