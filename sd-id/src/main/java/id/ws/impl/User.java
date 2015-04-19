@@ -32,6 +32,8 @@ public class User {
 			int character = (int)(Math.random()*ALPHA_NUMERIC_STRING.length());
 			builder.append(ALPHA_NUMERIC_STRING.charAt(character));
 		}
+		System.out.println("Nova password: " + builder.toString());
+		
 		return builder.toString();
 	}
 	

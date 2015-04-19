@@ -114,7 +114,7 @@ public class SDIdImpl implements SDId {
 
 	public void renewPassword(String userId) throws UserDoesNotExist_Exception {
 
-		User us = null;
+		User us=null;
 
 		for (User u : user) {
 			if (u.getUserId().equals(userId)) {
