@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="11" failures="0" name="id.ws.impl.CreateUserTest" time="0.021" errors="0" skipped="0">
+<testsuite tests="12" failures="0" name="id.ws.impl.CreateUserTest" time="0.065" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk1.8.0_31\jre\bin"/>
@@ -63,15 +63,16 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase classname="id.ws.impl.CreateUserTest" name="emailAlreadyExistsTest" time="0.015"/>
+  <testcase classname="id.ws.impl.CreateUserTest" name="emailAlreadyExistsTest" time="0.047"/>
   <testcase classname="id.ws.impl.CreateUserTest" name="userAlreadyExistsTest" time="0"/>
-  <testcase classname="id.ws.impl.CreateUserTest" name="invalidEmailTest1" time="0"/>
+  <testcase classname="id.ws.impl.CreateUserTest" name="invalidEmailTest1" time="0.009"/>
   <testcase classname="id.ws.impl.CreateUserTest" name="invalidEmailTest2" time="0"/>
   <testcase classname="id.ws.impl.CreateUserTest" name="invalidEmailTest3" time="0"/>
-  <testcase classname="id.ws.impl.CreateUserTest" name="invalidEmailTest4" time="0.001"/>
+  <testcase classname="id.ws.impl.CreateUserTest" name="invalidEmailTest4" time="0"/>
   <testcase classname="id.ws.impl.CreateUserTest" name="invalidEmailTest5" time="0.001"/>
-  <testcase classname="id.ws.impl.CreateUserTest" name="invalidEmailTest6" time="0"/>
-  <testcase classname="id.ws.impl.CreateUserTest" name="invalidUserTest1" time="0.002"/>
-  <testcase classname="id.ws.impl.CreateUserTest" name="invalidUserTest2" time="0.002"/>
-  <testcase classname="id.ws.impl.CreateUserTest" name="createNewUsernameSuccess" time="0"/>
+  <testcase classname="id.ws.impl.CreateUserTest" name="invalidEmailTest6" time="0.001"/>
+  <testcase classname="id.ws.impl.CreateUserTest" name="invalidEmailTest7" time="0.001"/>
+  <testcase classname="id.ws.impl.CreateUserTest" name="invalidUserTest1" time="0.004"/>
+  <testcase classname="id.ws.impl.CreateUserTest" name="invalidUserTest2" time="0.001"/>
+  <testcase classname="id.ws.impl.CreateUserTest" name="createNewUsernameSuccess" time="0.001"/>
 </testsuite>

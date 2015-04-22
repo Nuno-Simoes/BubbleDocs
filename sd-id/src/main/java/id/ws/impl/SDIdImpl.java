@@ -63,6 +63,18 @@ public class SDIdImpl implements SDId {
 			iu.setUserId(userId);
 			throw new InvalidUser_Exception("Wrong Username", iu);
 		}
+		
+		try {
+			if (emailAddress.equals("") || emailAddress.equals(null)) {
+				InvalidEmail ie = new InvalidEmail();
+				ie.setEmailAddress(emailAddress);
+				throw new InvalidEmail_Exception("Wrong Email Address", ie);
+			}
+		} catch (NullPointerException npe) {
+			InvalidEmail ie = new InvalidEmail();
+			ie.setEmailAddress(emailAddress);
+			throw new InvalidEmail_Exception("Wrong Email Address", ie);
+		}
 
 		int charCount = 0;
 
