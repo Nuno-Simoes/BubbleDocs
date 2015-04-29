@@ -21,6 +21,7 @@ public class CreateUserTest extends IdTest {
 	String INVALID_EMAIL4 = "@";
 	String INVALID_EMAIL5 = "@@";
 	String INVALID_EMAIL6 = "a@a@a";
+	String INVALID_EMAIL7 = "";
 	String INVALID_USERNAME = "";
 
 	@Test
@@ -61,6 +62,11 @@ public class CreateUserTest extends IdTest {
 	@Test(expected = InvalidEmail_Exception.class)
 	public void invalidEmailTest6() throws Exception {
 		id.createUser(USERNAME_DOES_NOT_EXIST, INVALID_EMAIL6);
+	}
+	
+	@Test(expected = InvalidEmail_Exception.class)
+	public void invalidEmailTest7() throws Exception {
+		id.createUser(USERNAME_DOES_NOT_EXIST, INVALID_EMAIL7);
 	}
 
 	@Test(expected = EmailAlreadyExists_Exception.class)
