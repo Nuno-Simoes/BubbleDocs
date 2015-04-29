@@ -39,6 +39,7 @@ public class LoginUserServiceTest extends BubbleDocsServiceTest {
     	return u.getSessionTime();
     }
     
+    /*
     @Test
     public void success() {
         LoginUserService service = new LoginUserService(USERNAME, PASSWORD);
@@ -134,5 +135,5 @@ public class LoginUserServiceTest extends BubbleDocsServiceTest {
         assertTrue("Access time in session not correctly set", difference >= 0);
         assertTrue("diference in seconds greater than expected", difference < 2);
     }
-    
+    */
 }

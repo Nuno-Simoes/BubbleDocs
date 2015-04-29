@@ -10,6 +10,7 @@ import pt.ist.fenixframework.FenixFramework;
 import pt.ist.fenixframework.core.WriteOnReadError;
 import pt.ulisboa.tecnico.bubbledocs.domain.Portal;
 import pt.ulisboa.tecnico.bubbledocs.domain.RootUser;
+import pt.ulisboa.tecnico.bubbledocs.domain.Session;
 import pt.ulisboa.tecnico.bubbledocs.domain.Spreadsheet;
 import pt.ulisboa.tecnico.bubbledocs.domain.User;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.DuplicateUsernameException;
@@ -91,17 +92,20 @@ public class BubbleDocsServiceTest {
     // put a user into session and returns the token associated to it
     public String addUserToSession(String username) {
     	Portal p = Portal.getInstance();
+    	Session s = Session.getInstance();
 
     	User u = p.findUser(username);
-    	p.login(username, u.getPassword());
+    	s.login(username, u.getPassword());
     	return u.getToken();
     }
 
     // remove a user from session given its token
     public void removeUserFromSession(String token) {
+    	Session s = Session.getInstance();
     	Portal p = Portal.getInstance();
+    	
     	User u = p.findUserByToken(token);
-    	p.logout(u);
+    	s.logout(u);
     }
 
     // return the user registered in session whose token is equal to token

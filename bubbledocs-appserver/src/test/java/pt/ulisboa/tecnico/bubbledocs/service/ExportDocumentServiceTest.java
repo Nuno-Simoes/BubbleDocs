@@ -36,14 +36,21 @@ public class ExportDocumentServiceTest extends BubbleDocsServiceTest {
     private static final String NOT_LOGGED_USERNAME = "amalhoa";
     private static final String NOT_LOGGED_NAME = "Ana Malhoa";
     private static final String NOT_LOGGED_EMAIL = "amalhoa@turbinada.pt";
+    private static final String PASSWORD = "password";
     
     @Override
     public void populate4Test() {
     	User u = createUser(USERNAME, UNAME, EMAIL);
+    	u.setPassword(PASSWORD);
     	User u1 = createUser(USERNAMER, UNAME, EMAIL);
+    	u1.setPassword(PASSWORD);
     	User u2 = createUser(USERNAMEL, UNAME, EMAIL);
+    	u2.setPassword(PASSWORD);
     	User ana = createUser(NOT_LOGGED_USERNAME, NOT_LOGGED_NAME, NOT_LOGGED_EMAIL);
-    	createUser(USERNAMEFF, UNAME, EMAIL);
+    	ana.setPassword(PASSWORD);
+    	User u3 = createUser(USERNAMEFF, UNAME, EMAIL);
+    	u3.setPassword(PASSWORD);
+    	
     	Spreadsheet s = createSpreadSheet(u, NAME, 10, 10);
     	id = s.getId();
     	u.modifyPermissions(u1.getUsername(), id, true, false);

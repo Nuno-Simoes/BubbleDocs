@@ -13,8 +13,9 @@ class User {
     String token;
     float sessionTime;
     String email;
-    Boolean isInSession;
 }
+
+class Session;
 
 class Permission {
 	boolean read;
@@ -59,6 +60,13 @@ class Sub extends BinaryFunction;
 class Mult extends BinaryFunction;
 
 class Div extends BinaryFunction;
+
+relation SessionHasUsers {
+    Session playsRole session;
+    User playsRole users {
+        multiplicity *;
+    }
+}
 
 relation SpreadsheetHasCell {
 	Spreadsheet playsRole spreadsheet;

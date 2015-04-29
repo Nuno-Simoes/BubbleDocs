@@ -13,9 +13,7 @@ import pt.ulisboa.tecnico.bubbledocs.exceptions.UnavailableServiceException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.UserDoesNotExistException;
 
 public class Portal extends Portal_Base {
-    
-	final long oneHour = 3600000;
-	
+    	
 	private Portal() {
 		FenixFramework.getDomainRoot().setPortal(this);
 		this.setUserId(0);
@@ -171,58 +169,6 @@ public class Portal extends Portal_Base {
     	this.addSpreadsheets(s);
     	s.importFromXML(element);
     	return s;
-    }
-    
-    private void createToken(User user) {
-    	Random rand = new Random();
-    	int low = 0;
-    	int high = 9;
-    	int r = rand.nextInt(high-low) + low;
-	   
-    	user.setToken(user.getUsername().concat(Integer.toString(r)));
-    }
-    
-    private void setSessionTime(User user) {
-		float currentTime = (float) (System.currentTimeMillis()/oneHour);
-		user.setSessionTime(currentTime);
-	}
-    
-    public void localLogin(String username, String password)
-    	throws InvalidPermissionException, UserDoesNotExistException,
-    	LoginBubbleDocsException, UnavailableServiceException {
-    		
-    	User u = this.findUser(username);
-    		
-    	try{
-    		u.getPassword();
-    	} catch ( NullPointerException npe) {
-    		throw new UnavailableServiceException();
-    	}
-    	
-    	if (u.getUsername().equals(username) 
-    			&& u.getPassword().equals(password)) {
-    		this.login(username, password);
-    	} else {
-    		throw new UnavailableServiceException();
-    	}
-    }
-    
-    public void login(String username, String password) 
-    	throws UserDoesNotExistException {
-    	
-    	User user = this.findUser(username);
-    	if(user.getIsInSession()) {
-    		user.setToken(null);
-    	}
-    	this.createToken(user);
-    	this.setSessionTime(user);
-    	user.setIsInSession(true);
-    }
-    
-    public void logout(User u) {
-    	u.setSessionTime(0);
-    	u.setIsInSession(false);
-    	u.setToken(null);
     }
     
     public User findUserByToken(String token) throws LoginBubbleDocsException {

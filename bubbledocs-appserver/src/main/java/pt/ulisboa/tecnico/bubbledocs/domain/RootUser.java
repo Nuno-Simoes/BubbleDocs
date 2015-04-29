@@ -20,7 +20,6 @@ public class RootUser extends RootUser_Base {
 		this.setName("Super User");
 		this.setUsername("root");
 		this.setPassword("rootroot");
-		this.setIsInSession(false);
 		this.setSessionTime(0);
 		this.setToken(null);
 	}    
