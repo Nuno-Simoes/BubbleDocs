@@ -2,9 +2,9 @@
 Project planing of first week:
 
 | Group Member | M | T | W | T | F | S | S | Planned Tasks       | 
-| AfrAndrade   |   |   |   |   |   |   |   |                     |
+| AfrAndrade   | 0 | 0 | 1 | 1 | 2 | 2 | 2 | 39, 58, 60          |
 | BrunoS92     | 0 | 0 | 0 | 1 | 0 | 0 | 2 | 90, 52              |                                
 | marcoist     | 0 | 0 | 0 | 0 | 1 | 1 | 2 | 96, 82              |                  
 | Nuno-Simoes  | 0 | 0 | 3 | 3 | 1 | 2 | 0 | 91, 97, 88, 48, 46  |                  
-| PJBNascimento| 0 | 0 | 1 | 0 | 3 | 1 | 0 | 51, 79, 86, 87      |                  
-| ritap420     | 0 | 0 | 2 | 2 | 2 | 2 | 2 | 80, 59, 44 , 42, 69 |
+| PJBNascimento| 0 | 0 | 1 | 0 | 3 | 1 | 0 | 38, 40, 86, 87      |                  
+| ritap420     | 0 | 0 | 2 | 2 | 2 | 2 | 2 | 80, 59, 44, 69, 42  |
