@@ -40,7 +40,7 @@ public class BubbleApplication {
 	@Atomic
 	private static void populateDomain() {
 		Portal portal = Portal.getInstance();
-		setupIfNeed(portal);
+		setup(portal);
 		portal.listUsers();
 		int id = 0;
 		
@@ -77,7 +77,21 @@ public class BubbleApplication {
     	printDomainInXML(file); 
 	}
 	
-    private static void setupIfNeed(Portal portal) {
+    private static void setup(Portal portal) {
+    	
+    		if(!portal.getUsersSet().isEmpty() 
+    				|| !portal.getSpreadsheetsSet().isEmpty() ) {
+    			for (User userToDelete : portal.getUsersSet()) {
+    				portal.removeSpreadsheet(userToDelete);
+    				portal.removeUsers(userToDelete);
+    			}
+    			for (Spreadsheet spreadToDelete : portal.getSpreadsheetsSet()) {
+    				portal.removeSpreadsheet(spreadToDelete.getId());
+    			}
+    			portal.setSheetId(0);
+    			portal.setUserId(0);
+    		}
+    			
     		String root = null;
 
     		try {
