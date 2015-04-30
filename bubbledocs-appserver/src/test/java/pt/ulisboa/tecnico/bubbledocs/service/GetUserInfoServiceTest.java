@@ -1,9 +1,10 @@
 package pt.ulisboa.tecnico.bubbledocs.service;
 
+import static org.junit.Assert.*;
+
 import org.junit.Test;
 
-import pt.ulisboa.tecnico.bubbledocs.domain.RootUser;
-import pt.ulisboa.tecnico.bubbledocs.domain.User;
+import pt.ulisboa.tecnico.bubbledocs.dto.UserDto;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
 
 public class GetUserInfoServiceTest extends BubbleDocsServiceTest {
