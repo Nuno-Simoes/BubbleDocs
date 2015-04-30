@@ -13,7 +13,7 @@ public class GetUserInfoServiceTest extends BubbleDocsServiceTest {
 	private static final String CORRECT_NAME = "alice";
 	private static final String CORRECT_EMAIL = "alice@wonderland.com";
 	
-	private static final String WRONG_USERNAME = "hpotter";
+	private static final String WRONG_USERNAME = "potter";
 	private static final String WRONG_NAME = "harry";
 	private static final String WRONG_EMAIL = "potter@hogwarts.co.uk";
 	
