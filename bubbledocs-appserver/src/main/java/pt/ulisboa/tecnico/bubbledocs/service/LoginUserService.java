@@ -24,7 +24,7 @@ public class LoginUserService extends PortalService {
 		Session s = Session.getInstance();
 		
 		s.login(username, password);
-		this.userToken = p.findUserByUsername(username).getToken();	
+		this.userToken = p.findUser(username).getToken();	
 	}
 
 	public final String getUserToken() {

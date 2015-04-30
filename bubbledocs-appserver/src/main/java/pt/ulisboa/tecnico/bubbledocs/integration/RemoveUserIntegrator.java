@@ -1,6 +1,8 @@
 package pt.ulisboa.tecnico.bubbledocs.integration;
 
+import pt.ulisboa.tecnico.bubbledocs.dto.UserDto;
 import pt.ulisboa.tecnico.bubbledocs.service.CreateUserService;
+import pt.ulisboa.tecnico.bubbledocs.service.GetUserInfoService;
 import pt.ulisboa.tecnico.bubbledocs.service.RemoveUserService;
 import pt.ulisboa.tecnico.bubbledocs.service.remote.IDRemoteServices;
 
@@ -8,14 +10,12 @@ public class RemoveUserIntegrator extends BubbleDocsIntegrator {
 	
 	private String userToken;
 	private String username;
-	private String email;
-	private String name;
+	private UserDto dto;
 
 	RemoveUserIntegrator(String userToken, String username) {
 		this.userToken = userToken;
-		this.username = super.getUsername(userToken);
-		this.email = super.getEmail(userToken);
-		this.name = super.getName(userToken);
+		GetUserInfoService info = new GetUserInfoService(username);
+		this.dto = info.getResult();
 	}
 	
 	@Override
@@ -29,7 +29,8 @@ public class RemoveUserIntegrator extends BubbleDocsIntegrator {
 			remoteService.removeUser(username);
 		} catch (Exception e) {
 			CreateUserService compensationService =
-					new CreateUserService(userToken, username, email, name);
+					new CreateUserService(userToken, dto.getUsername(), 
+							dto.getEmail(), dto.getName());
 			compensationService.execute();
 		}
 	}

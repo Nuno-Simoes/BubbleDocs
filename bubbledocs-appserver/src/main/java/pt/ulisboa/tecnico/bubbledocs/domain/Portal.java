@@ -2,15 +2,11 @@ package pt.ulisboa.tecnico.bubbledocs.domain;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import pt.ist.fenixframework.FenixFramework;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.DuplicateUsernameException;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidPermissionException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.SpreadsheetDoesNotExistException;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.UnavailableServiceException;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.UserDoesNotExistException;
 
 public class Portal extends Portal_Base {
     	
@@ -124,15 +120,6 @@ public class Portal extends Portal_Base {
     	throw new SpreadsheetDoesNotExistException(name); 	
     }
         
-    public User findUser (String username) throws UserDoesNotExistException {
-    	for (User u : this.getUsersSet()) {
-    		if (u.getUsername().equals(username)) {
-    			return u;
-    		}
-    	}
-    	throw new UserDoesNotExistException(username);
-    }
-    
     public boolean isOwner (User u, Spreadsheet s) {
     	if(u.getUsername().equals(s.getOwner())){
     		return true;
@@ -180,7 +167,7 @@ public class Portal extends Portal_Base {
     	throw new LoginBubbleDocsException();
     }
 	
-	public User findUserByUsername(String username) throws LoginBubbleDocsException {
+	public User findUser(String username) throws LoginBubbleDocsException {
 		for (User u : this.getUsersSet()) {
     		if (u.getUsername().equals(username)) {
     			return u;
