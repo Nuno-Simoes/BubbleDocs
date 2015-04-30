@@ -2,6 +2,7 @@ package pt.ulisboa.tecnico.bubbledocs.domain;
 
 import java.util.Random;
 
+import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.UnavailableServiceException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.UserDoesNotExistException;
 
@@ -81,5 +82,14 @@ public class Session extends Session_Base {
     		}
     	}
     	return false;
+    }
+    
+    public User getLoggedUser(String token) throws LoginBubbleDocsException {
+    	for (User loggedUser : this.getUsersSet()) {
+    		if(loggedUser.getToken().equals(token)){
+    			return loggedUser;
+    		}
+    	}
+    	throw new LoginBubbleDocsException();
     }
 }

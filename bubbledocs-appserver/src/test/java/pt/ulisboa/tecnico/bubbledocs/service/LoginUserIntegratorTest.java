@@ -7,15 +7,18 @@ import mockit.Mocked;
 import org.junit.Test;
 
 import pt.ulisboa.tecnico.bubbledocs.domain.Portal;
+import pt.ulisboa.tecnico.bubbledocs.domain.Session;
 import pt.ulisboa.tecnico.bubbledocs.domain.User;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.RemoteInvocationException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.UnavailableServiceException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.UserDoesNotExistException;
+import pt.ulisboa.tecnico.bubbledocs.integration.LoginUserIntegrator;
 import pt.ulisboa.tecnico.bubbledocs.service.remote.IDRemoteServices;
 
 // add needed import declarations
 
-public class LoginUserServiceTest extends BubbleDocsServiceTest {
+public class LoginUserIntegratorTest extends BubbleDocsServiceTest {
 
     private static final String USERNAME = "ars";
     private static final String NAME = "António Rito Silva";
@@ -39,39 +42,49 @@ public class LoginUserServiceTest extends BubbleDocsServiceTest {
     	return u.getSessionTime();
     }
     
-    /*
+    @Mocked
+    IDRemoteServices remote;
+    
     @Test
-    public void success() {
-        LoginUserService service = new LoginUserService(USERNAME, PASSWORD);
-        service.execute();
+    public void success() throws Exception {
+    	
+    	new Expectations() {{
+    		remote.loginUser(anyString, anyString);
+    	}};
+    	
+        LoginUserIntegrator integrator = new LoginUserIntegrator(USERNAME, PASSWORD);
+        integrator.execute();
         
-        String token = service.getUserToken();
-                
-        User user = getUserFromSession(token);
-        assertEquals(USERNAME, user.getUsername());
-        	
+        User u = super.getUserFromUsername(USERNAME);
+        String token = u.getToken();
+        
+        assertEquals(u, super.getUserFromSession(token));
+        
         float difference = (getLastAccessTimeInSession(token) - (float) (System.currentTimeMillis()/3600000));
 
         assertTrue("Access time in session not correctly set", difference >= 0);
         assertTrue("diference in seconds greater than expected", difference < 2);
     }
-    
+        
     @Test
-    public void successLoginTwice() {    	
-        LoginUserService service = new LoginUserService(USERNAME, PASSWORD);
+    public void successLoginTwice() throws Exception {    	
+        LoginUserIntegrator integrator = new LoginUserIntegrator(USERNAME, PASSWORD);
         
-        service.execute();
-        String token1 = service.getUserToken();
-        User user1 = getUserFromSession(token1);
+        integrator.execute();
+        User u1 = super.getUserFromUsername(USERNAME);
+        String token1 = u1.getToken();
+        super.getUserFromSession(token1);
         
-        service.execute();
-        String token2 = service.getUserToken();
-        User user2 = getUserFromSession(token2);
+        integrator.execute();
+        User u2 = super.getUserFromUsername(USERNAME);
+        String token2 = u2.getToken();
+        super.getUserFromSession(token2);
         
-        assertEquals(USERNAME, user1.getUsername());
-        assertEquals(USERNAME, user2.getUsername());
+        assertEquals(USERNAME, u1.getUsername());
+        assertEquals(USERNAME, u2.getUsername());
     }
     
+    /*
     @Test
     public void changedPassword() {
     	Portal p = Portal.getInstance();
@@ -80,60 +93,32 @@ public class LoginUserServiceTest extends BubbleDocsServiceTest {
     	service.execute();
     	
     	assertEquals(NEW_PASSWORD, ars.getPassword());
-    }
+    } */
 
-    @Test(expected = UserDoesNotExistException.class)
-    public void loginUnknownUser() {
-    	LoginUserService service = new LoginUserService(USERNAME_DOES_NOT_EXIST, PASSWORD);
-        service.execute();
+    @Test(expected = LoginBubbleDocsException.class)
+    public void loginUnknownUser() throws Exception {
+    	LoginUserIntegrator integrator = new LoginUserIntegrator(USERNAME_DOES_NOT_EXIST, PASSWORD);
+        integrator.execute();
     }
-        
-    @Mocked
-    IDRemoteServices remote;
     
     @Test (expected = UnavailableServiceException.class)
-    public void unavailableService() {
-    	
+    public void unavailableService() throws Exception {
     	new Expectations() {{
     		remote.loginUser(anyString, anyString);
     		result = new RemoteInvocationException();
     	}};
     	
-    	new LoginUserService(USERNAME, WRONG_PASSWORD).execute();
-    	
+    	new LoginUserIntegrator(USERNAME, WRONG_PASSWORD).execute();
     }
     
     @Test(expected = UnavailableServiceException.class)
-    public void loginUserWithinWrongPassword() {
+    public void loginUserWithinWrongPassword() throws Exception {
     	new Expectations() {{
     		remote.loginUser(anyString, anyString);
     		result = new RemoteInvocationException();
     	}};
  
-        LoginUserService service = new LoginUserService(USERNAME, WRONG_PASSWORD);
-        service.execute();
+        LoginUserIntegrator integrator = new LoginUserIntegrator(USERNAME, WRONG_PASSWORD);
+        integrator.execute();
     }
-    
-    @Test
-    public void success2() {
-    	
-    	new Expectations() {{
-    		remote.loginUser(anyString, anyString);
-    		result = new RemoteInvocationException();
-    	}};
-    	
-        LoginUserService service = new LoginUserService(USERNAME, PASSWORD);
-        service.execute();
-        
-        String token = service.getUserToken();
-
-        User user = getUserFromSession(service.getUserToken());
-        assertEquals(USERNAME, user.getUsername());
-        	
-        float difference = (getLastAccessTimeInSession(token) - (float) (System.currentTimeMillis()/3600000));
-
-        assertTrue("Access time in session not correctly set", difference >= 0);
-        assertTrue("diference in seconds greater than expected", difference < 2);
-    }
-    */
 }

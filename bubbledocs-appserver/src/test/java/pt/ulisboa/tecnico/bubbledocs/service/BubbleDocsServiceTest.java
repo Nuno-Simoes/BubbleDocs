@@ -110,8 +110,8 @@ public class BubbleDocsServiceTest {
 
     // return the user registered in session whose token is equal to token
     public User getUserFromSession(String token) throws LoginBubbleDocsException {
-    	Portal p = Portal.getInstance();
-    	User u = p.findUserByToken(token);
+    	Session s  = Session.getInstance();
+    	User u = s.getLoggedUser(token);
     	return u;
     }
 
