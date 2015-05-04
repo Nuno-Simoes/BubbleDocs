@@ -28,7 +28,7 @@ import pt.ulisboa.tecnico.bubbledocs.service.AssignReferenceCellService;
 import pt.ulisboa.tecnico.bubbledocs.service.CreateSpreadsheetService;
 import pt.ulisboa.tecnico.bubbledocs.service.CreateUserService;
 import pt.ulisboa.tecnico.bubbledocs.service.ExportDocumentService;
-import pt.ulisboa.tecnico.bubbledocs.service.ImportSpreadsheetService;
+//import pt.ulisboa.tecnico.bubbledocs.service.ImportSpreadsheetService;
 import pt.ulisboa.tecnico.bubbledocs.service.LoginUserService;
 
 public class BubbleApplication {
@@ -66,7 +66,7 @@ public class BubbleApplication {
     		System.out.println(", Id: " + s.getId());
     	}
     		
-    	recoverFromBackup(file);
+    	//recoverFromBackup(file);
     		
     	for (Spreadsheet s : portal.listSpreadsheets("pf")) {
     		System.out.print("Name: " + s.getName());
@@ -189,12 +189,12 @@ public class BubbleApplication {
     	System.out.println(xml.outputString(jdomDoc));
     }
     
-    private static void recoverFromBackup(byte[] doc) {
+    /*private static void recoverFromBackup(byte[] doc) {
     	try {
     		ImportSpreadsheetService importService = new ImportSpreadsheetService(doc);
     		importService.execute();
     	} catch (ImportDocumentException ide) {
     		System.err.println("Error importing document");
     	}
-    }   
+    } */  
 }

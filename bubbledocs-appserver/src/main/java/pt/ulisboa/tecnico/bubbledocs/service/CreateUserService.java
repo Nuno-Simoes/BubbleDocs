@@ -10,7 +10,7 @@ import pt.ulisboa.tecnico.bubbledocs.exceptions.RemoteInvocationException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.UnavailableServiceException;
 import pt.ulisboa.tecnico.bubbledocs.service.remote.IDRemoteServices;
 
-public class CreateUserService extends PortalService {
+public class CreateUserService extends BubbleDocsService {
 
 	private String userToken;
 	private String newUsername;

@@ -16,7 +16,7 @@ public class LoginUserIntegrator extends BubbleDocsIntegrator {
 	}
 	
 	@Override
-	protected void dispatch() throws Exception {
+	protected void dispatch() throws UnavailableServiceException {
 		
 		IDRemoteServices remoteService = new IDRemoteServices();
 		LoginUserService localService = new LoginUserService(username, password);

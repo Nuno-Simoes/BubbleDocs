@@ -11,12 +11,15 @@ import pt.ulisboa.tecnico.bubbledocs.domain.Portal;
 import pt.ulisboa.tecnico.bubbledocs.domain.Spreadsheet;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.ImportDocumentException;
 
-public class ImportSpreadsheetService extends PortalService {
+public class ImportSpreadsheetService extends BubbleDocsService {
+	
     private final byte[] doc;
-    private Spreadsheet s;
+    private final String username;
+    private Spreadsheet sheet;
 
-    public ImportSpreadsheetService (byte[] doc) {
+    public ImportSpreadsheetService (byte[] doc, String username) {
     	this.doc = doc;
+    	this.username = username;
     }
 
     @Override
@@ -34,11 +37,11 @@ public class ImportSpreadsheetService extends PortalService {
     	
     	Element rootElement = jdomDoc.getRootElement();
     	Portal portal = Portal.getInstance();
-    	this.s = portal.importFromXML(rootElement);
+    	this.sheet = portal.importFromXML(rootElement, username);
     }
     
     public final Spreadsheet getResult() {
-		return s;
+		return this.sheet;
 	}
     
 }

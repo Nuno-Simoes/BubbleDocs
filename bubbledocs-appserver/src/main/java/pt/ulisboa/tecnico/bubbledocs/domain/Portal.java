@@ -151,9 +151,13 @@ public class Portal extends Portal_Base {
     	this.getUsersSet().add(user);	
     }
     
-    public Spreadsheet importFromXML(org.jdom2.Element element) {
+    public Spreadsheet importFromXML(org.jdom2.Element element, String owner) {
     	Spreadsheet s = new Spreadsheet();
+    	int id = this.getSheetId();
+    	this.setSheetId(id+1);
     	this.addSpreadsheets(s);
+    	s.setOwner(owner);
+    	s.setId(this.getSheetId());
     	s.importFromXML(element);
     	return s;
     }

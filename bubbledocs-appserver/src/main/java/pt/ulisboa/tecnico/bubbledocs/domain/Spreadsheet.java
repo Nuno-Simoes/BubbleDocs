@@ -75,7 +75,7 @@ public class Spreadsheet extends Spreadsheet_Base {
 	
 	public void importFromXML (Element element) {
 		this.setName(element.getAttributeValue("name"));
-		this.setOwner(element.getAttributeValue("owner"));
+		//this.setOwner(element.getAttributeValue("owner"));
 		Date date = new Date();
 		String newDate = date.toString();
 		this.setDate(newDate);
