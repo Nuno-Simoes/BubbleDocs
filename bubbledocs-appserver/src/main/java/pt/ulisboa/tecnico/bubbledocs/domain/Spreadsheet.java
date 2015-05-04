@@ -41,6 +41,7 @@ public class Spreadsheet extends Spreadsheet_Base {
 		return getCell(part1, part2);
     }
     
+    
     public Cell splitCellReference(String reference){
     	String strings = reference;
 		String[] part = strings.split(";");
@@ -52,6 +53,61 @@ public class Spreadsheet extends Spreadsheet_Base {
 			throw new InvalidContentException();
 		}
 		return getCell(part3, part4);
+    }
+    
+    public BinaryFunction parseBinaryFunction(String binaryFunction) 
+    		throws InvalidContentException  {
+    	String[] initialSplit = binaryFunction.split("(");
+    	String function = initialSplit[0];
+    	
+    	String[] secondSplit = initialSplit[1].split(",");
+    	String firstPart = secondSplit[0];
+    	
+    	String[] thirdSplit = secondSplit[1].split(")");
+    	String secondPart = thirdSplit[0];
+    	
+    	String[] firstPartTest = firstPart.split(";");
+    	String[] secondPartTest = secondPart.split(";");
+    	
+    	Argument firstArgument;
+    	Argument secondArgument;
+    	
+    	if(firstPartTest[1].equals(null)) {
+    		try {
+    			firstArgument = new Literal(Integer.parseInt(firstPart));
+    		} catch (NumberFormatException nfe) {
+    			throw new InvalidContentException();
+    		}
+    	} else {
+    		firstArgument = new Reference(this.splitCellReference(firstPart));
+    	}
+    	
+    	if(secondPartTest[1].equals(null)) {
+    		try {
+    		secondArgument = new Literal(Integer.parseInt(secondPart));
+    		} catch (NumberFormatException nfe) {
+			throw new InvalidContentException();
+    		}
+    	} else {
+    		secondArgument = new Reference(this.splitCellReference(secondPart));
+    	}
+    	
+    	switch(function) {
+    		case "ADD":
+    			BinaryFunction add = new Add(firstArgument, secondArgument);
+    			return add;
+    		case "SUB":
+    			BinaryFunction sub = new Sub(firstArgument, secondArgument);
+    			return sub;
+    		case "MULT":
+    			BinaryFunction mult = new Div(firstArgument, secondArgument);
+    			return mult;
+    		case "DIV":
+    			BinaryFunction div = new Mult(firstArgument, secondArgument);
+    			return div;
+    		default: 
+    			throw new InvalidContentException();
+    	} 	
     }
     
 	public Element exportToXML() {

@@ -1,6 +1,7 @@
 package pt.ulisboa.tecnico.bubbledocs.service;
 
 import pt.ulisboa.tecnico.bubbledocs.domain.Cell;
+import pt.ulisboa.tecnico.bubbledocs.domain.Session;
 import pt.ulisboa.tecnico.bubbledocs.domain.Spreadsheet;
 import pt.ulisboa.tecnico.bubbledocs.domain.Reference;
 import pt.ulisboa.tecnico.bubbledocs.domain.User;
@@ -27,11 +28,19 @@ public class AssignReferenceCellService extends PortalService {
     }
 
     @Override
-    protected void dispatch() throws InvalidPermissionException, LoginBubbleDocsException {
+    protected void dispatch() throws InvalidPermissionException,
+    	LoginBubbleDocsException, InvalidSessionException {
+    	
     	User u = getUser(tokenUser);
     	Portal p = Portal.getInstance();
+    	Session session = Session.getInstance();
     	Spreadsheet s = p.findSpreadsheet(sheetId);
     	Permission perm = u.findPermission(u.getUsername(), sheetId);
+    	
+    	if (!session.isInSession(u)) {
+    		throw new InvalidSessionException(u.getUsername());
+    	}
+    	
     	
     	if (p.isOwner(u, s) || perm.getWrite()) {
     		String string = cellId;
@@ -41,7 +50,8 @@ public class AssignReferenceCellService extends PortalService {
     		Cell refCell = s.splitCellReference(strings);
     		Reference ref = new Reference(refCell);
     		
-    		s.setContent(c.getLine(), c.getColumn() , ref);	
+    		s.setContent(c.getLine(), c.getColumn() , ref);
+    		result = c.getResult();
     	} else {
     		throw new InvalidPermissionException (u.getUsername());
     	}
