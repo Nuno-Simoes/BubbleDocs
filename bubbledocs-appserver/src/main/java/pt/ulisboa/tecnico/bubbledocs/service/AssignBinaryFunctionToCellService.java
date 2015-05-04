@@ -8,7 +8,7 @@ import pt.ulisboa.tecnico.bubbledocs.domain.User;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidPermissionException;
 
 
-public class AssignBinaryFunctionToCellService extends PortalService {
+public class AssignBinaryFunctionToCellService extends BubbleDocsService {
 
 	private String userToken;
 	private int sheetId;

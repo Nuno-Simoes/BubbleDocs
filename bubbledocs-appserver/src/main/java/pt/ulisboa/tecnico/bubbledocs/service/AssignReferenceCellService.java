@@ -8,6 +8,7 @@ import pt.ulisboa.tecnico.bubbledocs.domain.User;
 import pt.ulisboa.tecnico.bubbledocs.domain.Permission;
 import pt.ulisboa.tecnico.bubbledocs.domain.Portal;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidPermissionException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidSessionException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
 
 public class AssignReferenceCellService extends BubbleDocsService {

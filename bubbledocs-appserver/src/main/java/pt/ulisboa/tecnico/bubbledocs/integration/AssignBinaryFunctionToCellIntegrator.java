@@ -18,7 +18,7 @@ public class AssignBinaryFunctionToCellIntegrator extends BubbleDocsIntegrator {
 	}
 	
 	@Override
-	protected void dispatch() throws Exception {
+	protected void dispatch() {
 		AssignBinaryFunctionToCellService localService = 
 				new AssignBinaryFunctionToCellService(userToken, sheetId, cellId,
 						binaryFunction);
