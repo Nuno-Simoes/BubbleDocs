@@ -92,4 +92,14 @@ public class Session extends Session_Base {
     	}
     	throw new LoginBubbleDocsException();
     }
+    
+    public boolean isValidSession(String token) throws LoginBubbleDocsException {
+    	for (User loggedUser : this.getUsersSet()) {
+    		if(loggedUser.getToken().equals(token) && !timeExceeded(loggedUser)) {
+    			return true;
+    		}
+    	}
+    	return false;
+    }
+ 
 }

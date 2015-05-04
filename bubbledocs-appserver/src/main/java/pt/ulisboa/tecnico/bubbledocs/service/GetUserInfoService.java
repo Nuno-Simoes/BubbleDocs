@@ -5,7 +5,7 @@ import pt.ulisboa.tecnico.bubbledocs.domain.User;
 import pt.ulisboa.tecnico.bubbledocs.dto.UserDto;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
 
-public class GetUserInfoService extends PortalService {
+public class GetUserInfoService extends BubbleDocsService {
 	
 	private UserDto dto;
 	private String username;

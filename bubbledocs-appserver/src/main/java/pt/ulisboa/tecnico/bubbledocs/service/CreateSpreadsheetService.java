@@ -4,7 +4,7 @@ import pt.ulisboa.tecnico.bubbledocs.domain.User;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.UserDoesNotExistException;
 
-public class CreateSpreadsheetService extends PortalService {
+public class CreateSpreadsheetService extends BubbleDocsService {
 	
 	private String sheetName;
 	private int lines;

@@ -68,7 +68,10 @@ public class ExportDocumentServiceTest extends BubbleDocsServiceTest {
     	ExportDocumentService service = new ExportDocumentService(lars,id);
         service.execute();
         byte[] result = service.getResult();
-        ImportSpreadsheetService service1 = new ImportSpreadsheetService(result);
+        
+        // IMPORTANTE: ImportSpreadsheetService recebe username e nao token.
+        // ALTERAR
+        ImportSpreadsheetService service1 = new ImportSpreadsheetService(result, lars);
         service1.execute();
         Spreadsheet s = service1.getResult();
         Spreadsheet s1 = getSpreadSheet(NAME);
@@ -78,7 +81,14 @@ public class ExportDocumentServiceTest extends BubbleDocsServiceTest {
         assertEquals(s.getColumns(), s1.getColumns());
         assertEquals(s.getOwner(), s1.getOwner());
         assertEquals(s.getId(), s1.getId());
-    	}
+        
+        for (int i = 1; i <= s.getLines(); i++) {
+			for (int j = 1; j <= s.getColumns(); j++) {
+				assertEquals(s.getCell(i, j).getContent().getResult(),
+						s1.getCell(i, j).getContent().getResult(), 0);
+			}
+		}
+    }
     
     @Test
     public void success1() {

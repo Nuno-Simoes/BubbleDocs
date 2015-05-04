@@ -4,13 +4,13 @@ import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ulisboa.tecnico.bubbledocs.domain.Portal;
 import pt.ulisboa.tecnico.bubbledocs.domain.User;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.BubbledocsException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.PortalException;
 
-public abstract class PortalService {
+public abstract class BubbleDocsService {
 	
 	@Atomic
-	public final void execute() throws PortalException {
+	public final void execute() throws BubbledocsException {
 		dispatch();
 	}
 	
@@ -26,5 +26,5 @@ public abstract class PortalService {
 		return u;
 	}
 	
-	protected abstract void dispatch() throws PortalException;
+	protected abstract void dispatch() throws BubbledocsException;
 }

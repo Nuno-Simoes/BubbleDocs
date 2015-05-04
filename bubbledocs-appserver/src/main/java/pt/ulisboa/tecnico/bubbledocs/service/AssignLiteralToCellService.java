@@ -14,7 +14,7 @@ import pt.ulisboa.tecnico.bubbledocs.exceptions.OutOfBoundsException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.SpreadsheetDoesNotExistException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.UserDoesNotExistException;
 
-public class AssignLiteralToCellService extends PortalService {
+public class AssignLiteralToCellService extends BubbleDocsService {
 	private String result;
 	private String accessUsername;
 	private int docId;

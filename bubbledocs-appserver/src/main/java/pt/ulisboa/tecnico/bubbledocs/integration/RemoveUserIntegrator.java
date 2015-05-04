@@ -19,7 +19,7 @@ public class RemoveUserIntegrator extends BubbleDocsIntegrator {
 	}
 	
 	@Override
-	protected void dispatch() throws Exception {
+	protected void dispatch() {
 		
 		RemoveUserService localService = new RemoveUserService(userToken, username);
 		IDRemoteServices remoteService = new IDRemoteServices();

@@ -8,7 +8,7 @@ import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidPermissionException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.UnavailableServiceException;
 import pt.ulisboa.tecnico.bubbledocs.service.remote.IDRemoteServices;
 
-public class RenewPasswordService extends PortalService {
+public class RenewPasswordService extends BubbleDocsService {
 	private String userToken;
 	
 	public RenewPasswordService (String userToken) {

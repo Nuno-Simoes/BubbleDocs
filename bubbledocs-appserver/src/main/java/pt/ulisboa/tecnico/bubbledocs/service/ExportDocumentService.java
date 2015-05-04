@@ -16,7 +16,7 @@ import pt.ulisboa.tecnico.bubbledocs.exceptions.RemoteInvocationException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.UnavailableServiceException;
 import pt.ulisboa.tecnico.bubbledocs.service.remote.StoreRemoteServices;
 
-public class ExportDocumentService extends PortalService {
+public class ExportDocumentService extends BubbleDocsService {
     private byte[] docXML;
     private String userToken;
     private int docId;

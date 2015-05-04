@@ -5,7 +5,7 @@ import pt.ulisboa.tecnico.bubbledocs.domain.Session;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidPermissionException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
 
-public class LoginUserService extends PortalService {
+public class LoginUserService extends BubbleDocsService {
 
 	private String userToken;
 	private String username;

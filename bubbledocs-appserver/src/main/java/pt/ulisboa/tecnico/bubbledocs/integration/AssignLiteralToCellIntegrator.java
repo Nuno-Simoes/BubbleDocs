@@ -18,7 +18,7 @@ public class AssignLiteralToCellIntegrator extends BubbleDocsIntegrator {
 	}
 	
 	@Override
-	protected void dispatch() throws Exception {
+	protected void dispatch() {
 		AssignLiteralToCellService localService = 
 				new AssignLiteralToCellService(accessUsername, docId, cellId, literal);
 		localService.execute();

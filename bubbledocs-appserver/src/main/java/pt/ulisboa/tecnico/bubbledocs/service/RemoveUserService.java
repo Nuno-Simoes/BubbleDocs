@@ -7,7 +7,7 @@ import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidPermissionException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.UnavailableServiceException;
 
-public class RemoveUserService extends PortalService {
+public class RemoveUserService extends BubbleDocsService {
 	private String userToken;
 	private String username;
 	

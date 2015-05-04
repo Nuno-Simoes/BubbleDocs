@@ -10,7 +10,7 @@ import pt.ulisboa.tecnico.bubbledocs.domain.Portal;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidPermissionException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
 
-public class AssignReferenceCellService extends PortalService {
+public class AssignReferenceCellService extends BubbleDocsService {
 	
     private String result;
 	private String tokenUser;
