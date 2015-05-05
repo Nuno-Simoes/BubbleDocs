@@ -117,15 +117,15 @@ public class GetSpreadsheetContentServiceTest extends BubbleDocsServiceTest {
 			}
 		}
 		
-		assertEquals(doc[1][1], "4");
-		assertEquals(doc[1][3], "20");
-		assertEquals(doc[3][3], "4");
-		assertEquals(doc[3][4], " ");
-		assertEquals(doc[5][2], "4");
-		assertEquals(doc[6][4], "24");
-		assertEquals(doc[9][2], "16");
-		assertEquals(doc[8][3], "0");
-		assertEquals(doc[9][6], "5");
+		assertEquals("4", doc[1][1]);
+		assertEquals("20", doc[1][3]);
+		assertEquals("4", doc[3][3]);
+		assertEquals(" ", doc[3][4]);
+		assertEquals("4", doc[5][2]);
+		assertEquals("24", doc[6][4]);
+		assertEquals("16", doc[9][2]);
+		assertEquals("0", doc[8][3]);
+		assertEquals("5", doc[9][6]);
 	}
 	
 	@Test 
