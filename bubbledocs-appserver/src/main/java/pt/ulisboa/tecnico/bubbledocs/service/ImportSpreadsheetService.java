@@ -8,8 +8,11 @@ import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 
 import pt.ulisboa.tecnico.bubbledocs.domain.Portal;
+import pt.ulisboa.tecnico.bubbledocs.domain.Session;
 import pt.ulisboa.tecnico.bubbledocs.domain.Spreadsheet;
+import pt.ulisboa.tecnico.bubbledocs.domain.User;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.ImportDocumentException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidSessionException;
 
 public class ImportSpreadsheetService extends BubbleDocsService {
 	
@@ -23,7 +26,14 @@ public class ImportSpreadsheetService extends BubbleDocsService {
     }
 
     @Override
-    protected void dispatch() {
+    protected void dispatch() throws InvalidSessionException {
+    	User u = Portal.getInstance().findUser(username);
+    	Session s = Session.getInstance();
+    	
+    	if(!(s.isInSession(u))) {
+    		throw new InvalidSessionException(u.getUsername());
+    	}
+    	
     	org.jdom2.Document jdomDoc;
     	
     	SAXBuilder builder = new SAXBuilder();

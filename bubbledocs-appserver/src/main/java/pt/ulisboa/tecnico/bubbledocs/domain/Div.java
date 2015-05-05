@@ -26,7 +26,7 @@ public class Div extends Div_Base {
     	} else if (secondArgument==0){
     		throw new DivisionByZeroException();
     	} else {
-    		result = firstArgument + secondArgument;
+    		result = firstArgument / secondArgument;
     	}
     	
     	return result;
