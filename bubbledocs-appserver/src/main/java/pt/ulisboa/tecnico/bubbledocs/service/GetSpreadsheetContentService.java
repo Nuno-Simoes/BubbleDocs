@@ -33,7 +33,7 @@ public class GetSpreadsheetContentService extends BubbleDocsService {
 					if(s.getCell(i, j).getContent().equals(null)) {
 						result[i][j] = "";
 					}
-					result[i][j] = s.getCell(i, j).getContent().toString();
+					result[i][j] = String.valueOf(s.getCell(i, j).getContent().getResult());
 				}
 			}
 		} else {

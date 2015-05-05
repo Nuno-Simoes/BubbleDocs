@@ -13,6 +13,7 @@ import pt.ulisboa.tecnico.bubbledocs.domain.User;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidPermissionException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.SpreadsheetDoesNotExistException;
+import pt.ulisboa.tecnico.bubbledocs.integration.GetSpreadsheetContentIntegrator;
 
 public class GetSpreadsheetContentServiceTest extends BubbleDocsServiceTest {
 	
@@ -102,7 +103,7 @@ public class GetSpreadsheetContentServiceTest extends BubbleDocsServiceTest {
 				new GetSpreadsheetContentIntegrator(tokfloyd, spreadId);
 		service.execute();
 		
-		String [][] doc = service.getResult;
+		String [][] doc = service.getResult();
 		
 		int lines = doc.length;
         int columns = doc[0].length;
@@ -110,8 +111,8 @@ public class GetSpreadsheetContentServiceTest extends BubbleDocsServiceTest {
         assertEquals(SPREAD_LINES, lines);
         assertEquals(SPREAD_COLUMNS, columns);
 		
-		for (int i = 1; i<=lines; i++) {
-			for(int j = 1; j<=columns; j++) {
+		for (int i = 0; i<lines; i++) {
+			for(int j = 0; j<columns; j++) {
 				assertTrue(doc[i][j] instanceof String);
 			}
 		}
@@ -133,7 +134,7 @@ public class GetSpreadsheetContentServiceTest extends BubbleDocsServiceTest {
 				new GetSpreadsheetContentIntegrator(tokfloyd, emptySpreadId);
 		service.execute();
 		
-		String [][] doc = service.getResult;
+		String [][] doc = service.getResult();
 		int lines = doc.length;
         int columns = doc[0].length;
 		
