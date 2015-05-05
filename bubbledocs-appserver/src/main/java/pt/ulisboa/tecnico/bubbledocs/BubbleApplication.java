@@ -24,7 +24,7 @@ import pt.ulisboa.tecnico.bubbledocs.exceptions.ImportDocumentException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidPermissionException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
 import pt.ulisboa.tecnico.bubbledocs.service.AssignLiteralToCellService;
-import pt.ulisboa.tecnico.bubbledocs.service.AssignReferenceCellService;
+import pt.ulisboa.tecnico.bubbledocs.service.AssignReferenceToCellService;
 import pt.ulisboa.tecnico.bubbledocs.service.CreateSpreadsheetService;
 import pt.ulisboa.tecnico.bubbledocs.service.CreateUserService;
 import pt.ulisboa.tecnico.bubbledocs.service.ExportDocumentService;
@@ -136,7 +136,7 @@ public class BubbleApplication {
 
     		AssignLiteralToCellService assignliteral = new AssignLiteralToCellService(user, docId, "3;4", "5");
     		assignliteral.execute();
-    		AssignReferenceCellService assignreference = new AssignReferenceCellService(user, docId, "5;6", "1;1");
+    		AssignReferenceToCellService assignreference = new AssignReferenceToCellService(user, docId, "5;6", "1;1");
     		assignreference.execute();
 
 

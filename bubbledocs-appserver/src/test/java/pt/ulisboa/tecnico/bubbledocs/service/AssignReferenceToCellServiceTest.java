@@ -56,7 +56,7 @@ public class AssignReferenceToCellServiceTest extends BubbleDocsServiceTest {
 
     @Test
     public void success() {
-    	AssignReferenceCellService service = new AssignReferenceCellService(logars,
+    	AssignReferenceToCellService service = new AssignReferenceToCellService(logars,
     			id, "1;1","3;3");
         service.execute();
         Spreadsheet sheet = super.getSpreadSheet(SPREADNAME);
@@ -67,49 +67,49 @@ public class AssignReferenceToCellServiceTest extends BubbleDocsServiceTest {
     
     @Test(expected = LoginBubbleDocsException.class)
     public void userNotLogged() {
-    	AssignReferenceCellService service = new AssignReferenceCellService(logjoaoj,
+    	AssignReferenceToCellService service = new AssignReferenceToCellService(logjoaoj,
     				id, "1;1", "3;3");
     	service.execute();
     }
 
     @Test(expected = SpreadsheetDoesNotExistException.class)
     public void spreadsheetDoesNotExist() {
-    	AssignReferenceCellService service = new AssignReferenceCellService(logars,
+    	AssignReferenceToCellService service = new AssignReferenceToCellService(logars,
     			ID_DOES_NOT_EXIST, "1;1","3;3");
         service.execute();
     }
 
     @Test(expected = InvalidPermissionException.class)
     public void invalidUser() {
-    	AssignReferenceCellService service = new AssignReferenceCellService(logsam,
+    	AssignReferenceToCellService service = new AssignReferenceToCellService(logsam,
     			id, "1;1","3;3");
         service.execute();
     }
 
     @Test(expected = OutOfBoundsException.class)
     public void outOfBounds() {
-    	AssignReferenceCellService service = new AssignReferenceCellService(logars,
+    	AssignReferenceToCellService service = new AssignReferenceToCellService(logars,
     			id, "30;5","3;2");
         service.execute();
     }
     
     @Test(expected = OutOfBoundsException.class)
     public void outOfBounds2() {
-    	AssignReferenceCellService service = new AssignReferenceCellService(logars,
+    	AssignReferenceToCellService service = new AssignReferenceToCellService(logars,
     			id, "3;2","30;5");
         service.execute();
     }
 
     @Test(expected = InvalidContentException.class)
     public void notAReference() {
-    	AssignReferenceCellService service = new AssignReferenceCellService(logars,
+    	AssignReferenceToCellService service = new AssignReferenceToCellService(logars,
     			id, "1;1","failed");
         service.execute();
     }
     
     @Test(expected = InvalidPermissionException.class)
     public void protectedCell() {
-    	AssignReferenceCellService service = new AssignReferenceCellService(logars,
+    	AssignReferenceToCellService service = new AssignReferenceToCellService(logars,
     			id, "7;3","3;7");
         service.execute();
     }

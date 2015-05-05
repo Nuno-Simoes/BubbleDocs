@@ -11,18 +11,18 @@ import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidPermissionException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidSessionException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
 
-public class AssignReferenceCellService extends BubbleDocsService {
+public class AssignReferenceToCellService extends BubbleDocsService {
 	
     private String result;
-	private String tokenUser;
-	private int sheetId;
+	private String accessUsername;
+	private int docId;
 	private String cellId;
 	private String reference;
 
-    public AssignReferenceCellService(String tokenUser, int sheetId, String cellId,
+    public AssignReferenceToCellService(String accessUsername, int docId, String cellId,
             String reference) {
-    	this.tokenUser = tokenUser;
-    	this.sheetId = sheetId;
+    	this.accessUsername = accessUsername;
+    	this.docId = docId;
     	this.cellId = cellId;
     	this.reference = reference;
 	
@@ -32,11 +32,11 @@ public class AssignReferenceCellService extends BubbleDocsService {
     protected void dispatch() throws InvalidPermissionException,
     	LoginBubbleDocsException, InvalidSessionException {
     	
-    	User u = getUser(tokenUser);
+    	User u = getUser(accessUsername);
     	Portal p = Portal.getInstance();
     	Session session = Session.getInstance();
-    	Spreadsheet s = p.findSpreadsheet(sheetId);
-    	Permission perm = u.findPermission(u.getUsername(), sheetId);
+    	Spreadsheet s = p.findSpreadsheet(docId);
+    	Permission perm = u.findPermission(u.getUsername(), docId);
     	
     	if (!session.isInSession(u)) {
     		throw new InvalidSessionException(u.getUsername());
