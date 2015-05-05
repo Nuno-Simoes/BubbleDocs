@@ -4,6 +4,7 @@ import org.jdom2.DataConversionException;
 import org.jdom2.Element;
 
 import pt.ulisboa.tecnico.bubbledocs.exceptions.ImportDocumentException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.ProtectedCellException;
 
 public class Cell extends Cell_Base {
     
@@ -87,6 +88,15 @@ public class Cell extends Cell_Base {
     public void delete() {
     	this.getContent().delete();
     	this.setSpreadsheet(null);
+    }
+    
+    @Override
+    public void setContent(Content c) throws ProtectedCellException {
+    	if (this.getIsProtected()) {
+    		throw new ProtectedCellException();
+    	} else {
+    		super.setContent(c);
+    	}
     }
     
 }

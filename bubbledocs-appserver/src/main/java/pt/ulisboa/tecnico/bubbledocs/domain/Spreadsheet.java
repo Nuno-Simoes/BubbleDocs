@@ -57,13 +57,20 @@ public class Spreadsheet extends Spreadsheet_Base {
     
     public BinaryFunction parseBinaryFunction(String binaryFunction) 
     		throws InvalidContentException  {
-    	String[] initialSplit = binaryFunction.split("(");
+    	String[] initialSplit = binaryFunction.split("\\(");
     	String function = initialSplit[0];
     	
     	String[] secondSplit = initialSplit[1].split(",");
+    	
+    	if (secondSplit.length!=2) {
+    		throw new InvalidContentException();
+    	}
+    	
     	String firstPart = secondSplit[0];
     	
-    	String[] thirdSplit = secondSplit[1].split(")");
+    	String[] thirdSplit;
+    	thirdSplit = secondSplit[1].split("\\)");
+    	
     	String secondPart = thirdSplit[0];
     	
     	String[] firstPartTest = firstPart.split(";");
@@ -72,7 +79,7 @@ public class Spreadsheet extends Spreadsheet_Base {
     	Argument firstArgument;
     	Argument secondArgument;
     	
-    	if(firstPartTest[1].equals(null)) {
+    	if(firstPartTest.length==1) {
     		try {
     			firstArgument = new Literal(Integer.parseInt(firstPart));
     		} catch (NumberFormatException nfe) {
@@ -82,7 +89,7 @@ public class Spreadsheet extends Spreadsheet_Base {
     		firstArgument = new Reference(this.splitCellReference(firstPart));
     	}
     	
-    	if(secondPartTest[1].equals(null)) {
+    	if(secondPartTest.length==1) {
     		try {
     		secondArgument = new Literal(Integer.parseInt(secondPart));
     		} catch (NumberFormatException nfe) {
@@ -100,10 +107,10 @@ public class Spreadsheet extends Spreadsheet_Base {
     			BinaryFunction sub = new Sub(firstArgument, secondArgument);
     			return sub;
     		case "MULT":
-    			BinaryFunction mult = new Div(firstArgument, secondArgument);
+    			BinaryFunction mult = new Mult(firstArgument, secondArgument);
     			return mult;
     		case "DIV":
-    			BinaryFunction div = new Mult(firstArgument, secondArgument);
+    			BinaryFunction div = new Div(firstArgument, secondArgument);
     			return div;
     		default: 
     			throw new InvalidContentException();
