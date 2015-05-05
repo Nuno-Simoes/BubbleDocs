@@ -1,6 +1,8 @@
 package pt.ulisboa.tecnico.bubbledocs.integration;
 
 import pt.ulisboa.tecnico.bubbledocs.dto.UserDto;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.RemoteInvocationException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.UnavailableServiceException;
 import pt.ulisboa.tecnico.bubbledocs.service.CreateUserService;
 import pt.ulisboa.tecnico.bubbledocs.service.GetUserInfoService;
 import pt.ulisboa.tecnico.bubbledocs.service.RemoveUserService;
@@ -12,14 +14,14 @@ public class RemoveUserIntegrator extends BubbleDocsIntegrator {
 	private String username;
 	private UserDto dto;
 
-	RemoveUserIntegrator(String userToken, String username) {
+	public RemoveUserIntegrator(String userToken, String username) {
 		this.userToken = userToken;
 		GetUserInfoService info = new GetUserInfoService(username);
 		this.dto = info.getResult();
 	}
 	
 	@Override
-	protected void dispatch() {
+	protected void dispatch() throws UnavailableServiceException {
 		
 		RemoveUserService localService = new RemoveUserService(userToken, username);
 		IDRemoteServices remoteService = new IDRemoteServices();
@@ -27,11 +29,12 @@ public class RemoveUserIntegrator extends BubbleDocsIntegrator {
 		try {
 			localService.execute();
 			remoteService.removeUser(username);
-		} catch (Exception e) {
+		} catch (RemoteInvocationException e) {
 			CreateUserService compensationService =
 					new CreateUserService(userToken, dto.getUsername(), 
 							dto.getEmail(), dto.getName());
 			compensationService.execute();
+			throw new UnavailableServiceException();
 		}
 	}
 

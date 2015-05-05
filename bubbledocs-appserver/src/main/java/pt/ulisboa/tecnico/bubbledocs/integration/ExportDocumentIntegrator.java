@@ -35,4 +35,8 @@ public class ExportDocumentIntegrator extends BubbleDocsIntegrator {
 			throw new UnavailableServiceException();
 		}
 	}
+	
+	public final byte[] getResult() {
+        return this.document;
+    }
 }
