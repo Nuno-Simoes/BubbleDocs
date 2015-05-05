@@ -10,6 +10,7 @@ import pt.ulisboa.tecnico.bubbledocs.domain.Permission;
 import pt.ulisboa.tecnico.bubbledocs.domain.Portal;
 import pt.ulisboa.tecnico.bubbledocs.domain.Spreadsheet;
 import pt.ulisboa.tecnico.bubbledocs.domain.User;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.CannotLoadDocumentException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidSessionException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.RemoteInvocationException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.UnavailableServiceException;
@@ -120,12 +121,12 @@ public class ImportSpreadsheetIntegratorTest extends BubbleDocsServiceTest {
 		integrator.execute();
 	}
 	
-	@Test(expected=UnavailableServiceException.class)
+	@Test(expected=CannotLoadDocumentException.class)
 	public void documentNotExported() {
 		
 		new Expectations() {{
 			remote.loadDocument(anyString, anyString);
-			result = new RemoteInvocationException();
+			result = new CannotLoadDocumentException();
 		}};
 		
 		ImportSpreadsheetIntegrator integrator =
