@@ -14,6 +14,7 @@ import pt.ulisboa.tecnico.bubbledocs.exceptions.RemoteInvocationException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.SpreadsheetDoesNotExistException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.UnavailableServiceException;
 import pt.ulisboa.tecnico.bubbledocs.integration.ExportDocumentIntegrator;
+import pt.ulisboa.tecnico.bubbledocs.integration.ImportSpreadsheetIntegrator;
 import pt.ulisboa.tecnico.bubbledocs.service.remote.StoreRemoteServices;
 
 
@@ -67,23 +68,19 @@ public class ExportDocumentIntegratorTest extends BubbleDocsServiceTest {
     }
     
     @Mocked StoreRemoteServices remote;
-    
-    
     @Test
-    public void success() throws Exception {
-    	
-    	new Expectations() {{
-    		remote.storeDocument(anyString, anyString, withNotNull()); 
-    		result = new RemoteInvocationException();
-    	}};
+    public void success() {
     	
     	ExportDocumentIntegrator integrator = new ExportDocumentIntegrator(lars, docId, "ars", docName);
         integrator.execute();
+        byte[] file = integrator.getResult();
+    	
+    	new Expectations() {{
+    		remote.loadDocument(anyString, anyString);
+    		result = file;
+    	}};        
         
-        byte[] result = integrator.getResult();
-        
-        
-        ImportDocumentIntegrator integrator1 = new ImportDocumentIntegrator(lars, docId);
+        ImportSpreadsheetIntegrator integrator1 = new ImportSpreadsheetIntegrator(lars,Integer.toString(docId));
         integrator1.execute();
         Spreadsheet s = integrator1.getResult();
         Spreadsheet s1 = getSpreadSheet(NAME);
@@ -128,11 +125,10 @@ public class ExportDocumentIntegratorTest extends BubbleDocsServiceTest {
     
     @Test(expected = SpreadsheetDoesNotExistException.class)
     public void noSpreadSheet() {
-    	ExportDocumentIntegrator integrator = new ExportDocumentIntegrator(lsam, docId, "sam", "123456789");
+    	ExportDocumentIntegrator integrator = new ExportDocumentIntegrator(lsam, 123, "sam", "123456789");
     	integrator.execute();
     }
-    
-    
+        
     @Test(expected = UnavailableServiceException.class)
     public void Unavailableintegrator() {
     	
