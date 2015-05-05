@@ -12,8 +12,6 @@ import pt.ulisboa.tecnico.bubbledocs.exceptions.UserDoesNotExistException;
 
 public class User extends User_Base {
 
-	private String username;
-
 	public User() {
 		super();
 	}
@@ -153,7 +151,7 @@ public class User extends User_Base {
 		if (username.equals("") || username.length() < 3 || username.length() > 8) {
 			throw new InvalidUsernameException();
 		}
-		this.username = username;
+		super.setUsername(username);
 	}
 
 }
