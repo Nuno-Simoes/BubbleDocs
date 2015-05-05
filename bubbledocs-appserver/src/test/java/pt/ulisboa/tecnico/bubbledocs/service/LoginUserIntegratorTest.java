@@ -84,22 +84,22 @@ public class LoginUserIntegratorTest extends BubbleDocsServiceTest {
         assertEquals(USERNAME, u2.getUsername());
     }
     
-    /*
     @Test
     public void changedPassword() {
-    	Portal p = Portal.getInstance();
-    	User ars = p.findUser(USERNAME);
-    	LoginUserService service = new LoginUserService(USERNAME, NEW_PASSWORD);
-    	service.execute();
+    	new Expectations() {{
+    		remote.loginUser(anyString, anyString);
+    	}};
     	
-    	assertEquals(NEW_PASSWORD, ars.getPassword());
-    } */
+    	new LoginUserIntegrator(USERNAME, NEW_PASSWORD).execute();;
+    	User u = super.getUserFromUsername(USERNAME);
+    	assertEquals(u.getPassword(), NEW_PASSWORD);
+    }
 
     @Test(expected = LoginBubbleDocsException.class)
     public void loginUnknownUser() throws Exception {
     	LoginUserIntegrator integrator = new LoginUserIntegrator(USERNAME_DOES_NOT_EXIST, PASSWORD);
         integrator.execute();
-    }
+    } 
     
     @Test (expected = UnavailableServiceException.class)
     public void unavailableService() throws Exception {
@@ -111,11 +111,21 @@ public class LoginUserIntegratorTest extends BubbleDocsServiceTest {
     	new LoginUserIntegrator(USERNAME, WRONG_PASSWORD).execute();
     }
     
-    @Test(expected = UnavailableServiceException.class)
-    public void loginUserWithinWrongPassword() throws Exception {
+    @Test(expected = LoginBubbleDocsException.class)
+    public void loginUserWithWrongPasswordRemote() throws Exception {
     	new Expectations() {{
     		remote.loginUser(anyString, anyString);
-    		result = new RemoteInvocationException();
+    		result = new LoginBubbleDocsException();
+    	}};
+ 
+        LoginUserIntegrator integrator = new LoginUserIntegrator(USERNAME, WRONG_PASSWORD);
+        integrator.execute();
+    }
+    
+    @Test (expected = UnavailableServiceException.class)
+    public void loginUserWithWrongPasswordLocal() {
+    	new Expectations() {{
+    		remote.loginUser(anyString, anyString);
     	}};
  
         LoginUserIntegrator integrator = new LoginUserIntegrator(USERNAME, WRONG_PASSWORD);
