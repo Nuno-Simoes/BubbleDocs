@@ -14,7 +14,7 @@ public class RemoveUserIntegrator extends BubbleDocsIntegrator {
 	private String username;
 	private UserDto dto;
 
-	RemoveUserIntegrator(String userToken, String username) {
+	public RemoveUserIntegrator(String userToken, String username) {
 		this.userToken = userToken;
 		GetUserInfoService info = new GetUserInfoService(username);
 		this.dto = info.getResult();
