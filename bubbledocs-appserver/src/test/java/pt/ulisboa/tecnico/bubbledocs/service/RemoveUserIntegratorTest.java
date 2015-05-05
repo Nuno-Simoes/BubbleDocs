@@ -57,10 +57,10 @@ public class RemoveUserIntegratorTest extends BubbleDocsServiceTest {
 	public void success() {
 		boolean deletedUser = false;
 		boolean deletedSpreadsheet = false;
-
+				
 		RemoveUserIntegrator service = new RemoveUserIntegrator(root, USERNAME_TO_DELETE);
 		service.execute();
-
+		
 		try {
 			getUserFromUsername(USERNAME_TO_DELETE);
 		} catch (LoginBubbleDocsException une) {

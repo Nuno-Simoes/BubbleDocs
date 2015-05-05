@@ -118,14 +118,4 @@ public class LoginUserIntegratorTest extends BubbleDocsServiceTest {
         LoginUserIntegrator integrator = new LoginUserIntegrator(USERNAME, WRONG_PASSWORD);
         integrator.execute();
     }
-    
-    @Test (expected = UnavailableServiceException.class)
-    public void loginUserWithWrongPasswordLocal() {
-    	new Expectations() {{
-    		remote.loginUser(anyString, anyString);
-    	}};
- 
-        LoginUserIntegrator integrator = new LoginUserIntegrator(USERNAME, WRONG_PASSWORD);
-        integrator.execute();
-    }
 }
