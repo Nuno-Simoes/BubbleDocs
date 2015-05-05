@@ -4,11 +4,15 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import pt.ulisboa.tecnico.bubbledocs.domain.Add;
 import pt.ulisboa.tecnico.bubbledocs.domain.BinaryFunction;
 import pt.ulisboa.tecnico.bubbledocs.domain.Cell;
+import pt.ulisboa.tecnico.bubbledocs.domain.Div;
 import pt.ulisboa.tecnico.bubbledocs.domain.Literal;
+import pt.ulisboa.tecnico.bubbledocs.domain.Mult;
 import pt.ulisboa.tecnico.bubbledocs.domain.Reference;
 import pt.ulisboa.tecnico.bubbledocs.domain.Spreadsheet;
+import pt.ulisboa.tecnico.bubbledocs.domain.Sub;
 import pt.ulisboa.tecnico.bubbledocs.domain.User;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidPermissionException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
@@ -71,12 +75,12 @@ public class GetSpreadsheetContentServiceTest extends BubbleDocsServiceTest {
 		Reference ref3 = new Reference(cRef);
 		Reference ref4 = new Reference(cMult);
 		
-		BinaryFunction add = new BinaryFunction(four, twenty);
-		BinaryFunction mult = new BinaryFunction(ref1, 
+		BinaryFunction add = new Add(four, twenty);
+		BinaryFunction mult = new Mult(ref1, 
 				ref3);
-		BinaryFunction sub = new BinaryFunction(ref4, 
+		BinaryFunction sub = new Sub(ref4, 
 				ref4);
-		BinaryFunction div = new BinaryFunction(twenty, 
+		BinaryFunction div = new Div(twenty, 
 				ref1);
 		
 		s.setContent(1, 1, four);
@@ -105,27 +109,27 @@ public class GetSpreadsheetContentServiceTest extends BubbleDocsServiceTest {
 		
 		String [][] doc = service.getResult();
 		
-		int lines = doc.length;
-        int columns = doc[0].length;
+		int lines = doc.length-1;
+        int columns = doc[0].length-1;
         
         assertEquals(SPREAD_LINES, lines);
         assertEquals(SPREAD_COLUMNS, columns);
 		
-		for (int i = 0; i<lines; i++) {
-			for(int j = 0; j<columns; j++) {
+		for (int i = 1; i<=lines; i++) {
+			for(int j = 1; j<=columns; j++) {
 				assertTrue(doc[i][j] instanceof String);
 			}
 		}
 		
-		assertEquals("4", doc[1][1]);
-		assertEquals("20", doc[1][3]);
-		assertEquals("4", doc[3][3]);
-		assertEquals(" ", doc[3][4]);
-		assertEquals("4", doc[5][2]);
-		assertEquals("24", doc[6][4]);
-		assertEquals("16", doc[9][2]);
-		assertEquals("0", doc[8][3]);
-		assertEquals("5", doc[9][6]);
+		assertEquals("4.0", doc[1][1]);
+		assertEquals("20.0", doc[1][3]);
+		assertEquals("4.0", doc[3][3]);
+		assertEquals("", doc[3][4]);
+		assertEquals("4.0", doc[5][2]);
+		assertEquals("24.0", doc[6][4]);
+		assertEquals("16.0", doc[9][2]);
+		assertEquals("0.0", doc[8][3]);
+		assertEquals("5.0", doc[9][6]);
 	}
 	
 	@Test 
@@ -135,12 +139,12 @@ public class GetSpreadsheetContentServiceTest extends BubbleDocsServiceTest {
 		service.execute();
 		
 		String [][] doc = service.getResult();
-		int lines = doc.length;
-        int columns = doc[0].length;
+		int lines = doc.length-1;
+        int columns = doc[0].length-1;
 		
 		for (int i = 1; i<=lines; i++) {
 			for(int j = 1; j<=columns; j++) {
-				assertEquals(doc[i][j], " ");
+				assertEquals(doc[i][j], "");
 			}
 		}
 	}
@@ -157,6 +161,6 @@ public class GetSpreadsheetContentServiceTest extends BubbleDocsServiceTest {
 	
 	@Test(expected = SpreadsheetDoesNotExistException.class)
 	public void spreadsheetDoesNotExist() {
-		new GetSpreadsheetContentIntegrator(notLogged, notValidSpreadId).execute();
+		new GetSpreadsheetContentIntegrator(tokmanny, notValidSpreadId).execute();
 	}
 }

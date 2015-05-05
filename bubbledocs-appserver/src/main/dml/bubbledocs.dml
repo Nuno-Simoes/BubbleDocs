@@ -46,7 +46,7 @@ class Function extends Content;
 class Argument extends Content;
 
 class Literal extends Argument {
-	int literal;
+	Double literal;
 }
 
 class Reference extends Argument;

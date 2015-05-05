@@ -140,7 +140,7 @@ public class BubbleApplication {
     		assignreference.execute();
 
 
-    		Literal literal = new Literal(2);
+    		Literal literal = new Literal((double)2);
     		Cell cell = ss.getCell(3, 4);
     		Reference reference = new Reference(cell);
     		BinaryFunction function = new Add(literal, reference);

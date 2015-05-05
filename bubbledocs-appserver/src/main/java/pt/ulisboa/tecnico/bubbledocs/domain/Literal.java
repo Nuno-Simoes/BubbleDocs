@@ -11,12 +11,12 @@ public class Literal extends Literal_Base {
 		super();
 	}
 
-	public Literal(int literal) {
+	public Literal(double literal) {
 		super();
 		this.init(literal);
 	}
 
-	protected void init(int literal) {
+	protected void init(double literal) {
 		this.setLiteral(literal);
 	}
 	
@@ -28,7 +28,7 @@ public class Literal extends Literal_Base {
 	public Element exportToXML() {
 		Element element = new Element("literal");
 		
-		if (this.getLiteral() == -1 || Double.isNaN(this.getLiteral())) {
+		if (Double.isNaN(this.getLiteral())) {
 			element.setAttribute("value", "#VALUE");		
 		} else {
 			element.setAttribute("value", Double.toString(this.getLiteral()));
@@ -40,9 +40,9 @@ public class Literal extends Literal_Base {
 	public void importFromXML (Element element) {
 		try {
 			if (element.getAttribute("value").getValue().equals("#VALUE")) {
-				this.setLiteral(-1);
+				this.setLiteral(Double.NaN);
 			} else {
-				this.setLiteral((int)element.getAttribute("value").getDoubleValue());
+				this.setLiteral(element.getAttribute("value").getDoubleValue());
 			}
 		} catch (DataConversionException dce) {
 			throw new ImportDocumentException();

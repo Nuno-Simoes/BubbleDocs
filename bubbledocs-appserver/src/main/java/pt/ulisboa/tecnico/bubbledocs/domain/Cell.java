@@ -20,7 +20,7 @@ public class Cell extends Cell_Base {
     protected void init (int line, int column){
     	this.setLine(line);
     	this.setColumn(column);
-    	this.setContent(new Literal(-1));
+    	this.setContent(new Literal(Double.NaN));
     	this.setIsProtected(false);
     }
     
@@ -77,7 +77,7 @@ public class Cell extends Cell_Base {
     		newContent = new Sub();
     	} else {
     		content = element.getChild("literal");
-    		newContent = new Literal(-1);
+    		newContent = new Literal(Double.NaN);
     	}
     	
     	newContent.setCell(this);
@@ -86,7 +86,9 @@ public class Cell extends Cell_Base {
     }
       
     public void delete() {
-    	this.getContent().delete();
+    	if(this.getContent()!=null) {
+    		this.getContent().delete();
+    	}
     	this.setSpreadsheet(null);
     }
     

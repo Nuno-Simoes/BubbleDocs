@@ -26,14 +26,16 @@ public class GetSpreadsheetContentService extends BubbleDocsService {
 		Portal p = Portal.getInstance();
 		Spreadsheet s = p.findSpreadsheet(docId);
 		Permission perm = u.findPermission(u.getUsername(), s.getId());
-		result = new String[s.getLines()][s.getColumns()];
+		result = new String[s.getLines()+1][s.getColumns()+1];
 		if(p.isOwner(u, s) || perm.getRead() || perm.getWrite()) {
-			for(int i = 0; i < s.getLines(); i++) {
-				for(int j = 0; j < s.getColumns(); j++) {
-					if(s.getCell(i, j).getContent().equals(null)) {
+			for(int i = 1; i <= s.getLines(); i++) {
+				for(int j = 1; j <= s.getColumns(); j++) {
+					if(s.getCell(i, j).getContent().equals(null) ||
+							Double.isNaN(s.getCell(i, j).getContent().getResult())) {
 						result[i][j] = "";
+					} else {
+						result[i][j] = String.valueOf(s.getCell(i, j).getContent().getResult());
 					}
-					result[i][j] = String.valueOf(s.getCell(i, j).getContent().getResult());
 				}
 			}
 		} else {
