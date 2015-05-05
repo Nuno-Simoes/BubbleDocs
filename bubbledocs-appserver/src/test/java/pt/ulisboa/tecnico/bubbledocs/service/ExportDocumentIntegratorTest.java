@@ -13,17 +13,19 @@ import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.RemoteInvocationException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.SpreadsheetDoesNotExistException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.UnavailableServiceException;
+import pt.ulisboa.tecnico.bubbledocs.integration.ExportDocumentIntegrator;
 import pt.ulisboa.tecnico.bubbledocs.service.remote.StoreRemoteServices;
 
 
-public class ExportDocumentServiceTest extends BubbleDocsServiceTest {
+public class ExportDocumentIntegratorTest extends BubbleDocsServiceTest {
 	
 	// the tokens
     private String lars;
     private String lsam;
     private String lton;
     private String lmik;
-    private int id;
+    private int docId;
+    private String docName;
     private String logana;
     
     private static final String USERNAME = "ars";
@@ -52,9 +54,10 @@ public class ExportDocumentServiceTest extends BubbleDocsServiceTest {
     	u3.setPassword(PASSWORD);
     	
     	Spreadsheet s = createSpreadSheet(u, NAME, 10, 10);
-    	id = s.getId();
-    	u.modifyPermissions(u1.getUsername(), id, true, false);
-    	u.modifyPermissions(u2.getUsername(), id, false, true);
+    	docId = s.getId();
+    	docName = s.getName();
+    	u.modifyPermissions(u1.getUsername(), docId, true, false);
+    	u.modifyPermissions(u2.getUsername(), docId, false, true);
     	lars = addUserToSession("ars");
     	lsam = addUserToSession("sam");
     	lton = addUserToSession("ton");
@@ -63,17 +66,26 @@ public class ExportDocumentServiceTest extends BubbleDocsServiceTest {
     	
     }
     
+    @Mocked StoreRemoteServices remote;
+    
+    
     @Test
-    public void success() {
-    	ExportDocumentService service = new ExportDocumentService(lars,id);
-        service.execute();
-        byte[] result = service.getResult();
+    public void success() throws Exception {
+    	
+    	new Expectations() {{
+    		remote.storeDocument(anyString, anyString, withNotNull()); 
+    		result = new RemoteInvocationException();
+    	}};
+    	
+    	ExportDocumentIntegrator integrator = new ExportDocumentIntegrator(lars, docId, "ars", docName);
+        integrator.execute();
         
-        // IMPORTANTE: ImportSpreadsheetService recebe username e nao token.
-        // ALTERAR
-        ImportSpreadsheetService service1 = new ImportSpreadsheetService(result, lars);
-        service1.execute();
-        Spreadsheet s = service1.getResult();
+        byte[] result = integrator.getResult();
+        
+        
+        ImportDocumentIntegrator integrator1 = new ImportDocumentIntegrator(lars, docId);
+        integrator1.execute();
+        Spreadsheet s = integrator1.getResult();
         Spreadsheet s1 = getSpreadSheet(NAME);
         
         assertEquals(s.getName(), s1.getName());
@@ -92,43 +104,43 @@ public class ExportDocumentServiceTest extends BubbleDocsServiceTest {
     
     @Test
     public void success1() {
-    	ExportDocumentService service = new ExportDocumentService(lsam,id);
-        service.execute();
+    	ExportDocumentIntegrator integrator = new ExportDocumentIntegrator(lsam, docId,"sam", docName);
+        integrator.execute();
     }
     
     @Test
     public void success2() {
-    	ExportDocumentService service = new ExportDocumentService(lton,id);
-        service.execute();
+    	ExportDocumentIntegrator integrator = new ExportDocumentIntegrator(lton, docId, "ton", docName);
+        integrator.execute();
     }
     
     @Test(expected = LoginBubbleDocsException.class)
     public void userNotLogged() {
-    	ExportDocumentService service = new ExportDocumentService(logana,id);
-    	service.execute();
+    	ExportDocumentIntegrator integrator = new ExportDocumentIntegrator(logana, docId, "ana" , docName);
+    	integrator.execute();
     }
     
     @Test(expected = InvalidPermissionException.class)
     public void invalidPermission() {
-    	ExportDocumentService service = new ExportDocumentService(lmik,id);
-        service.execute();
+    	ExportDocumentIntegrator integrator = new ExportDocumentIntegrator(lmik, docId, "mik" , docName);
+        integrator.execute();
     }
     
     @Test(expected = SpreadsheetDoesNotExistException.class)
     public void noSpreadSheet() {
-    	ExportDocumentService service = new ExportDocumentService(lsam, 123456789);
-    	service.execute();
+    	ExportDocumentIntegrator integrator = new ExportDocumentIntegrator(lsam, docId, "sam", "123456789");
+    	integrator.execute();
     }
     
-    @Mocked StoreRemoteServices remote1;
+    
     @Test(expected = UnavailableServiceException.class)
-    public void UnavailableService() {
+    public void Unavailableintegrator() {
     	
     	new Expectations() {{
-    		remote1.storeDocument(anyString, anyString, withNotNull()); 
+    		remote.storeDocument(anyString, anyString, withNotNull()); 
     		result = new RemoteInvocationException();
     	}};
     	
-        new ExportDocumentService(lars, id).execute();
+        new ExportDocumentIntegrator(lars, docId, "ars", docName).execute();
     }
 }
