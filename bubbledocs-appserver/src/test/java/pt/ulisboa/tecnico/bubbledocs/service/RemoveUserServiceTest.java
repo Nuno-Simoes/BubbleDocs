@@ -1,19 +1,13 @@
 package pt.ulisboa.tecnico.bubbledocs.service;
 
 import static org.junit.Assert.assertTrue;
-import mockit.Expectations;
-import mockit.Mocked;
 
 import org.junit.Test;
 
 import pt.ulisboa.tecnico.bubbledocs.domain.User;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.RemoteInvocationException;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.UnavailableServiceException;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.UserDoesNotExistException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidPermissionException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.SpreadsheetDoesNotExistException;
-import pt.ulisboa.tecnico.bubbledocs.service.remote.IDRemoteServices;
 
 public class RemoveUserServiceTest extends BubbleDocsServiceTest {
 

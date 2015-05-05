@@ -21,6 +21,6 @@ public class GetUsername4TokenService extends BubbleDocsService {
 	}
 	
 	public final String getResult() {
-		return username;
+		return this.username;
 	}
 }

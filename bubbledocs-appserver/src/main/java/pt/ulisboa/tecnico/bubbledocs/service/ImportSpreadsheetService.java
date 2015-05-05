@@ -33,7 +33,6 @@ public class ImportSpreadsheetService extends BubbleDocsService {
     	if(!(s.isInSession(u))) {
     		throw new InvalidSessionException(u.getUsername());
     	}
-    	
     	org.jdom2.Document jdomDoc;
     	
     	SAXBuilder builder = new SAXBuilder();

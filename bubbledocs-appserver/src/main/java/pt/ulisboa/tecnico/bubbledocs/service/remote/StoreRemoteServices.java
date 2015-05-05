@@ -12,5 +12,5 @@ public class StoreRemoteServices {
     public byte[] loadDocument(String username, String docName)
            throws CannotLoadDocumentException, RemoteInvocationException {
        // TODO : the connection and invocation of the remote service
-        return new byte[0];
+        return new byte[10240];
 } }

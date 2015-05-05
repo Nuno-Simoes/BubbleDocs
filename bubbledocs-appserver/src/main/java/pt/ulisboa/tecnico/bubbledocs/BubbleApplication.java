@@ -53,7 +53,7 @@ public class BubbleApplication {
 			System.out.println(s.getName());
 		}
 		
-		LoginUserService login = new LoginUserService("pfsss", "sub");
+		LoginUserService login = new LoginUserService("pfsss", "sub", true);
 		login.execute();
 		String userToken = login.getUserToken();
 				
@@ -95,7 +95,7 @@ public class BubbleApplication {
     		String root = null;
 
     		try {
-    			LoginUserService service  = new LoginUserService("root", "rootroot");
+    			LoginUserService service  = new LoginUserService("root", "rootroot", true);
     			service.execute();
     			root = service.getUserToken();
     		} catch (InvalidPermissionException ie) {
@@ -113,7 +113,7 @@ public class BubbleApplication {
     		User pf = p.findUser("pfsss");
     		pf.setPassword("sub");
     		
-    		LoginUserService login = new LoginUserService("pfsss", "sub");
+    		LoginUserService login = new LoginUserService("pfsss", "sub", true);
     		login.execute();
     		String user = login.getUserToken();
     		
