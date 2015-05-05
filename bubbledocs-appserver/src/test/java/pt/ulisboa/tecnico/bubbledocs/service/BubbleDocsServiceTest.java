@@ -95,7 +95,7 @@ public class BubbleDocsServiceTest {
     	Session s = Session.getInstance();
 
     	User u = p.findUser(username);
-    	s.login(username, u.getPassword());
+    	s.login(username, u.getPassword(), false);
     	return u.getToken();
     }
 

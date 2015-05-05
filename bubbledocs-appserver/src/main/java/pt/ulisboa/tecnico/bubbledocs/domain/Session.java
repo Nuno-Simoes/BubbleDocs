@@ -21,15 +21,18 @@ public class Session extends Session_Base {
 		return instance;
 	}
 	
-	public void login(String username, String password)
+	public void login(String username, String password, boolean status)
 			throws UserDoesNotExistException, UnavailableServiceException  {
 		Portal p = Portal.getInstance();
 		User u = p.findUser(username);
-		String userPassword = u.getPassword();
 
-		if (userPassword==null) {
+		if ((u.getPassword())==null) {
 			throw new UnavailableServiceException();
-		} else if(userPassword.equals(password)) {
+		} else if (!status) {
+			u.setPassword(password);
+		}
+		
+		if ((u.getPassword()).equals(password)) {
 			this.createToken(u);
 			this.setSessionTime(u);
 			this.addUsers(u);

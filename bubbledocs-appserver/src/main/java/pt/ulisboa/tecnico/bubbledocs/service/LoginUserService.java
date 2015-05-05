@@ -10,10 +10,12 @@ public class LoginUserService extends BubbleDocsService {
 	private String userToken;
 	private String username;
 	private String password;
+	private boolean status;
 	
-	public LoginUserService(String username, String password) {
+	public LoginUserService(String username, String password, boolean status) {
 		this.username = username;
 		this.password = password;
+		this.status = status;
 	}
 
 	@Override
@@ -23,7 +25,7 @@ public class LoginUserService extends BubbleDocsService {
 		Portal p = Portal.getInstance();
 		Session s = Session.getInstance();
 		
-		s.login(username, password);
+		s.login(username, password, status);
 		this.userToken = p.findUser(username).getToken();	
 	}
 

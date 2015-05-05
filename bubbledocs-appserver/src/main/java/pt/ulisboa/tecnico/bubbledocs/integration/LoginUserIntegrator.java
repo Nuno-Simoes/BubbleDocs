@@ -19,13 +19,16 @@ public class LoginUserIntegrator extends BubbleDocsIntegrator {
 	protected void dispatch() throws UnavailableServiceException {
 		
 		IDRemoteServices remoteService = new IDRemoteServices();
-		LoginUserService localService = new LoginUserService(username, password);
-			
+		LoginUserService localService;
+		boolean failed = false;
+		
 		try {
 			remoteService.loginUser(username, password);
 		} catch (RemoteInvocationException rie) {
-			throw new UnavailableServiceException();
+			failed = true;
 		}
+		
+		localService = new LoginUserService(username, password, failed);
 		localService.execute();
 	}
 
