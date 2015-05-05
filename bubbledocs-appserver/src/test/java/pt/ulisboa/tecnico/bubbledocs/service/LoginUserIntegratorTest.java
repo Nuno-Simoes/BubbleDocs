@@ -7,12 +7,10 @@ import mockit.Mocked;
 import org.junit.Test;
 
 import pt.ulisboa.tecnico.bubbledocs.domain.Portal;
-import pt.ulisboa.tecnico.bubbledocs.domain.Session;
 import pt.ulisboa.tecnico.bubbledocs.domain.User;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.RemoteInvocationException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.UnavailableServiceException;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.UserDoesNotExistException;
 import pt.ulisboa.tecnico.bubbledocs.integration.LoginUserIntegrator;
 import pt.ulisboa.tecnico.bubbledocs.service.remote.IDRemoteServices;
 
@@ -84,16 +82,15 @@ public class LoginUserIntegratorTest extends BubbleDocsServiceTest {
         assertEquals(USERNAME, u2.getUsername());
     }
     
-    /*
     @Test
     public void changedPassword() {
     	Portal p = Portal.getInstance();
     	User ars = p.findUser(USERNAME);
-    	LoginUserService service = new LoginUserService(USERNAME, NEW_PASSWORD);
+    	LoginUserService service = new LoginUserService(USERNAME, NEW_PASSWORD, false);
     	service.execute();
     	
     	assertEquals(NEW_PASSWORD, ars.getPassword());
-    } */
+    }
 
     @Test(expected = LoginBubbleDocsException.class)
     public void loginUnknownUser() throws Exception {
