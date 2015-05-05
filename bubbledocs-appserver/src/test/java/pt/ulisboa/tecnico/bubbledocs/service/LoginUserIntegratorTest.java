@@ -88,7 +88,7 @@ public class LoginUserIntegratorTest extends BubbleDocsServiceTest {
     	User ars = p.findUser(USERNAME);
     	LoginUserService service = new LoginUserService(USERNAME, NEW_PASSWORD, false);
     	service.execute();
-    	
+
     	assertEquals(NEW_PASSWORD, ars.getPassword());
     }
 
@@ -96,7 +96,7 @@ public class LoginUserIntegratorTest extends BubbleDocsServiceTest {
     public void loginUnknownUser() throws Exception {
     	LoginUserIntegrator integrator = new LoginUserIntegrator(USERNAME_DOES_NOT_EXIST, PASSWORD);
         integrator.execute();
-    }
+    } 
     
     @Test (expected = UnavailableServiceException.class)
     public void unavailableService() throws Exception {
@@ -108,11 +108,21 @@ public class LoginUserIntegratorTest extends BubbleDocsServiceTest {
     	new LoginUserIntegrator(USERNAME, WRONG_PASSWORD).execute();
     }
     
-    @Test(expected = UnavailableServiceException.class)
-    public void loginUserWithinWrongPassword() throws Exception {
+    @Test(expected = LoginBubbleDocsException.class)
+    public void loginUserWithWrongPasswordRemote() throws Exception {
     	new Expectations() {{
     		remote.loginUser(anyString, anyString);
-    		result = new RemoteInvocationException();
+    		result = new LoginBubbleDocsException();
+    	}};
+ 
+        LoginUserIntegrator integrator = new LoginUserIntegrator(USERNAME, WRONG_PASSWORD);
+        integrator.execute();
+    }
+    
+    @Test (expected = UnavailableServiceException.class)
+    public void loginUserWithWrongPasswordLocal() {
+    	new Expectations() {{
+    		remote.loginUser(anyString, anyString);
     	}};
  
         LoginUserIntegrator integrator = new LoginUserIntegrator(USERNAME, WRONG_PASSWORD);
