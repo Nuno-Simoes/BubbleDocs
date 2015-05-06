@@ -1,7 +1,6 @@
 package pt.ulisboa.tecnico.bubbledocs.integration.component;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -14,7 +13,6 @@ import pt.ulisboa.tecnico.bubbledocs.exceptions.ProtectedCellException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.SpreadsheetDoesNotExistException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
 import pt.ulisboa.tecnico.bubbledocs.integration.AssignLiteralToCellIntegrator;
-import pt.ulisboa.tecnico.bubbledocs.integration.GetSpreadsheetContentIntegrator;
 
 public class AssignLiteralToCellIntegratorTest extends BubbleDocsIntegratorTest {
 
