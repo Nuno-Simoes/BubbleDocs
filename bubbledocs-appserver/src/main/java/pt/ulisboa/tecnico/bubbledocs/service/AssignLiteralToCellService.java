@@ -8,13 +8,11 @@ import pt.ulisboa.tecnico.bubbledocs.domain.Spreadsheet;
 import pt.ulisboa.tecnico.bubbledocs.domain.User;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidContentException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidPermissionException;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidUsernameException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.OutOfBoundsException;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.SpreadsheetDoesNotExistException;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.UserDoesNotExistException;
 
 public class AssignLiteralToCellService extends BubbleDocsService {
+
 	private String result;
 	private String accessUsername;
 	private int docId;
@@ -30,11 +28,13 @@ public class AssignLiteralToCellService extends BubbleDocsService {
 	}
 
 	@Override
-	protected void dispatch() throws InvalidUsernameException,
-			UserDoesNotExistException, SpreadsheetDoesNotExistException,
-			InvalidPermissionException, LoginBubbleDocsException {
-		
+	protected void dispatch() throws InvalidPermissionException, 
+	LoginBubbleDocsException, InvalidContentException, OutOfBoundsException {
+
 		User u = super.getUser(accessUsername);
+		Portal p = Portal.getInstance();
+		Spreadsheet s = p.findSpreadsheet(docId);
+		Permission perm = u.findPermission(u.getUsername(), docId);
 
 		try {
 			Integer.parseInt(literal);
@@ -42,28 +42,11 @@ public class AssignLiteralToCellService extends BubbleDocsService {
 			throw new InvalidContentException();
 		}
 
-		if (u.getUsername().equals("")) {
-			throw new InvalidUsernameException();
-		}
-
-		Portal portal = Portal.getInstance();
-		Spreadsheet s = portal.findSpreadsheet(docId);
-		
-		if (u.equals(null)) {
-			throw new UserDoesNotExistException(u.getUsername());
-		}
-		Permission p = u.findPermission(u.getUsername(), docId);
-
-		if (p.getWrite()) {
+		if (p.isOwner(u, s) || perm.getWrite()) {
 			String part = cellId;
 			Cell c = s.splitCellId(part);
-			if (c.getIsProtected()) {
-				throw new InvalidPermissionException();
-			}
-			if (c.equals(null)) {
-				throw new OutOfBoundsException();
-			}
 			s.setContent(c.getLine(), c.getColumn(), new Literal(Integer.parseInt(literal)));
+			result = c.getResult();
 		} else {
 			throw new InvalidPermissionException(u.getUsername());
 		}
