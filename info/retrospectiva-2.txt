@@ -3,7 +3,7 @@ Project planning and execution of third week:
 | Group Member  | T | F | S | S | M | T | W | Planned Tasks           |
 |---------------|---|---|---|---|---|---|---|-------------------------|
 | AfrAndrade    | 2 | 3 | 0 | 0 | 4 | 5 | 4 | 95, 108, 111            |
-| BrunoS92      | 3 | 3 | 4 | 4 | 2 | 4 | 4 | 72, 107                 |
+| BrunoS92      | 3 | 3 | 4 | 4 | 2 | 4 | 4 | 107                     |
 | marcoist      | 2 | 0 | 3 | 3 | 2 | 0 | 2 | 82, 101, 104            |
 | Nuno-Simoes   | 3 | 3 | 5 | 5 | 4 | 4 | 4 | 99, 105                 |
 | PJBNascimento | 3 | 2 | 4 | 4 | 4 | 3 | 4 | 84, 110, 112            |
@@ -12,8 +12,8 @@ Project planning and execution of third week:
 Retrospective of second week:
 * [ALL] As a group we decided to implement all the tasks relative to the 
 ES part of the project, even implementing some tasks that weren't initially 
-planned for the last week (#51, #55, #71, #77, #79, #93, #94). Leaving the 
-planned tasks relative to SD to be implemented in the third week.
+planned for the last week (#51, #55, #71, #72, #77, #79, #93, #94). Leaving 
+the planned tasks relative to SD to be implemented in the third week.
 
 * [AfrAndrade] Some tasks were implemented by others because they were needed for their implementation/verification. 
 The rest were implemented without trouble.
