@@ -1,4 +1,4 @@
-package pt.ulisboa.tecnico.bubbledocs.service;
+package pt.ulisboa.tecnico.bubbledocs.integration.component;
 
 import static org.junit.Assert.*;
 
@@ -8,6 +8,7 @@ import pt.ulisboa.tecnico.bubbledocs.domain.Permission;
 import pt.ulisboa.tecnico.bubbledocs.domain.Spreadsheet;
 import pt.ulisboa.tecnico.bubbledocs.domain.User;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.*;
+import pt.ulisboa.tecnico.bubbledocs.service.CreateSpreadsheetService;
 
 public class CreateSpreadsheetServiceTest extends BubbleDocsServiceTest {
 	

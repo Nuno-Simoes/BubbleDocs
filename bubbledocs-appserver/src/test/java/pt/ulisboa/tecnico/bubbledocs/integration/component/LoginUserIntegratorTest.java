@@ -1,4 +1,4 @@
-package pt.ulisboa.tecnico.bubbledocs.service;
+package pt.ulisboa.tecnico.bubbledocs.integration.component;
 
 import static org.junit.Assert.*;
 import mockit.Expectations;
@@ -12,6 +12,7 @@ import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.RemoteInvocationException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.UnavailableServiceException;
 import pt.ulisboa.tecnico.bubbledocs.integration.LoginUserIntegrator;
+import pt.ulisboa.tecnico.bubbledocs.service.LoginUserService;
 import pt.ulisboa.tecnico.bubbledocs.service.remote.IDRemoteServices;
 
 // add needed import declarations

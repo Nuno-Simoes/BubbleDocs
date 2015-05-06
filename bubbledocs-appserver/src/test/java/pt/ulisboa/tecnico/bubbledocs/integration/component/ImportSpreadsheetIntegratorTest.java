@@ -1,4 +1,4 @@
-package pt.ulisboa.tecnico.bubbledocs.service;
+package pt.ulisboa.tecnico.bubbledocs.integration.component;
 
 import static org.junit.Assert.assertEquals;
 import mockit.Expectations;
@@ -15,6 +15,7 @@ import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidSessionException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.RemoteInvocationException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.UnavailableServiceException;
 import pt.ulisboa.tecnico.bubbledocs.integration.ImportSpreadsheetIntegrator;
+import pt.ulisboa.tecnico.bubbledocs.service.ExportDocumentService;
 import pt.ulisboa.tecnico.bubbledocs.service.remote.StoreRemoteServices;
 
 public class ImportSpreadsheetIntegratorTest extends BubbleDocsServiceTest {

@@ -1,4 +1,4 @@
-package pt.ulisboa.tecnico.bubbledocs.service;
+package pt.ulisboa.tecnico.bubbledocs.integration.component;
 
 import static org.junit.Assert.assertEquals;
 import mockit.Expectations;
@@ -13,6 +13,7 @@ import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidUsernameException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.RemoteInvocationException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.UnavailableServiceException;
+import pt.ulisboa.tecnico.bubbledocs.service.CreateUserService;
 import pt.ulisboa.tecnico.bubbledocs.service.remote.IDRemoteServices;
 
 public class CreateUserServiceTest extends BubbleDocsServiceTest {

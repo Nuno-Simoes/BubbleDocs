@@ -1,4 +1,4 @@
-package pt.ulisboa.tecnico.bubbledocs.service;
+package pt.ulisboa.tecnico.bubbledocs.integration.component;
 
 import static org.junit.Assert.assertEquals;
 
@@ -12,6 +12,7 @@ import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidContentException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.OutOfBoundsException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.SpreadsheetDoesNotExistException;
+import pt.ulisboa.tecnico.bubbledocs.service.AssignReferenceToCellService;
 
 public class AssignReferenceToCellServiceTest extends BubbleDocsServiceTest {
 
