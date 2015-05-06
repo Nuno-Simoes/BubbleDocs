@@ -13,9 +13,22 @@ Retrospective of second week:
 * [ALL] As a group we decided to implement all the tasks relative to the 
 ES part of the project, even implementing some tasks that weren't initially 
 planned for the last week (#51, #55, #71, #77, #79, #93, #94). Leaving the 
-tasks relative to SD to be implemented in the third week.
+planned tasks relative to SD to be implemented in the third week.
+
+* [BrunoS92] All tasks were implemented without any major problems or
+set backs.
+
+* [marcoist] All tasks were implemented without any major problems or
+set backs, except the task #82 because I have some doubts about its
+implementation.
+
+* [Nuno-Simoes] All tasks were implemented without any major problems or
+set backs. Implemented a task belonging to AfrAndrade, #39.
+
+* [PJBNascimento] All tasks were implemented without any major problems or
+set backs.
 
 * [ritap420] I implemented two tasks #58, #68, that were initially assigned
-to AfrAndrade, seeing as all its assigned tasks weren't implemented, and
+to AfrAndrade, seeing as all his assigned tasks weren't implemented, and
 they were needed in various tasks relative to mine and the rest of the
 members.
