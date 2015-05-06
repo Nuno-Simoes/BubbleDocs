@@ -1,5 +1,6 @@
 package pt.ulisboa.tecnico.bubbledocs.service;
 
+import pt.ulisboa.tecnico.bubbledocs.domain.Session;
 import pt.ulisboa.tecnico.bubbledocs.domain.User;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.DuplicateUsernameException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
@@ -20,7 +21,8 @@ public class RenewPasswordService extends BubbleDocsService {
 		LoginBubbleDocsException, DuplicateUsernameException,
 		UnavailableServiceException {
 		
-		User u = getUser(userToken);
+		Session s = Session.getInstance();
+		User u = s.getLoggedUser(userToken);
 		
 		try {
 			IDRemoteServices renew = new IDRemoteServices();
