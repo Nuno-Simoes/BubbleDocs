@@ -1,13 +1,13 @@
-Project planing and execution of second week:
+Project planning and execution of second week:
 
-| Group Member | T  | F  | S  | S  | M  | T  | W  | Planned Tasks                    |
-|--------------|----|----|----|----|----|----|----|----------------------------------|
-| AfrAndrade   | 1  | 2  | 2  | 2  |    |    |    | 39, 58, 60                       |
-| BrunoS92     | 1  | 0  | 0  | 2  | 4  | 3  | 3  | 90, 52, 107, 50, 67, 78          |
-| marcoist     | 0  | 1  | 1  | 2  | 2  | 2  | 2  | 96, 82, 56, 54, 47, 101          |
-| Nuno-Simoes  | 3  | 0  | 2  | 0  | 2  | 2  | 2  | 48, 46, 68, 99, 43, 75, 114, 115 |
-| PJBNascimento| 0  | 3  | 1  | 0  | 3  | 3  | 3  | 38, 40, 86, 87, 74, 76           |
-| ritap420     | 2  | 2  | 0  | 1  | 2  | 2  | 2  | 59, 69, 100, 116                 |
+| Group Member  | T | F | S | S | M | T | W | Planned Tasks                    |
+|---------------|---|---|---|---|---|---|---|----------------------------------|
+| AfrAndrade    | 1 | 2 | 2 | 2 | 3 | 0 | 3 | 39, 58, 60, 62, 89, 95           |
+| BrunoS92      | 1 | 0 | 0 | 2 | 4 | 3 | 3 | 50, 52, 67, 78, 90, 107          |
+| marcoist      | 0 | 1 | 1 | 2 | 2 | 2 | 2 | 47, 54, 56, 82, 96, 101          |
+| Nuno-Simoes   | 3 | 0 | 2 | 0 | 2 | 2 | 2 | 43, 46, 48, 68, 75, 99, 114, 115 |
+| PJBNascimento | 0 | 3 | 1 | 0 | 3 | 3 | 3 | 38, 40, 74, 76, 86, 87           |
+| ritap420      | 2 | 2 | 0 | 1 | 2 | 2 | 2 | 59, 69, 100, 116                 |
 
 Retrospective of first week:
 * [ritap420] I had not planned to implement task #65 but upon implementing the

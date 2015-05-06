@@ -1,10 +1,10 @@
-Project planing and execution of first week:
+Project planning and execution of first week:
 
-| Group Member | T  | F  | S  | S  | M  | T  | W  | Planned Tasks     |
-|--------------|----|----|----|----|----|----|----|-------------------|
-| AfrAndrade   | 0  | 0  | 0  | 0  | 0  | 0  | 1  | 39, 58, 60        |
-| BrunoS92     | 0  | 0  | 0  | 0  | 0  | 0  | 0  | 90, 52            |
-| marcoist     | 0  | 0  | 0  | 0  | 0  | 0  | 0  | 96, 82            |
-| Nuno-Simoes  | 0  | 0  | 0  | 0  | 0  | 0  | 3  | 91, 97, 88, 48, 46|
-| PJBNascimento| 0  | 0  | 0  | 0  | 0  | 0  | 1  | 38, 40, 86, 87    |
-| ritap420     | 0  | 0  | 0  | 0  | 0  | 0  | 2  | 80, 59, 44, 69, 42|
+| Group Member  | T | F | S | S | M | T | W | Planned Tasks      |
+|---------------|---|---|---|---|---|---|---|--------------------|
+| AfrAndrade    | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 39, 58, 60         |
+| BrunoS92      | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 52, 90             |
+| marcoist      | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 82, 96             |
+| Nuno-Simoes   | 0 | 0 | 0 | 0 | 0 | 0 | 3 | 46, 48, 88, 91, 97 |
+| PJBNascimento | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 38, 40, 86, 87     |
+| ritap420      | 0 | 0 | 0 | 0 | 0 | 0 | 2 | 42, 44, 59, 69, 80 |
