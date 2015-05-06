@@ -15,8 +15,8 @@ ES part of the project, even implementing some tasks that weren't initially
 planned for the last week (#51, #55, #71, #72, #77, #79, #93, #94). Leaving 
 the planned tasks relative to SD to be implemented in the third week.
 
-* [AfrAndrade] Some tasks were implemented by others because they were needed for their implementation/verification. 
-The rest were implemented without trouble.
+* [AfrAndrade] Some tasks were implemented by others because they were needed 
+for their implementation/verification. The rest were implemented without trouble.
 
 * [BrunoS92] All tasks were implemented without any major problems or
 set backs.
