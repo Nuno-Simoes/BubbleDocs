@@ -29,7 +29,7 @@ public class LoginUserService extends BubbleDocsService {
 		this.userToken = p.findUser(username).getToken();	
 	}
 
-	public final String getUserToken() {
+	public final String getResult() {
 		return userToken;
 	}
 }

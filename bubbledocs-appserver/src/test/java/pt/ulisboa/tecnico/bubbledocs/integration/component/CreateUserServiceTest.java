@@ -112,7 +112,7 @@ public class CreateUserServiceTest extends BubbleDocsServiceTest {
     @Mocked
     IDRemoteServices remote;
     
-    @Test (expected = UnavailableServiceException.class)
+    @Test
     public void unavailableService() {
     	
     	new Expectations() {{
