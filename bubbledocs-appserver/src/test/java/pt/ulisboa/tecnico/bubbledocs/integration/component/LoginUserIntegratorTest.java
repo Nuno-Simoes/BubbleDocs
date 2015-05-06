@@ -17,7 +17,7 @@ import pt.ulisboa.tecnico.bubbledocs.service.remote.IDRemoteServices;
 
 // add needed import declarations
 
-public class LoginUserIntegratorTest extends BubbleDocsServiceTest {
+public class LoginUserIntegratorTest extends BubbleDocsIntegratorTest {
 
     private static final String USERNAME = "ars";
     private static final String NAME = "António Rito Silva";

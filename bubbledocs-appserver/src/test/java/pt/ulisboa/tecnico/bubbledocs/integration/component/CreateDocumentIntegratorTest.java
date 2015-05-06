@@ -8,9 +8,9 @@ import pt.ulisboa.tecnico.bubbledocs.domain.Permission;
 import pt.ulisboa.tecnico.bubbledocs.domain.Spreadsheet;
 import pt.ulisboa.tecnico.bubbledocs.domain.User;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.*;
-import pt.ulisboa.tecnico.bubbledocs.service.CreateSpreadsheetService;
+import pt.ulisboa.tecnico.bubbledocs.service.CreateDocumentIntegrator;
 
-public class CreateSpreadsheetServiceTest extends BubbleDocsServiceTest {
+public class CreateDocumentIntegratorTest extends BubbleDocsIntegratorTest {
 	
 	private String lars;
 	private String logcav;
@@ -48,9 +48,9 @@ public class CreateSpreadsheetServiceTest extends BubbleDocsServiceTest {
 	
     @Test
 	public void success() {
-		CreateSpreadsheetService service = new CreateSpreadsheetService(lars, 
+		CreateDocumentIntegrator integrator = new CreateDocumentIntegrator(lars, 
 				SHEET_NAME, 20, 20);
-		service.execute();
+		integrator.execute();
 		Spreadsheet s = super.getSpreadSheet(SHEET_NAME);
 		assertEquals("ars", s.getOwner());
 		assertEquals(SHEET_NAME, s.getName());
@@ -61,9 +61,9 @@ public class CreateSpreadsheetServiceTest extends BubbleDocsServiceTest {
     @Test
     public void sucess2() {
     	boolean found = false;
-    	CreateSpreadsheetService service = new CreateSpreadsheetService(lars, 
+    	CreateDocumentIntegrator integrator = new CreateDocumentIntegrator(lars, 
     			SHEET_NAME, 20, 20);
-    	service.execute();
+    	integrator.execute();
     	Spreadsheet s = super.getSpreadSheet(SHEET_NAME);
     	for (Permission p : s.getPermissionsSet()) {
     		if (p.getUser().getUsername().equals("sam")) {
@@ -76,9 +76,9 @@ public class CreateSpreadsheetServiceTest extends BubbleDocsServiceTest {
     @Test
     public void sucess3() {
     	boolean found = false;
-    	CreateSpreadsheetService service = new CreateSpreadsheetService(lars,
+    	CreateDocumentIntegrator integrator = new CreateDocumentIntegrator(lars,
     			SHEET_NAME, 20, 20);
-    	service.execute();
+    	integrator.execute();
     	Spreadsheet s = super.getSpreadSheet(SHEET_NAME);
     	for (Permission p : s.getPermissionsSet()) {
     		if (p.getWrite()) {
@@ -90,27 +90,26 @@ public class CreateSpreadsheetServiceTest extends BubbleDocsServiceTest {
     
     @Test(expected = LoginBubbleDocsException.class)
     public void userNotLogged() {
-    	CreateSpreadsheetService service = new CreateSpreadsheetService(logcav,
+    	CreateDocumentIntegrator integrator = new CreateDocumentIntegrator(logcav,
     			SHEET_NAME, 20, 20);
-    	service.execute();
+    	integrator.execute();
     }
     
     @Test(expected = EmptySpreadsheetNameException.class)
     public void emptySpreadsheetName() {
-    	CreateSpreadsheetService service = new CreateSpreadsheetService(lars, "", 20, 20);
-    	service.execute();
+    	CreateDocumentIntegrator integrator = new CreateDocumentIntegrator(lars, "", 20, 20);
+    	integrator.execute();
     }
     
     @Test(expected = InvalidSpreadsheetSizeException.class)
     public void invalidSpreadsheetLineSize() {
-    	CreateSpreadsheetService service = new CreateSpreadsheetService(lars, SHEET_NAME, -1, 20);
-    	service.execute();
+    	CreateDocumentIntegrator integrator = new CreateDocumentIntegrator(lars, SHEET_NAME, -1, 20);
+    	integrator.execute();
     }
     
     @Test(expected = InvalidSpreadsheetSizeException.class)
     public void invalidSpreadsheetColumnSize() {
-    	CreateSpreadsheetService service = new CreateSpreadsheetService(lars, SHEET_NAME, 20, 0);
-    	service.execute();
-    }
-    
+    	CreateDocumentIntegrator integrator = new CreateDocumentIntegrator(lars, SHEET_NAME, 20, 0);
+    	integrator.execute();
+    }   
 }

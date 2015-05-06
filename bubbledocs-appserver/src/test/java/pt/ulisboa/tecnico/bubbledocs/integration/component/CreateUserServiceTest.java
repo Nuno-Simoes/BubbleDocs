@@ -12,11 +12,10 @@ import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidPermissionException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidUsernameException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.RemoteInvocationException;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.UnavailableServiceException;
 import pt.ulisboa.tecnico.bubbledocs.service.CreateUserService;
 import pt.ulisboa.tecnico.bubbledocs.service.remote.IDRemoteServices;
 
-public class CreateUserServiceTest extends BubbleDocsServiceTest {
+public class CreateUserServiceTest extends BubbleDocsIntegratorTest {
 
     private String root;
     private String lsmf;

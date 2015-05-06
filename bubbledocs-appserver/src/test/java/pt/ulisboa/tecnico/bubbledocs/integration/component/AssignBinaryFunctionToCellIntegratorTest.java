@@ -13,9 +13,9 @@ import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidPermissionException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.OutOfBoundsException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.ProtectedCellException;
-import pt.ulisboa.tecnico.bubbledocs.service.AssignBinaryFunctionToCellService;
+import pt.ulisboa.tecnico.bubbledocs.integration.AssignBinaryFunctionToCellIntegrator;
 
-public class AssignBinaryFunctionToCellServiceTest extends BubbleDocsServiceTest {
+public class AssignBinaryFunctionToCellIntegratorTest extends BubbleDocsIntegratorTest {
 	
 	private String validToken;
 	private String noPermissionToken;
@@ -98,180 +98,180 @@ public class AssignBinaryFunctionToCellServiceTest extends BubbleDocsServiceTest
 	// Successful test 1 - add two literals
 	@Test
 	public void add1() {
-		AssignBinaryFunctionToCellService service =
-				new AssignBinaryFunctionToCellService(validToken,
+		AssignBinaryFunctionToCellIntegrator integrator =
+				new AssignBinaryFunctionToCellIntegrator(validToken,
 						DOC_ID, CELL, FUNCTION_1);
-		service.execute();
+		integrator.execute();
 		assertEquals(validDoc.getCell(1, 1).getContent().getResult(), 3, 0);
 	}
 	
 	// Successful test 2 - add literal with reference
 	@Test
 	public void add2() {
-		AssignBinaryFunctionToCellService service =
-				new AssignBinaryFunctionToCellService(validToken,
+		AssignBinaryFunctionToCellIntegrator integrator =
+				new AssignBinaryFunctionToCellIntegrator(validToken,
 						DOC_ID, CELL, FUNCTION_2);
-		service.execute();
+		integrator.execute();
 		assertEquals(validDoc.getCell(1, 1).getContent().getResult(), 15, 0);
 	}
 	
 	// Successful test 3 - add two references
 	@Test
 	public void add3() {
-		AssignBinaryFunctionToCellService service =
-				new AssignBinaryFunctionToCellService(validToken,
+		AssignBinaryFunctionToCellIntegrator integrator =
+				new AssignBinaryFunctionToCellIntegrator(validToken,
 						DOC_ID, CELL, FUNCTION_3);
-		service.execute();
+		integrator.execute();
 		assertEquals(validDoc.getCell(1, 1).getContent().getResult(), 9, 0);
 	}
 	
 	// Successful test 4 - sub
 	@Test
 	public void sub1() {
-		AssignBinaryFunctionToCellService service =
-				new AssignBinaryFunctionToCellService(validToken,
+		AssignBinaryFunctionToCellIntegrator integrator =
+				new AssignBinaryFunctionToCellIntegrator(validToken,
 						DOC_ID, CELL, FUNCTION_4);
-		service.execute();
+		integrator.execute();
 		assertEquals(validDoc.getCell(1, 1).getContent().getResult(), 4, 0);
 	}
 	
 	// Successful test 5 - sub with negative result
 	@Test
 	public void sub2() {
-		AssignBinaryFunctionToCellService service =
-				new AssignBinaryFunctionToCellService(validToken,
+		AssignBinaryFunctionToCellIntegrator integrator =
+				new AssignBinaryFunctionToCellIntegrator(validToken,
 						DOC_ID, CELL, FUNCTION_5);
-		service.execute();
+		integrator.execute();
 		assertEquals(validDoc.getCell(1, 1).getContent().getResult(), -3, 0);
 	}
 	
 	// Successful test 6 - multiplication
 	@Test
 	public void mult() {
-		AssignBinaryFunctionToCellService service =
-				new AssignBinaryFunctionToCellService(validToken,
+		AssignBinaryFunctionToCellIntegrator integrator =
+				new AssignBinaryFunctionToCellIntegrator(validToken,
 						DOC_ID, CELL, FUNCTION_6);
-		service.execute();
+		integrator.execute();
 		assertEquals(validDoc.getCell(1, 1).getContent().getResult(), 0, 0);
 	}
 	
 	// Successful test 7 - division
 	@Test
 	public void div1() {
-		AssignBinaryFunctionToCellService service =
-				new AssignBinaryFunctionToCellService(validToken,
+		AssignBinaryFunctionToCellIntegrator integrator =
+				new AssignBinaryFunctionToCellIntegrator(validToken,
 						DOC_ID, CELL, FUNCTION_7);
-		service.execute();
+		integrator.execute();
 		assertEquals(validDoc.getCell(1, 1).getContent().getResult(), 2, 0);
 	}
 	
 	// Successful test 7 - division
 	@Test
 	public void div2() {
-		AssignBinaryFunctionToCellService service =
-				new AssignBinaryFunctionToCellService(validToken,
+		AssignBinaryFunctionToCellIntegrator integrator =
+				new AssignBinaryFunctionToCellIntegrator(validToken,
 						DOC_ID, CELL, FUNCTION_8);
-		service.execute();
+		integrator.execute();
 		assertEquals(validDoc.getCell(1, 1).getContent().getResult(), 4.5, 0);
 	}
 	
 	// Unsuccessful test 1 - protected cell
 	@Test(expected=ProtectedCellException.class)
 	public void protectedCell() {
-		AssignBinaryFunctionToCellService service =
-				new AssignBinaryFunctionToCellService(validToken,
+		AssignBinaryFunctionToCellIntegrator integrator =
+				new AssignBinaryFunctionToCellIntegrator(validToken,
 						DOC_ID, PROTECTED_CELL, FUNCTION_1);
-		service.execute();
+		integrator.execute();
 	}
 	
 	// Unsuccessful test 2 - division by zero
 	@Test(expected=DivisionByZeroException.class)
 	public void divisionByZero() {
-		AssignBinaryFunctionToCellService service =
-				new AssignBinaryFunctionToCellService(validToken,
+		AssignBinaryFunctionToCellIntegrator integrator =
+				new AssignBinaryFunctionToCellIntegrator(validToken,
 						DOC_ID, CELL, INVALID_FUNCTION_1);
-		service.execute();
+		integrator.execute();
 	}
 	
 	// Unsuccessful test 3 - invalid function name
 	@Test(expected=InvalidContentException.class)
 	public void invalidFunctionName() {
-		AssignBinaryFunctionToCellService service =
-				new AssignBinaryFunctionToCellService(validToken,
+		AssignBinaryFunctionToCellIntegrator integrator =
+				new AssignBinaryFunctionToCellIntegrator(validToken,
 						DOC_ID, CELL, INVALID_FUNCTION_2);
-		service.execute();
+		integrator.execute();
 	}
 	
 	// Unsuccessful test 4 - empty arguments
 	@Test(expected=InvalidContentException.class)
 	public void emptyArguments() {
-		AssignBinaryFunctionToCellService service =
-				new AssignBinaryFunctionToCellService(validToken,
+		AssignBinaryFunctionToCellIntegrator integrator =
+				new AssignBinaryFunctionToCellIntegrator(validToken,
 						DOC_ID, CELL, INVALID_FUNCTION_3);
-		service.execute();
+		integrator.execute();
 	}
 	
 	// Unsuccessful test 5 - invalid number of arguments
 	@Test(expected=InvalidContentException.class)
 	public void invalidNumberOfArguments() {
-		AssignBinaryFunctionToCellService service =
-				new AssignBinaryFunctionToCellService(validToken,
+		AssignBinaryFunctionToCellIntegrator integrator =
+				new AssignBinaryFunctionToCellIntegrator(validToken,
 						DOC_ID, CELL, INVALID_FUNCTION_4);
-		service.execute();
+		integrator.execute();
 	}
 	
 	// Unsuccessful test 6 - invalid number of arguments
 	@Test(expected=InvalidContentException.class)
 	public void invalidNumberOfArguments2() {
-		AssignBinaryFunctionToCellService service =
-				new AssignBinaryFunctionToCellService(validToken,
+		AssignBinaryFunctionToCellIntegrator integrator =
+				new AssignBinaryFunctionToCellIntegrator(validToken,
 						DOC_ID, CELL, INVALID_FUNCTION_5);
-		service.execute();
+		integrator.execute();
 	}
 	
 	// Unsuccessful test 7 - cell out of bounds
 	@Test(expected=OutOfBoundsException.class)
 	public void cellOutOfBounds() {
-		AssignBinaryFunctionToCellService service =
-				new AssignBinaryFunctionToCellService(validToken,
+		AssignBinaryFunctionToCellIntegrator integrator =
+				new AssignBinaryFunctionToCellIntegrator(validToken,
 						DOC_ID, CELL_OUT_OF_BOUNDS, FUNCTION_1);
-		service.execute();
+		integrator.execute();
 	}
 	
 	// Unsuccessful test 8 - invalid arguments
 	@Test(expected=InvalidContentException.class)
 	public void invalidArguments1() {
-		AssignBinaryFunctionToCellService service =
-				new AssignBinaryFunctionToCellService(validToken,
+		AssignBinaryFunctionToCellIntegrator integrator =
+				new AssignBinaryFunctionToCellIntegrator(validToken,
 						DOC_ID, CELL, INVALID_FUNCTION_6);
-		service.execute();
+		integrator.execute();
 	}
 	
 	// Unsuccessful test 8 - invalid arguments
 	@Test(expected=InvalidContentException.class)
 	public void invalidArguments2() {
-		AssignBinaryFunctionToCellService service =
-				new AssignBinaryFunctionToCellService(validToken,
+		AssignBinaryFunctionToCellIntegrator integrator =
+				new AssignBinaryFunctionToCellIntegrator(validToken,
 						DOC_ID, CELL, INVALID_FUNCTION_7);
-		service.execute();
+		integrator.execute();
 	}
 	
 	// Unsuccessful test 9 - user without permission
 	@Test(expected=InvalidPermissionException.class)
 	public void invalidPermission() {
-		AssignBinaryFunctionToCellService service =
-				new AssignBinaryFunctionToCellService(noPermissionToken, 
+		AssignBinaryFunctionToCellIntegrator integrator =
+				new AssignBinaryFunctionToCellIntegrator(noPermissionToken, 
 				DOC_ID, CELL, FUNCTION_1);
-		service.execute();
+		integrator.execute();
 	}
 	
 	// Unsuccessful test 10 - invalid session
 	@Test(expected=LoginBubbleDocsException.class)
 	public void invalidToken() {
-		AssignBinaryFunctionToCellService service =
-				new AssignBinaryFunctionToCellService(invalidSessionToken, 
+		AssignBinaryFunctionToCellIntegrator integrator =
+				new AssignBinaryFunctionToCellIntegrator(invalidSessionToken, 
 				DOC_ID, CELL, FUNCTION_1);
-		service.execute();		
+		integrator.execute();		
 	}
 
 }

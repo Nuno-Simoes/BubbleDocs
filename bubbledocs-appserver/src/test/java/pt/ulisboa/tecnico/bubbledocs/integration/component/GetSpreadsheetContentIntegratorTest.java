@@ -19,7 +19,7 @@ import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.SpreadsheetDoesNotExistException;
 import pt.ulisboa.tecnico.bubbledocs.integration.GetSpreadsheetContentIntegrator;
 
-public class GetSpreadsheetContentServiceTest extends BubbleDocsServiceTest {
+public class GetSpreadsheetContentIntegratorTest extends BubbleDocsIntegratorTest {
 	
 	private String tokfloyd;
 	private String tokmanny;

@@ -4,14 +4,14 @@ import pt.ulisboa.tecnico.bubbledocs.service.AssignReferenceToCellService;
 
 public class AssignReferenceToCellIntegrator extends BubbleDocsIntegrator {
 
-	private String accessUsername;
+	private String token;
 	private int docId;
 	private String cellId;
 	private String reference;
 
-	public AssignReferenceToCellIntegrator(String accessUsername, int docId,
+	public AssignReferenceToCellIntegrator(String token, int docId,
 			String cellId, String reference) {
-		this.accessUsername = accessUsername;
+		this.token = token;
 		this.docId = docId;
 		this.cellId = cellId;
 		this.reference = reference;
@@ -20,7 +20,7 @@ public class AssignReferenceToCellIntegrator extends BubbleDocsIntegrator {
 	@Override
 	protected void dispatch() {
 		AssignReferenceToCellService localService = 
-				new AssignReferenceToCellService(accessUsername, docId, cellId, reference);
+				new AssignReferenceToCellService(token, docId, cellId, reference);
 		localService.execute();
 	}
 

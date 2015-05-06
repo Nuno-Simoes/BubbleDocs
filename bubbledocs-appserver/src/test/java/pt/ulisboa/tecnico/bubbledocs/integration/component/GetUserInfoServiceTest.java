@@ -8,7 +8,7 @@ import pt.ulisboa.tecnico.bubbledocs.dto.UserDto;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
 import pt.ulisboa.tecnico.bubbledocs.service.GetUserInfoService;
 
-public class GetUserInfoServiceTest extends BubbleDocsServiceTest {
+public class GetUserInfoServiceTest extends BubbleDocsIntegratorTest {
 	
 	private static final String CORRECT_USERNAME = "alice";
 	private static final String CORRECT_NAME = "alice";

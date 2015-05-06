@@ -13,7 +13,7 @@ import pt.ulisboa.tecnico.bubbledocs.exceptions.UnavailableServiceException;
 import pt.ulisboa.tecnico.bubbledocs.service.RenewPasswordService;
 import pt.ulisboa.tecnico.bubbledocs.service.remote.IDRemoteServices;
 
-public class RenewPasswordServiceTest extends BubbleDocsServiceTest {
+public class RenewPasswordServiceTest extends BubbleDocsIntegratorTest {
 	
 	private String logars;
 	private String logcbranco;

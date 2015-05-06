@@ -14,11 +14,11 @@ import pt.ulisboa.tecnico.bubbledocs.exceptions.RemoteInvocationException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.SpreadsheetDoesNotExistException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.UnavailableServiceException;
 import pt.ulisboa.tecnico.bubbledocs.integration.ExportDocumentIntegrator;
-import pt.ulisboa.tecnico.bubbledocs.integration.ImportSpreadsheetIntegrator;
+import pt.ulisboa.tecnico.bubbledocs.integration.ImportDocumentIntegrator;
 import pt.ulisboa.tecnico.bubbledocs.service.remote.StoreRemoteServices;
 
 
-public class ExportDocumentIntegratorTest extends BubbleDocsServiceTest {
+public class ExportDocumentIntegratorTest extends BubbleDocsIntegratorTest {
 	
 	// the tokens
     private String lars;
@@ -80,7 +80,7 @@ public class ExportDocumentIntegratorTest extends BubbleDocsServiceTest {
     		result = file;
     	}};        
         
-        ImportSpreadsheetIntegrator integrator1 = new ImportSpreadsheetIntegrator(lars,Integer.toString(docId));
+        ImportDocumentIntegrator integrator1 = new ImportDocumentIntegrator(lars,Integer.toString(docId));
         integrator1.execute();
         Spreadsheet s = integrator1.getResult();
         Spreadsheet s1 = getSpreadSheet(NAME);

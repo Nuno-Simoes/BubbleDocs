@@ -16,14 +16,14 @@ import pt.ulisboa.tecnico.bubbledocs.exceptions.UserDoesNotExistException;
 
 public class AssignLiteralToCellService extends BubbleDocsService {
 	private String result;
-	private String accessUsername;
+	private String token;
 	private int docId;
 	private String cellId;
 	private String literal;
 
-	public AssignLiteralToCellService(String accessUsername, int docId,
+	public AssignLiteralToCellService(String token, int docId,
 			String cellId, String literal) {
-		this.accessUsername = accessUsername;
+		this.token = token;
 		this.docId = docId;
 		this.cellId = cellId;
 		this.literal = literal;
@@ -34,7 +34,7 @@ public class AssignLiteralToCellService extends BubbleDocsService {
 			UserDoesNotExistException, SpreadsheetDoesNotExistException,
 			InvalidPermissionException, LoginBubbleDocsException {
 		
-		User u = super.getUser(accessUsername);
+		User u = super.getUser(token);
 
 		try {
 			Integer.parseInt(literal);

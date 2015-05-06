@@ -16,7 +16,7 @@ import pt.ulisboa.tecnico.bubbledocs.exceptions.UnavailableServiceException;
 import pt.ulisboa.tecnico.bubbledocs.integration.RemoveUserIntegrator;
 import pt.ulisboa.tecnico.bubbledocs.service.remote.IDRemoteServices;
 
-public class RemoveUserIntegratorTest extends BubbleDocsServiceTest {
+public class RemoveUserIntegratorTest extends BubbleDocsIntegratorTest {
 
 	private static final String USERNAME_TO_DELETE = "smf";
 	private static final String NAME_TO_DELETE = "Sérgio Fernandes";

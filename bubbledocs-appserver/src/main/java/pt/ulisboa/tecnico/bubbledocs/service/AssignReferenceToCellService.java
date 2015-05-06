@@ -14,14 +14,14 @@ import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
 public class AssignReferenceToCellService extends BubbleDocsService {
 	
     private String result;
-	private String accessUsername;
+	private String token;
 	private int docId;
 	private String cellId;
 	private String reference;
 
-    public AssignReferenceToCellService(String accessUsername, int docId, String cellId,
+    public AssignReferenceToCellService(String token, int docId, String cellId,
             String reference) {
-    	this.accessUsername = accessUsername;
+    	this.token = token;
     	this.docId = docId;
     	this.cellId = cellId;
     	this.reference = reference;
@@ -32,7 +32,7 @@ public class AssignReferenceToCellService extends BubbleDocsService {
     protected void dispatch() throws InvalidPermissionException,
     	LoginBubbleDocsException, InvalidSessionException {
     	
-    	User u = getUser(accessUsername);
+    	User u = getUser(token);
     	Portal p = Portal.getInstance();
     	Session session = Session.getInstance();
     	Spreadsheet s = p.findSpreadsheet(docId);
