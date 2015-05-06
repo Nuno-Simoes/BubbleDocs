@@ -37,6 +37,7 @@ public class AssignLiteralToCellIntegratorTest extends BubbleDocsIntegratorTest 
 	private static final String PASSWORD = "ContasSuica";
 
 	private static final String SPREADNAME = "whatever";
+	private static final String SPREADNAME2 = "whatever2";
 	private static final int ID_DOES_NOT_EXIST = 100;
 
 	@Override
@@ -53,7 +54,7 @@ public class AssignLiteralToCellIntegratorTest extends BubbleDocsIntegratorTest 
 		notLoggedUser.setPassword(PASSWORD);
 
 		Spreadsheet sheetValidUser = createSpreadSheet(user, SPREADNAME, 10, 10);
-		Spreadsheet sheetNotLoggedUser = createSpreadSheet(notLoggedUser, SPREADNAME, 
+		Spreadsheet sheetNotLoggedUser = createSpreadSheet(notLoggedUser, SPREADNAME2, 
 				10, 100);
 
 		sheetValidUser.getCell(7, 3).setIsProtected(true);
@@ -73,7 +74,9 @@ public class AssignLiteralToCellIntegratorTest extends BubbleDocsIntegratorTest 
 				AssignLiteralToCellIntegrator(userToken, idSheetValidUser, 
 						"1;5", "3");
 		integrator.execute();
+
 		Spreadsheet sheet = super.getSpreadSheet(SPREADNAME);
+
 		assertEquals(3, sheet.getCell(1, 5).getContent().getResult(), 0);
 	}
 
@@ -124,5 +127,4 @@ public class AssignLiteralToCellIntegratorTest extends BubbleDocsIntegratorTest 
 						"7;3", "3");
 		integrator.execute();
 	}
-
 }
