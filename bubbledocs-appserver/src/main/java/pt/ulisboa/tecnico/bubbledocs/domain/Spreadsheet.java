@@ -9,6 +9,7 @@ import pt.ulisboa.tecnico.bubbledocs.exceptions.ImportDocumentException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidContentException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidPermissionException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.OutOfBoundsException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.ProtectedCellException;
 
 public class Spreadsheet extends Spreadsheet_Base {
 
@@ -201,10 +202,10 @@ public class Spreadsheet extends Spreadsheet_Base {
 	}
 	
 	public void setContent (int line, int column, Content content) 
-			throws OutOfBoundsException, InvalidPermissionException {
+			throws OutOfBoundsException, ProtectedCellException {
 		Cell c = getCell(line, column);
 		if (c.getIsProtected()) {
-			throw new InvalidPermissionException();
+			throw new ProtectedCellException();
 		} else {
 			c.setContent(content);
 		}

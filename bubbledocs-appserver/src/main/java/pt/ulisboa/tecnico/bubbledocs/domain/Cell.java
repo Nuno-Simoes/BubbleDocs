@@ -101,4 +101,13 @@ public class Cell extends Cell_Base {
     	}
     }
     
+    @Override
+    public Content getContent() throws ProtectedCellException {
+    	if(this.getIsProtected()) {
+    		throw new ProtectedCellException();
+    	} else {
+    		return super.getContent();
+    	}
+    }
+    
 }
