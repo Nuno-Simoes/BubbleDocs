@@ -7,14 +7,13 @@ import pt.ulisboa.tecnico.bubbledocs.integration.AssignBinaryFunctionToCellInteg
 import pt.ulisboa.tecnico.bubbledocs.integration.AssignLiteralToCellIntegrator;
 import pt.ulisboa.tecnico.bubbledocs.integration.AssignReferenceToCellIntegrator;
 import pt.ulisboa.tecnico.bubbledocs.integration.CreateUserIntegrator;
-import pt.ulisboa.tecnico.bubbledocs.integration.ExportDocumentIntegrator;
 import pt.ulisboa.tecnico.bubbledocs.integration.GetSpreadsheetContentIntegrator;
 import pt.ulisboa.tecnico.bubbledocs.integration.ImportDocumentIntegrator;
 import pt.ulisboa.tecnico.bubbledocs.integration.LoginUserIntegrator;
+import pt.ulisboa.tecnico.bubbledocs.integration.RemoveUserIntegrator;
 import pt.ulisboa.tecnico.bubbledocs.integration.RenewPasswordIntegrator;
 import pt.ulisboa.tecnico.bubbledocs.service.CreateDocumentService;
 import pt.ulisboa.tecnico.bubbledocs.service.ExportDocumentService;
-import pt.ulisboa.tecnico.bubbledocs.service.ImportDocumentService;
 import pt.ulisboa.tecnico.bubbledocs.service.remote.IDRemoteServices;
 import pt.ulisboa.tecnico.bubbledocs.service.remote.StoreRemoteServices;
 import mockit.Expectations;
@@ -30,10 +29,9 @@ public class LocalSystemTest extends SystemTest {
 				
 		new Expectations(){{
 			idRemote.loginUser(anyString, anyString);
-			//idRemote.createUser(anyString, anyString);
-			//idRemote.removeUser(anyString);
+			idRemote.createUser(anyString, anyString);
+			idRemote.removeUser(anyString);
 			idRemote.renewPassword(anyString);
-			storeRemote.storeDocument(anyString, anyString, null);
 		}};
 		
 		// Login
@@ -63,8 +61,8 @@ public class LocalSystemTest extends SystemTest {
 		// ALTERAR QUANDO HOUVER INTEGRATOR
 		// Create spreadsheet
 		String nameDocument = "Lord of the Rings";
-		int lines = 20;
-		int columns = 13;
+		int lines = 5;
+		int columns = 4;
 		CreateDocumentService createSpreadsheet = 
 				new CreateDocumentService(token, nameDocument, lines, columns);
 		createSpreadsheet.execute();
@@ -81,22 +79,41 @@ public class LocalSystemTest extends SystemTest {
 		assignBinaryFunction.execute();
 				
 		// Export
+		ExportDocumentService exportDocument =
+				new ExportDocumentService(token, document.getId());
+		exportDocument.execute();
+		final byte[] file = exportDocument.getResult();
 		
-//		new Expectations(){{
-//			storeRemote.loadDocument(anyString, anyString);
-//			result = file;
-//		}};
+		new Expectations(){{
+			storeRemote.loadDocument(anyString, anyString);
+			result = file;
+		}};
 		
 		// Import
+		ImportDocumentIntegrator importDocument = 
+				new ImportDocumentIntegrator(token, Integer.toString(document.getId()));
+		importDocument.execute();
+		document = importDocument.getResult();
 		
 		// Assign literal to cell
+		AssignLiteralToCellIntegrator assignLiteral =
+				new AssignLiteralToCellIntegrator(token, document.getId(),
+						"2;2", "4");
+		assignLiteral.execute();
 		
 		// Assign reference to cell
+		AssignReferenceToCellIntegrator assignReference =
+				new AssignReferenceToCellIntegrator(token, document.getId(),
+						"3;3", "2;2");
+		assignReference.execute();
 		
 		// Get spreadsheet content
-		
-		// Remove user
-	}
-	
+		GetSpreadsheetContentIntegrator getSpreadsheetContent =
+				new GetSpreadsheetContentIntegrator(token, document.getId());
+		getSpreadsheetContent.execute();
 
+		// Remove user
+		RemoveUserIntegrator removeUser = new RemoveUserIntegrator(tokenRoot, username);
+		removeUser.execute();
+	}
 }

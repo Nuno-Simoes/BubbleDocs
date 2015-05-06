@@ -27,19 +27,19 @@ public class BinaryFunction extends BinaryFunction_Base {
     	
     	if (first.getName().equals("reference")) {
     		newFirst = new Reference();
+    		newFirst.importFromXML(first, this.getCell());
     	} else {
     		newFirst = new Literal();
+    		newFirst.importFromXML(first);
     	}
     	
     	if (second.getName().equals("reference")) {
     		newSecond = new Reference();
+        	newSecond.importFromXML(second, this.getCell());
     	} else {
     		newSecond = new Literal();
+        	newSecond.importFromXML(second);
     	}
-    	
-    	newFirst.importFromXML(first, this.getCell());
-    	newSecond.importFromXML(second, this.getCell());
-
     	
     	this.setArgument1(newFirst);
     	this.setArgument2(newSecond);
