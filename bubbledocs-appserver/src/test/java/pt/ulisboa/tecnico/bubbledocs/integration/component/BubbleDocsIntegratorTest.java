@@ -19,7 +19,7 @@ import pt.ulisboa.tecnico.bubbledocs.exceptions.SpreadsheetDoesNotExistException
 import pt.ulisboa.tecnico.bubbledocs.exceptions.UserDoesNotExistException;
 
 
-public class BubbleDocsServiceTest {
+public class BubbleDocsIntegratorTest {
 	
     @Before
     public void setUp() throws Exception {
@@ -36,7 +36,6 @@ public class BubbleDocsServiceTest {
     @After
     public void tearDown() {
         try {
-        	deleteRemains();
             FenixFramework.getTransactionManager().rollback();
             
         } catch (IllegalStateException | SecurityException | SystemException e) {
@@ -44,22 +43,9 @@ public class BubbleDocsServiceTest {
         }
     }
     
-
-    // should redefine this method in the subclasses if it is needed to specify
-    // some initial state
     public void populate4Test() {
     }
     
-    public void deleteRemains() {
-    	Portal p = Portal.getInstance();
-    	RootUser r = RootUser.getInstance();
-    	for ( User u : p.getUsersSet()) {
-    		r.removeUser(u.getUsername());
-    	}
-    }
-
-    // auxiliary methods that access the domain layer and are needed in the test classes
-    // for defining the initial state and checking that the service has the expected behavior
     public User createUser(String username, String name, String email) 
     		throws DuplicateUsernameException {
     	Portal p = Portal.getInstance();
@@ -76,20 +62,17 @@ public class BubbleDocsServiceTest {
     	return p.findSpreadsheet(user, name);	
     }
 
-    // returns a spreadsheet whose name is equal to name
     public Spreadsheet getSpreadSheet(String name) 
     		throws SpreadsheetDoesNotExistException {
     	Portal p = Portal.getInstance();
     	return p.findSpreadsheet(name);
     }
 
-    // returns the user registered in the application whose username is equal to username
     public User getUserFromUsername(String username) throws UserDoesNotExistException {
     	Portal p = Portal.getInstance();
     	return p.findUser(username);
     }
 
-    // put a user into session and returns the token associated to it
     public String addUserToSession(String username) {
     	Portal p = Portal.getInstance();
     	Session s = Session.getInstance();
@@ -99,7 +82,6 @@ public class BubbleDocsServiceTest {
     	return u.getToken();
     }
 
-    // remove a user from session given its token
     public void removeUserFromSession(String token) {
     	Session s = Session.getInstance();
     	Portal p = Portal.getInstance();
@@ -108,11 +90,9 @@ public class BubbleDocsServiceTest {
     	s.logout(u);
     }
 
-    // return the user registered in session whose token is equal to token
     public User getUserFromSession(String token) throws LoginBubbleDocsException {
     	Session s  = Session.getInstance();
     	User u = s.getLoggedUser(token);
     	return u;
     }
-
 }

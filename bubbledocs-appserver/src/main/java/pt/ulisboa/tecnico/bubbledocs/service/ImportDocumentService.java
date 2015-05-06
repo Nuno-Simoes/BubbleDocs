@@ -14,13 +14,13 @@ import pt.ulisboa.tecnico.bubbledocs.domain.User;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.ImportDocumentException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidSessionException;
 
-public class ImportSpreadsheetService extends BubbleDocsService {
+public class ImportDocumentService extends BubbleDocsService {
 	
     private final byte[] doc;
     private final String username;
     private Spreadsheet sheet;
 
-    public ImportSpreadsheetService (byte[] doc, String username) {
+    public ImportDocumentService (byte[] doc, String username) {
     	this.doc = doc;
     	this.username = username;
     }

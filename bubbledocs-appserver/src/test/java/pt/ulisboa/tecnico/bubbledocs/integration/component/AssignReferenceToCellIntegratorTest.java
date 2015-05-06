@@ -12,9 +12,9 @@ import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidContentException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.OutOfBoundsException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.SpreadsheetDoesNotExistException;
-import pt.ulisboa.tecnico.bubbledocs.service.AssignReferenceToCellService;
+import pt.ulisboa.tecnico.bubbledocs.integration.AssignReferenceToCellIntegrator;
 
-public class AssignReferenceToCellServiceTest extends BubbleDocsServiceTest {
+public class AssignReferenceToCellIntegratorTest extends BubbleDocsIntegratorTest {
 
     // the tokens
 	private String logars;
@@ -57,9 +57,9 @@ public class AssignReferenceToCellServiceTest extends BubbleDocsServiceTest {
 
     @Test
     public void success() {
-    	AssignReferenceToCellService service = new AssignReferenceToCellService(logars,
+    	AssignReferenceToCellIntegrator integrator = new AssignReferenceToCellIntegrator(logars,
     			id, "1;1","3;3");
-        service.execute();
+        integrator.execute();
         Spreadsheet sheet = super.getSpreadSheet(SPREADNAME);
         Reference ref = (Reference) sheet.getCell(1, 1).getContent();
         assertEquals(3, ref.getReferencedCell().getLine(), 0);
@@ -68,51 +68,51 @@ public class AssignReferenceToCellServiceTest extends BubbleDocsServiceTest {
     
     @Test(expected = LoginBubbleDocsException.class)
     public void userNotLogged() {
-    	AssignReferenceToCellService service = new AssignReferenceToCellService(logjoaoj,
+    	AssignReferenceToCellIntegrator integrator = new AssignReferenceToCellIntegrator(logjoaoj,
     				id, "1;1", "3;3");
-    	service.execute();
+    	integrator.execute();
     }
 
     @Test(expected = SpreadsheetDoesNotExistException.class)
     public void spreadsheetDoesNotExist() {
-    	AssignReferenceToCellService service = new AssignReferenceToCellService(logars,
+    	AssignReferenceToCellIntegrator integrator = new AssignReferenceToCellIntegrator(logars,
     			ID_DOES_NOT_EXIST, "1;1","3;3");
-        service.execute();
+        integrator.execute();
     }
 
     @Test(expected = InvalidPermissionException.class)
     public void invalidUser() {
-    	AssignReferenceToCellService service = new AssignReferenceToCellService(logsam,
+    	AssignReferenceToCellIntegrator integrator = new AssignReferenceToCellIntegrator(logsam,
     			id, "1;1","3;3");
-        service.execute();
+        integrator.execute();
     }
 
     @Test(expected = OutOfBoundsException.class)
     public void outOfBounds() {
-    	AssignReferenceToCellService service = new AssignReferenceToCellService(logars,
+    	AssignReferenceToCellIntegrator integrator = new AssignReferenceToCellIntegrator(logars,
     			id, "30;5","3;2");
-        service.execute();
+        integrator.execute();
     }
     
     @Test(expected = OutOfBoundsException.class)
     public void outOfBounds2() {
-    	AssignReferenceToCellService service = new AssignReferenceToCellService(logars,
+    	AssignReferenceToCellIntegrator integrator = new AssignReferenceToCellIntegrator(logars,
     			id, "3;2","30;5");
-        service.execute();
+        integrator.execute();
     }
 
     @Test(expected = InvalidContentException.class)
     public void notAReference() {
-    	AssignReferenceToCellService service = new AssignReferenceToCellService(logars,
+    	AssignReferenceToCellIntegrator integrator = new AssignReferenceToCellIntegrator(logars,
     			id, "1;1","failed");
-        service.execute();
+        integrator.execute();
     }
     
     @Test(expected = InvalidPermissionException.class)
     public void protectedCell() {
-    	AssignReferenceToCellService service = new AssignReferenceToCellService(logars,
+    	AssignReferenceToCellIntegrator integrator = new AssignReferenceToCellIntegrator(logars,
     			id, "7;3","3;7");
-        service.execute();
+        integrator.execute();
     }
 
 }

@@ -25,7 +25,7 @@ import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidPermissionException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
 import pt.ulisboa.tecnico.bubbledocs.service.AssignLiteralToCellService;
 import pt.ulisboa.tecnico.bubbledocs.service.AssignReferenceToCellService;
-import pt.ulisboa.tecnico.bubbledocs.service.CreateSpreadsheetService;
+import pt.ulisboa.tecnico.bubbledocs.service.CreateDocumentService;
 import pt.ulisboa.tecnico.bubbledocs.service.CreateUserService;
 import pt.ulisboa.tecnico.bubbledocs.service.ExportDocumentService;
 //import pt.ulisboa.tecnico.bubbledocs.service.ImportSpreadsheetService;
@@ -117,7 +117,7 @@ public class BubbleApplication {
     		login.execute();
     		String user = login.getUserToken();
     		
-    		CreateSpreadsheetService createSpreadsheet= new CreateSpreadsheetService(user, "Notas ES", 300, 20);
+    		CreateDocumentService createSpreadsheet= new CreateDocumentService(user, "Notas ES", 300, 20);
     		createSpreadsheet.execute();
     		/* Spreadsheet sheet = portal.findSpreadsheet(user, "Notas ES");*/
     		

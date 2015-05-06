@@ -4,14 +4,14 @@ import pt.ulisboa.tecnico.bubbledocs.domain.User;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.UserDoesNotExistException;
 
-public class CreateSpreadsheetService extends BubbleDocsService {
+public class CreateDocumentService extends BubbleDocsService {
 	
 	private String sheetName;
 	private int lines;
 	private int columns;
 	private String userToken;
 	
-	public CreateSpreadsheetService(String userToken, String sheetName, int lines, 
+	public CreateDocumentService(String userToken, String sheetName, int lines, 
 			int columns) {
 		this.sheetName = sheetName;
 		this.lines = lines;

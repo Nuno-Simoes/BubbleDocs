@@ -14,7 +14,7 @@ import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
 import pt.ulisboa.tecnico.bubbledocs.service.AssignLiteralToCellService;
 
 
-public class AssignLiteralToCellServiceTest extends BubbleDocsServiceTest {
+public class AssignLiteralToCellServiceTest extends BubbleDocsIntegratorTest {
 
     // the tokens
     private String logars;

@@ -14,11 +14,11 @@ import pt.ulisboa.tecnico.bubbledocs.exceptions.CannotLoadDocumentException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidSessionException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.RemoteInvocationException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.UnavailableServiceException;
-import pt.ulisboa.tecnico.bubbledocs.integration.ImportSpreadsheetIntegrator;
+import pt.ulisboa.tecnico.bubbledocs.integration.ImportDocumentIntegrator;
 import pt.ulisboa.tecnico.bubbledocs.service.ExportDocumentService;
 import pt.ulisboa.tecnico.bubbledocs.service.remote.StoreRemoteServices;
 
-public class ImportSpreadsheetIntegratorTest extends BubbleDocsServiceTest {
+public class ImportDocumentIntegratorTest extends BubbleDocsIntegratorTest {
 	
 	private String validToken;
 	private String invalidToken;
@@ -91,8 +91,8 @@ public class ImportSpreadsheetIntegratorTest extends BubbleDocsServiceTest {
 		}};
 		
 		Portal.getInstance().setSheetId(1);
-		ImportSpreadsheetIntegrator integrator = 
-				new ImportSpreadsheetIntegrator(validToken, Integer.toString(DOC_ID));
+		ImportDocumentIntegrator integrator = 
+				new ImportDocumentIntegrator(validToken, Integer.toString(DOC_ID));
 		integrator.execute();
 		Spreadsheet result = integrator.getResult();
 		
@@ -110,15 +110,15 @@ public class ImportSpreadsheetIntegratorTest extends BubbleDocsServiceTest {
 			result = new RemoteInvocationException();
 		}};
 		
-		ImportSpreadsheetIntegrator integrator =
-				new ImportSpreadsheetIntegrator(validToken, Integer.toString(DOC_ID));
+		ImportDocumentIntegrator integrator =
+				new ImportDocumentIntegrator(validToken, Integer.toString(DOC_ID));
 		integrator.execute();
 	}
 	
 	@Test(expected=InvalidSessionException.class)
 	public void notLoggedUser() {
-		ImportSpreadsheetIntegrator integrator =
-				new ImportSpreadsheetIntegrator(notLoggedToken, Integer.toString(DOC_ID));
+		ImportDocumentIntegrator integrator =
+				new ImportDocumentIntegrator(notLoggedToken, Integer.toString(DOC_ID));
 		integrator.execute();
 	}
 	
@@ -130,8 +130,8 @@ public class ImportSpreadsheetIntegratorTest extends BubbleDocsServiceTest {
 			result = new CannotLoadDocumentException();
 		}};
 		
-		ImportSpreadsheetIntegrator integrator =
-				new ImportSpreadsheetIntegrator(invalidToken, Integer.toString(DOC_ID));
+		ImportDocumentIntegrator integrator =
+				new ImportDocumentIntegrator(invalidToken, Integer.toString(DOC_ID));
 		integrator.execute();
 	}
 }
