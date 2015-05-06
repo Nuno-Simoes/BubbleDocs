@@ -13,6 +13,7 @@ import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidUsernameException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.RemoteInvocationException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.UnavailableServiceException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.UserDoesNotExistException;
 import pt.ulisboa.tecnico.bubbledocs.integration.CreateUserIntegrator;
 import pt.ulisboa.tecnico.bubbledocs.service.remote.IDRemoteServices;
 
@@ -112,15 +113,18 @@ public class CreateUserIntegratorTest extends BubbleDocsIntegratorTest {
     @Mocked
     IDRemoteServices remote;
     
-    @Test (expected = UnavailableServiceException.class)
-    public void unavailableService() {
+    @Test(expected = LoginBubbleDocsException.class) 
+    public void compensation() {
     	
     	new Expectations() {{
     		remote.createUser(anyString, anyString);
     		result = new RemoteInvocationException();
     	}};
     	
-    	new CreateUserIntegrator(root, USERNAME_DOES_NOT_EXIST, EMAIL, NAME).execute();
-    	
+    	try {
+    		new CreateUserIntegrator(root, USERNAME_DOES_NOT_EXIST, EMAIL, NAME).execute();
+    	}catch(UnavailableServiceException use) {
+    		super.getUserFromUsername(USERNAME_DOES_NOT_EXIST);
+    	}
     }  
 }

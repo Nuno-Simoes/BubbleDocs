@@ -16,8 +16,6 @@ import pt.ulisboa.tecnico.bubbledocs.domain.User;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.DuplicateUsernameException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.SpreadsheetDoesNotExistException;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.UserDoesNotExistException;
-
 
 public class BubbleDocsIntegratorTest {
 	
@@ -68,7 +66,7 @@ public class BubbleDocsIntegratorTest {
     	return p.findSpreadsheet(name);
     }
 
-    public User getUserFromUsername(String username) throws UserDoesNotExistException {
+    public User getUserFromUsername(String username) throws LoginBubbleDocsException {
     	Portal p = Portal.getInstance();
     	return p.findUser(username);
     }
