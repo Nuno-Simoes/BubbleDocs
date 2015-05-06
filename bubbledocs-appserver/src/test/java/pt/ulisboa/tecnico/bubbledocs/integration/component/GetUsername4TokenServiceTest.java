@@ -5,7 +5,6 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import pt.ulisboa.tecnico.bubbledocs.domain.User;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidUsernameException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
 import pt.ulisboa.tecnico.bubbledocs.service.GetUsername4TokenService;
 
@@ -48,7 +47,7 @@ public class GetUsername4TokenServiceTest extends BubbleDocsIntegratorTest {
 		  assertEquals(CORRECT_USERNAME, username); 
 		  }
 	  
-	  @Test(expected = InvalidUsernameException.class)
+	  @Test(expected = LoginBubbleDocsException.class)
 	  public void UserDoesNotExist(){
 		  GetUsername4TokenService service = new GetUsername4TokenService(WRONG_USERNAME);
 		  service.execute();
