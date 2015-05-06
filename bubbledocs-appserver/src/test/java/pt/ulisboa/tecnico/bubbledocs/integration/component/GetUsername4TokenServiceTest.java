@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import pt.ulisboa.tecnico.bubbledocs.domain.User;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidUsernameException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
 import pt.ulisboa.tecnico.bubbledocs.service.GetUsername4TokenService;
@@ -24,10 +25,13 @@ public class GetUsername4TokenServiceTest extends BubbleDocsIntegratorTest {
     private static final String NOT_LOGGED_USERNAME = "amalhoa";
     private static final String NOT_LOGGED_NAME = "Ana Malhoa";
     private static final String NOT_LOGGED_EMAIL = "amalhoa@turbinada.pt";
+    
+    private static final String PASSWORD = "password";
 	
 	@Override
     public void populate4Test() {
-		createUser(CORRECT_USERNAME, CORRECT_NAME, CORRECT_EMAIL);
+		User u = createUser(CORRECT_USERNAME, CORRECT_NAME, CORRECT_EMAIL);
+		u.setPassword(PASSWORD);
 		token = addUserToSession(CORRECT_USERNAME);
 		
 		createUser(WRONG_USERNAME, WRONG_NAME, WRONG_EMAIL);
