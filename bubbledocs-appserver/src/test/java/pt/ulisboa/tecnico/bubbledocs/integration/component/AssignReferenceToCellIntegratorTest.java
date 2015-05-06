@@ -11,6 +11,7 @@ import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidPermissionException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidContentException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.OutOfBoundsException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.ProtectedCellException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.SpreadsheetDoesNotExistException;
 import pt.ulisboa.tecnico.bubbledocs.integration.AssignReferenceToCellIntegrator;
 
@@ -108,7 +109,7 @@ public class AssignReferenceToCellIntegratorTest extends BubbleDocsIntegratorTes
         integrator.execute();
     }
     
-    @Test(expected = InvalidPermissionException.class)
+    @Test(expected = ProtectedCellException.class)
     public void protectedCell() {
     	AssignReferenceToCellIntegrator integrator = new AssignReferenceToCellIntegrator(logars,
     			id, "7;3","3;7");

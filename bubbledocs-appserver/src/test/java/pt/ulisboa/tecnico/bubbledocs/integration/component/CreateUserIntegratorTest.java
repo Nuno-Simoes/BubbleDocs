@@ -13,10 +13,10 @@ import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidUsernameException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.RemoteInvocationException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.UnavailableServiceException;
-import pt.ulisboa.tecnico.bubbledocs.service.CreateUserService;
+import pt.ulisboa.tecnico.bubbledocs.integration.CreateUserIntegrator;
 import pt.ulisboa.tecnico.bubbledocs.service.remote.IDRemoteServices;
 
-public class CreateUserServiceTest extends BubbleDocsIntegratorTest {
+public class CreateUserIntegratorTest extends BubbleDocsIntegratorTest {
 
     private String root;
     private String lsmf;
@@ -54,8 +54,8 @@ public class CreateUserServiceTest extends BubbleDocsIntegratorTest {
     
     @Test
     public void success() {
-    	CreateUserService service = new CreateUserService(root, USERNAME_DOES_NOT_EXIST, EMAIL, NAME);
-        service.execute();
+    	CreateUserIntegrator integrator = new CreateUserIntegrator(root, USERNAME_DOES_NOT_EXIST, EMAIL, NAME);
+        integrator.execute();
 
         User user = getUserFromUsername(USERNAME_DOES_NOT_EXIST);
 
@@ -67,46 +67,46 @@ public class CreateUserServiceTest extends BubbleDocsIntegratorTest {
     
     @Test(expected = LoginBubbleDocsException.class)
     public void userNotLogged() {
-    	CreateUserService service = new CreateUserService(logquim, 
+    	CreateUserIntegrator integrator = new CreateUserIntegrator(logquim, 
     			USERNAME, EMAIL, NAME);
-    	service.execute();
+    	integrator.execute();
     }
     
     @Test(expected = DuplicateUsernameException.class)
     public void usernameExists() {
-        CreateUserService service = new CreateUserService(root, USERNAME, EMAIL, NAME);
-        service.execute();
+        CreateUserIntegrator integrator = new CreateUserIntegrator(root, USERNAME, EMAIL, NAME);
+        integrator.execute();
     }
     
     @Test(expected = InvalidUsernameException.class)
     public void usernameTooLong() {
-    	CreateUserService service = new CreateUserService(root, USERNAME_TOO_LONG, EMAIL, NAME);
-    	service.execute();
+    	CreateUserIntegrator integrator = new CreateUserIntegrator(root, USERNAME_TOO_LONG, EMAIL, NAME);
+    	integrator.execute();
     }
     
     @Test(expected = InvalidUsernameException.class)
     public void usernameTooShort() {
-    	CreateUserService service = new CreateUserService(root, USERNAME_TOO_SHORT, EMAIL, NAME);
-    	service.execute();
+    	CreateUserIntegrator integrator = new CreateUserIntegrator(root, USERNAME_TOO_SHORT, EMAIL, NAME);
+    	integrator.execute();
     }
     
     @Test(expected = InvalidUsernameException.class)
     public void emptyUsername() {
-        CreateUserService service = new CreateUserService(root, "", EMAIL, NAME);
-        service.execute();
+        CreateUserIntegrator integrator = new CreateUserIntegrator(root, "", EMAIL, NAME);
+        integrator.execute();
     }
 	
     @Test(expected = InvalidPermissionException.class)
     public void unauthorizedUserCreation() {
-        CreateUserService service = new CreateUserService(lsmf, USERNAME_DOES_NOT_EXIST, EMAIL, NAME);
-        service.execute();
+        CreateUserIntegrator integrator = new CreateUserIntegrator(lsmf, USERNAME_DOES_NOT_EXIST, EMAIL, NAME);
+        integrator.execute();
     }
 	
     @Test(expected = LoginBubbleDocsException.class)
     public void accessUsernameNotExist() {
         removeUserFromSession(root);
-        CreateUserService service = new CreateUserService(root, USERNAME_DOES_NOT_EXIST, EMAIL, NAME);
-        service.execute();
+        CreateUserIntegrator integrator = new CreateUserIntegrator(root, USERNAME_DOES_NOT_EXIST, EMAIL, NAME);
+        integrator.execute();
     }
     
     @Mocked
@@ -120,8 +120,7 @@ public class CreateUserServiceTest extends BubbleDocsIntegratorTest {
     		result = new RemoteInvocationException();
     	}};
     	
-    	new CreateUserService(root, USERNAME_DOES_NOT_EXIST, EMAIL, NAME).execute();
+    	new CreateUserIntegrator(root, USERNAME_DOES_NOT_EXIST, EMAIL, NAME).execute();
     	
-    }
-    
+    }  
 }
