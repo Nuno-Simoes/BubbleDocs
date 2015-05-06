@@ -3,10 +3,10 @@ Project planning and execution of third week:
 | Group Member  | T | F | S | S | M | T | W | Planned Tasks           |
 |---------------|---|---|---|---|---|---|---|-------------------------|
 | AfrAndrade    | 2 | 3 | 0 | 0 | 4 | 5 | 4 | 95, 108, 111            |
-| BrunoS92      | 3 | 3 | 4 | 4 | 2 | 4 | 4 | 107                     |
+| BrunoS92      | 3 | 3 | 4 | 4 | 2 | 4 | 4 | 107, 112                |
 | marcoist      | 2 | 0 | 3 | 3 | 2 | 0 | 2 | 82, 101, 104            |
 | Nuno-Simoes   | 3 | 3 | 5 | 5 | 4 | 4 | 4 | 99, 105                 |
-| PJBNascimento | 3 | 2 | 4 | 4 | 4 | 3 | 4 | 84, 110, 112            |
+| PJBNascimento | 3 | 2 | 4 | 4 | 4 | 3 | 4 | 84, 110                 |
 | ritap420      | 3 | 2 | 5 | 5 | 3 | 3 | 4 | 93, 100, 102            |
 
 Retrospective of second week:
