@@ -4,14 +4,14 @@ import pt.ulisboa.tecnico.bubbledocs.service.AssignLiteralToCellService;
 
 public class AssignLiteralToCellIntegrator extends BubbleDocsIntegrator {
 
-	private String accessUsername;
+	private String token;
 	private int docId;
 	private String cellId;
 	private String literal;
 
-	public AssignLiteralToCellIntegrator(String accessUsername, int docId,
+	public AssignLiteralToCellIntegrator(String token, int docId,
 			String cellId, String literal) {
-		this.accessUsername = accessUsername;
+		this.token = token;
 		this.docId = docId;
 		this.cellId = cellId;
 		this.literal = literal;
@@ -20,7 +20,7 @@ public class AssignLiteralToCellIntegrator extends BubbleDocsIntegrator {
 	@Override
 	protected void dispatch() {
 		AssignLiteralToCellService localService = 
-				new AssignLiteralToCellService(accessUsername, docId, cellId, literal);
+				new AssignLiteralToCellService(token, docId, cellId, literal);
 		localService.execute();
 	}
 

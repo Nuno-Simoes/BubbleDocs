@@ -55,7 +55,7 @@ public class BubbleApplication {
 		
 		LoginUserService login = new LoginUserService("pfsss", "sub", true);
 		login.execute();
-		String userToken = login.getUserToken();
+		String userToken = login.getResult();
 				
 		byte[] file = convertToXML(userToken, id);
 		
@@ -97,7 +97,7 @@ public class BubbleApplication {
     		try {
     			LoginUserService service  = new LoginUserService("root", "rootroot", true);
     			service.execute();
-    			root = service.getUserToken();
+    			root = service.getResult();
     		} catch (InvalidPermissionException ie) {
     			System.err.println("Error in login " + ie.getMessage());
     		}
@@ -115,14 +115,14 @@ public class BubbleApplication {
     		
     		LoginUserService login = new LoginUserService("pfsss", "sub", true);
     		login.execute();
-    		String user = login.getUserToken();
+    		String user = login.getResult();
     		
     		CreateDocumentService createSpreadsheet= new CreateDocumentService(user, "Notas ES", 300, 20);
     		createSpreadsheet.execute();
     		/* Spreadsheet sheet = portal.findSpreadsheet(user, "Notas ES");*/
     		
-    		String spreadsheet = createSpreadsheet.getResult();
-
+    		String spreadsheet = "Notas ES";
+    		
     		int docId = 0;
     		Spreadsheet ss = null;
 

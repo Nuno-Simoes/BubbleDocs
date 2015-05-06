@@ -22,6 +22,9 @@ public class Literal extends Literal_Base {
 	
 	@Override
 	public double getResult() {
+		if(this.getLiteral()==null) {
+			return Double.NaN;
+		}
 		return this.getLiteral();
 	}
 

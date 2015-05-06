@@ -13,6 +13,7 @@ import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.RemoteInvocationException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.SpreadsheetDoesNotExistException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.UnavailableServiceException;
+import pt.ulisboa.tecnico.bubbledocs.integration.AssignLiteralToCellIntegrator;
 import pt.ulisboa.tecnico.bubbledocs.integration.ExportDocumentIntegrator;
 import pt.ulisboa.tecnico.bubbledocs.integration.ImportDocumentIntegrator;
 import pt.ulisboa.tecnico.bubbledocs.service.remote.StoreRemoteServices;
@@ -71,6 +72,8 @@ public class ExportDocumentIntegratorTest extends BubbleDocsIntegratorTest {
     @Test
     public void success() {
     	
+    	AssignLiteralToCellIntegrator assign = new AssignLiteralToCellIntegrator(lars, docId, "1;1", "1");
+    	assign.execute();
     	ExportDocumentIntegrator integrator = new ExportDocumentIntegrator(lars, docId, "ars", docName);
         integrator.execute();
         byte[] file = integrator.getResult();
@@ -80,7 +83,7 @@ public class ExportDocumentIntegratorTest extends BubbleDocsIntegratorTest {
     		result = file;
     	}};        
         
-        ImportSpreadsheetIntegrator integrator1 = new ImportSpreadsheetIntegrator(lars,Integer.toString(docId));
+        ImportDocumentIntegrator integrator1 = new ImportDocumentIntegrator(lars,Integer.toString(docId));
         integrator1.execute();
         Spreadsheet s = integrator1.getResult();
         Spreadsheet s1 = getSpreadSheet(NAME);

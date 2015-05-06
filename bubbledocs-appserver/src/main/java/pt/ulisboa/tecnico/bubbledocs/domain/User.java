@@ -45,7 +45,7 @@ public class User extends User_Base {
 		}
 	}
 
-	public void createSpreadsheet(String name, int lines, int columns) 
+	public Spreadsheet createSpreadsheet(String name, int lines, int columns) 
 			throws EmptySpreadsheetNameException, InvalidSpreadsheetSizeException {
 		Portal portal = Portal.getInstance();
 
@@ -70,6 +70,7 @@ public class User extends User_Base {
 		s.addPermissions(p);
 		this.addPermissions(p);
 		portal.addSpreadsheets(s);
+		return s;
 	}
 
 	public void modifyPermissions (String username, int sheetId, boolean read, 

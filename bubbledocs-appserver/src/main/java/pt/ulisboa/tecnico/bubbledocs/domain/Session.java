@@ -26,10 +26,12 @@ public class Session extends Session_Base {
 		Portal p = Portal.getInstance();
 		User u = p.findUser(username);
 
+		if(!status) {
+			u.setPassword(password);
+		}
+				
 		if ((u.getPassword())==null) {
 			throw new UnavailableServiceException();
-		} else if (!status) {
-			u.setPassword(password);
 		}
 		
 		if ((u.getPassword()).equals(password)) {

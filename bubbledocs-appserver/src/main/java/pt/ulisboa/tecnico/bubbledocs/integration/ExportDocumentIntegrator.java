@@ -15,7 +15,6 @@ public class ExportDocumentIntegrator extends BubbleDocsIntegrator {
 	private byte[] document;
 
 	public ExportDocumentIntegrator(String userToken, int docId, String username, String docName){
-
 		this.userToken = userToken;
 		this.docId = docId;
 		this.username = username;

@@ -9,6 +9,7 @@ public class LoginUserIntegrator extends BubbleDocsIntegrator {
 
 	private String username;
 	private String password;
+	private String result;
 	
 	public LoginUserIntegrator(String username, String password) {
 		this.username = username;
@@ -30,6 +31,11 @@ public class LoginUserIntegrator extends BubbleDocsIntegrator {
 		
 		localService = new LoginUserService(username, password, failed);
 		localService.execute();
+		this.result = localService.getResult();
+	}
+	
+	public String getResult() {
+		return this.result;
 	}
 
 }

@@ -14,24 +14,24 @@ import pt.ulisboa.tecnico.bubbledocs.exceptions.OutOfBoundsException;
 public class AssignLiteralToCellService extends BubbleDocsService {
 
 	private String result;
-	private String accessUsername;
+	private String token;
 	private int docId;
 	private String cellId;
 	private String literal;
 
-	public AssignLiteralToCellService(String accessUsername, int docId,
+	public AssignLiteralToCellService(String token, int docId,
 			String cellId, String literal) {
-		this.accessUsername = accessUsername;
+		this.token = token;
 		this.docId = docId;
 		this.cellId = cellId;
 		this.literal = literal;
 	}
 
 	@Override
-	protected void dispatch() throws InvalidPermissionException, 
-	LoginBubbleDocsException, InvalidContentException, OutOfBoundsException {
-
-		User u = super.getUser(accessUsername);
+	protected void dispatch() throws InvalidPermissionException,
+		LoginBubbleDocsException, InvalidContentException, OutOfBoundsException{
+		
+		User u = super.getUser(token);
 		Portal p = Portal.getInstance();
 		Spreadsheet s = p.findSpreadsheet(docId);
 		Permission perm = u.findPermission(u.getUsername(), docId);
