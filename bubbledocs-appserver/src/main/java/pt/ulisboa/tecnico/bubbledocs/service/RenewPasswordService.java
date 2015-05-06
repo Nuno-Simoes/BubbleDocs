@@ -3,6 +3,7 @@ package pt.ulisboa.tecnico.bubbledocs.service;
 import pt.ulisboa.tecnico.bubbledocs.domain.Session;
 import pt.ulisboa.tecnico.bubbledocs.domain.User;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.DuplicateUsernameException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidSessionException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.RemoteInvocationException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidPermissionException;
@@ -11,19 +12,23 @@ import pt.ulisboa.tecnico.bubbledocs.service.remote.IDRemoteServices;
 
 public class RenewPasswordService extends BubbleDocsService {
 	private String userToken;
-	
-	public RenewPasswordService (String userToken) {
+
+	public RenewPasswordService(String userToken) {
 		this.userToken = userToken;
 	}
 
 	@Override
-	protected void dispatch() throws InvalidPermissionException, 
-		LoginBubbleDocsException, DuplicateUsernameException,
-		UnavailableServiceException {
-		
+	protected void dispatch() throws InvalidPermissionException,
+			LoginBubbleDocsException, DuplicateUsernameException,
+			UnavailableServiceException, InvalidSessionException {
+
 		Session s = Session.getInstance();
-		User u = s.getLoggedUser(userToken);
-		
+		User u = getUser(userToken);
+		boolean logged = s.isInSession(u);
+		if (logged == false) {
+			throw new InvalidSessionException();
+		}
+
 		try {
 			IDRemoteServices renew = new IDRemoteServices();
 			renew.renewPassword(u.getToken());
