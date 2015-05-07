@@ -8,9 +8,9 @@ import pt.ulisboa.tecnico.bubbledocs.domain.Permission;
 import pt.ulisboa.tecnico.bubbledocs.domain.Spreadsheet;
 import pt.ulisboa.tecnico.bubbledocs.domain.User;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.*;
-import pt.ulisboa.tecnico.bubbledocs.service.CreateDocumentIntegrator;
+import pt.ulisboa.tecnico.bubbledocs.integration.CreateSpreadsheetIntegrator;
 
-public class CreateDocumentIntegratorTest extends BubbleDocsIntegratorTest {
+public class CreateSpreadsheetIntegratorTest extends BubbleDocsIntegratorTest {
 	
 	private String lars;
 	private String logcav;
@@ -48,7 +48,7 @@ public class CreateDocumentIntegratorTest extends BubbleDocsIntegratorTest {
 	
     @Test
 	public void success() {
-		CreateDocumentIntegrator integrator = new CreateDocumentIntegrator(lars, 
+		CreateSpreadsheetIntegrator integrator = new CreateSpreadsheetIntegrator(lars, 
 				SHEET_NAME, 20, 20);
 		integrator.execute();
 		Spreadsheet s = super.getSpreadSheet(SHEET_NAME);
@@ -61,7 +61,7 @@ public class CreateDocumentIntegratorTest extends BubbleDocsIntegratorTest {
     @Test
     public void sucess2() {
     	boolean found = false;
-    	CreateDocumentIntegrator integrator = new CreateDocumentIntegrator(lars, 
+    	CreateSpreadsheetIntegrator integrator = new CreateSpreadsheetIntegrator(lars, 
     			SHEET_NAME, 20, 20);
     	integrator.execute();
     	Spreadsheet s = super.getSpreadSheet(SHEET_NAME);
@@ -76,7 +76,7 @@ public class CreateDocumentIntegratorTest extends BubbleDocsIntegratorTest {
     @Test
     public void sucess3() {
     	boolean found = false;
-    	CreateDocumentIntegrator integrator = new CreateDocumentIntegrator(lars,
+    	CreateSpreadsheetIntegrator integrator = new CreateSpreadsheetIntegrator(lars,
     			SHEET_NAME, 20, 20);
     	integrator.execute();
     	Spreadsheet s = super.getSpreadSheet(SHEET_NAME);
@@ -90,26 +90,26 @@ public class CreateDocumentIntegratorTest extends BubbleDocsIntegratorTest {
     
     @Test(expected = LoginBubbleDocsException.class)
     public void userNotLogged() {
-    	CreateDocumentIntegrator integrator = new CreateDocumentIntegrator(logcav,
+    	CreateSpreadsheetIntegrator integrator = new CreateSpreadsheetIntegrator(logcav,
     			SHEET_NAME, 20, 20);
     	integrator.execute();
     }
     
     @Test(expected = EmptySpreadsheetNameException.class)
     public void emptySpreadsheetName() {
-    	CreateDocumentIntegrator integrator = new CreateDocumentIntegrator(lars, "", 20, 20);
+    	CreateSpreadsheetIntegrator integrator = new CreateSpreadsheetIntegrator(lars, "", 20, 20);
     	integrator.execute();
     }
     
     @Test(expected = InvalidSpreadsheetSizeException.class)
     public void invalidSpreadsheetLineSize() {
-    	CreateDocumentIntegrator integrator = new CreateDocumentIntegrator(lars, SHEET_NAME, -1, 20);
+    	CreateSpreadsheetIntegrator integrator = new CreateSpreadsheetIntegrator(lars, SHEET_NAME, -1, 20);
     	integrator.execute();
     }
     
     @Test(expected = InvalidSpreadsheetSizeException.class)
     public void invalidSpreadsheetColumnSize() {
-    	CreateDocumentIntegrator integrator = new CreateDocumentIntegrator(lars, SHEET_NAME, 20, 0);
+    	CreateSpreadsheetIntegrator integrator = new CreateSpreadsheetIntegrator(lars, SHEET_NAME, 20, 0);
     	integrator.execute();
     }   
 }

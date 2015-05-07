@@ -12,7 +12,7 @@ import pt.ulisboa.tecnico.bubbledocs.integration.ImportDocumentIntegrator;
 import pt.ulisboa.tecnico.bubbledocs.integration.LoginUserIntegrator;
 import pt.ulisboa.tecnico.bubbledocs.integration.RemoveUserIntegrator;
 import pt.ulisboa.tecnico.bubbledocs.integration.RenewPasswordIntegrator;
-import pt.ulisboa.tecnico.bubbledocs.service.CreateDocumentService;
+import pt.ulisboa.tecnico.bubbledocs.service.CreateSpreadsheetService;
 import pt.ulisboa.tecnico.bubbledocs.service.ExportDocumentService;
 
 public class RemoteSystemIT extends SystemTest {
@@ -49,8 +49,8 @@ public class RemoteSystemIT extends SystemTest {
 		String nameDocument = "Lord of the Rings";
 		int lines = 5;
 		int columns = 4;
-		CreateDocumentService createSpreadsheet = 
-				new CreateDocumentService(token, nameDocument, lines, columns);
+		CreateSpreadsheetService createSpreadsheet = 
+				new CreateSpreadsheetService(token, nameDocument, lines, columns);
 		createSpreadsheet.execute();
 		Spreadsheet document = createSpreadsheet.getResult();
 		
