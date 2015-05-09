@@ -1,5 +1,13 @@
 package id.ws.impl;
 
+import java.security.Key;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+
+import javax.crypto.Cipher;
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
+
 public class User {
 	
 	String userId;
@@ -8,10 +16,17 @@ public class User {
 	private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 	static Integer count = 10;
 	
-	public User (String userId, String password, String emailAddress){
+	private SecretKey secretKey;
+	private SecureRandom iv;
+	private byte[] cipherPwBytes;
+	private byte[] decipherPwBytes;
+	
+	public User(String userId, String password, String emailAddress) {
 		this.userId = userId;
 		this.password = password;
 		this.emailAddress = emailAddress;
+		this.secretKey = generateKey();
+		this.iv = generateIv();
 	}
 	
 	public String getUserId() {
@@ -41,11 +56,46 @@ public class User {
 		this.password = password();
 	}
 	
+	public SecretKey generateKey() {
+		KeyGenerator keyGen = null;
+		try {
+			keyGen = KeyGenerator.getInstance("AES");
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+		keyGen.init(128);
+		SecretKey secretKey = keyGen.generateKey();
+		return secretKey;
+	}
+	
+	public SecureRandom generateIv() {
+		final int AES_KEYLENGTH = 128;
+		byte[] iv = new byte[AES_KEYLENGTH/8];
+		SecureRandom ivParam = new SecureRandom(iv);
+		return ivParam;
+	}
+	
+	public SecretKey getKey() {
+		return this.secretKey;
+	}
+	
+	public SecureRandom getIv() {
+		return this.iv;
+	}
+	
+	public byte[] cipher(String password) throws Exception {
+		Cipher cipher = Cipher.getInstance("AES/CBC/PKCS7PADDING");
+		cipher.init(Cipher.ENCRYPT_MODE, secretKey, generateIv());
+		byte[] passwordBytes = password.getBytes();
+		cipherPwBytes = cipher.doFinal(passwordBytes);
+		return cipherPwBytes;
+	}
+	
+	public byte[] decipher(Key key, byte[] cipherPwBytes) throws Exception {
+		Cipher decipher = Cipher.getInstance("AES/CBC/PKCS7PADDING");
+		decipher.init(Cipher.DECRYPT_MODE, secretKey, generateIv());
+		decipherPwBytes = decipher.doFinal(cipherPwBytes);
+		return decipherPwBytes;
+	}
+	
 }
-
-
-
-
-
-
-

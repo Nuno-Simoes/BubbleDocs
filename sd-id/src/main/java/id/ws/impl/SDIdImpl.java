@@ -122,6 +122,7 @@ public class SDIdImpl implements SDId {
 
 		User u = new User(userId, null, emailAddress);
 		user.add(u);
+		
 	}
 
 	public void renewPassword(String userId) throws UserDoesNotExist_Exception {
@@ -163,7 +164,7 @@ public class SDIdImpl implements SDId {
 
 	public byte[] requestAuthentication(String userId, byte[] reserved)
 			throws AuthReqFailed_Exception {
-
+		
 		byte[] pass = { 0 };
 		try {
 			String s = new String(reserved);
@@ -191,5 +192,5 @@ public class SDIdImpl implements SDId {
 		throw new AuthReqFailed_Exception("Authentication Failed", arf);
 
 	}
-
+	
 }
