@@ -2,8 +2,8 @@ package store.ws.impl;
 
 public class User {
 	
-	Repository repository;
-	String userId;
+	private Repository repository;
+	private String userId;
 	
 	public User (String userId) {
 		this.userId = userId;

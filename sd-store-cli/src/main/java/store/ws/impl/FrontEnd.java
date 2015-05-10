@@ -47,7 +47,6 @@ public class FrontEnd {
 			endpointAddress1 = uddiNaming.lookup(name1);
 			endpointAddress2 = uddiNaming.lookup(name2);
 		} catch (JAXRException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -73,6 +72,10 @@ public class FrontEnd {
 	
 	public byte[] load (DocUserPair docUserPair) {
 		return new byte[1024];
+	}
+	
+	public void store (DocUserPair docUserPair, byte[] contents) {
+		
 	}
 	
 }

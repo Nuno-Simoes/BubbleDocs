@@ -16,8 +16,6 @@ import pt.ulisboa.tecnico.bubbledocs.exceptions.UnavailableServiceException;
 import pt.ulisboa.tecnico.bubbledocs.integration.ExportDocumentIntegrator;
 import pt.ulisboa.tecnico.bubbledocs.integration.ImportDocumentIntegrator;
 import pt.ulisboa.tecnico.bubbledocs.service.remote.StoreRemoteServices;
-import pt.ulisboa.tecnico.sdis.store.ws.*;
-
 
 public class ExportDocumentIntegratorTest extends BubbleDocsIntegratorTest {
 	

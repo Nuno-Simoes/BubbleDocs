@@ -11,7 +11,7 @@ import pt.ulisboa.tecnico.bubbledocs.exceptions.SpreadsheetDoesNotExistException
 import pt.ulisboa.tecnico.bubbledocs.exceptions.UserDoesNotExistException;
 
 public class User extends User_Base {
-
+	
 	public User() {
 		super();
 	}
