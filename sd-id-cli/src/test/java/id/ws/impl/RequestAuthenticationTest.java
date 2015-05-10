@@ -14,10 +14,12 @@ public class RequestAuthenticationTest extends IdTest {
 	String USERNAME_DOES_NOT_EXIST = "zequinha";
 	String PASSWORD_EXIST = "Bbb2";
 	String PASSWORD_DOES_NOT_EXIST = "batata";
+	String EMPTY_PASSWORD = "";
+	String EMPTY_USERNAME = "";
+	
 	byte[] ALLOWED_PASS = PASSWORD_EXIST.getBytes();
 	byte[] FAIL_PASS = PASSWORD_DOES_NOT_EXIST.getBytes();
-	String EMPTY = "";
-	byte[] EMPTY_PASS = EMPTY.getBytes();
+	byte[] EMPTY_PASS = EMPTY_PASSWORD.getBytes();
 
 	@Test
 	public void requestAuthenticationTestSuccess() throws Exception {
@@ -31,7 +33,7 @@ public class RequestAuthenticationTest extends IdTest {
 
 	@Test(expected = AuthReqFailed_Exception.class)
 	public void userDoesNotExist2() throws Exception {
-		port.requestAuthentication(EMPTY, ALLOWED_PASS);
+		port.requestAuthentication(EMPTY_USERNAME, ALLOWED_PASS);
 	}
 
 	@Test(expected = AuthReqFailed_Exception.class)
@@ -53,5 +55,5 @@ public class RequestAuthenticationTest extends IdTest {
 	public void failedPassword3() throws Exception {
 		port.requestAuthentication(USERNAME_EXIST, EMPTY_PASS);
 	}
-	
+
 }
