@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.xml.registry.JAXRException;
 import javax.xml.ws.BindingProvider;
 
+import pt.ulisboa.tecnico.sdis.store.ws.DocUserPair;
 import pt.ulisboa.tecnico.sdis.store.ws.SDStore;
 import pt.ulisboa.tecnico.sdis.store.ws.SDStore_Service;
 import store.ws.uddi.UDDINaming;
@@ -70,7 +71,8 @@ public class FrontEnd {
 		requestContext.put(ENDPOINT_ADDRESS_PROPERTY, endpointAddress2);	
 	}
 	
-//	public byte[] load (String username, String docName) {
-//	}
+	public byte[] load (DocUserPair docUserPair) {
+		return new byte[1024];
+	}
 	
 }
