@@ -1,6 +1,5 @@
 package id.ws.impl;
 
-import java.security.Key;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
@@ -84,16 +83,16 @@ public class User {
 	}
 	
 	public byte[] cipher(String password) throws Exception {
-		Cipher cipher = Cipher.getInstance("AES/CBC/PKCS7PADDING");
-		cipher.init(Cipher.ENCRYPT_MODE, secretKey, generateIv());
+		Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
+		cipher.init(Cipher.ENCRYPT_MODE, secretKey, iv);
 		byte[] passwordBytes = password.getBytes();
 		cipherPwBytes = cipher.doFinal(passwordBytes);
 		return cipherPwBytes;
 	}
 	
-	public byte[] decipher(Key key, byte[] cipherPwBytes) throws Exception {
-		Cipher decipher = Cipher.getInstance("AES/CBC/PKCS7PADDING");
-		decipher.init(Cipher.DECRYPT_MODE, secretKey, generateIv());
+	public byte[] decipher(SecretKey secretKey, byte[] cipherPwBytes) throws Exception {
+		Cipher decipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
+		decipher.init(Cipher.DECRYPT_MODE, secretKey, iv);
 		decipherPwBytes = decipher.doFinal(cipherPwBytes);
 		return decipherPwBytes;
 	}
