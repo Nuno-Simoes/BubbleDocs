@@ -60,8 +60,8 @@ public class SecureStore {
 		byte[] cipherText = null;
 		
 		try {
-			aes = Cipher.getInstance("AES/CBC/PKCS7PADDING");
-			aes.init(Cipher.ENCRYPT_MODE, this.key, iv);
+			aes = Cipher.getInstance("AES/CBC/PKCS5PADDING");
+			aes.init(Cipher.ENCRYPT_MODE, getKey(), getIv());
 			cipherText = aes.doFinal(contents);
 		} catch (NoSuchAlgorithmException nsae) {
 			nsae.printStackTrace();
@@ -77,6 +77,7 @@ public class SecureStore {
 			bpe.printStackTrace();
 		}
 		
+		System.out.println("CIPHER: " + cipherText);
 		frontEnd.store(docUserPair, cipherText);
 	}
 	
@@ -86,8 +87,8 @@ public class SecureStore {
 		byte[] decryptedText = null;
 		
 		try {
-			aes = Cipher.getInstance("AES/CBC/PKCS7PADDING");
-			aes.init(Cipher.DECRYPT_MODE, key, iv);
+			aes = Cipher.getInstance("AES/CBC/PKCS5PADDING");
+			aes.init(Cipher.DECRYPT_MODE, getKey(), getIv());
 			decryptedText = aes.doFinal(cipherText);
 		} catch (NoSuchAlgorithmException nsae) {
 			nsae.printStackTrace();

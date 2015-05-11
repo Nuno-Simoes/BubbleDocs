@@ -39,9 +39,9 @@ public class LoginUserIntegratorTest extends BubbleDocsIntegratorTest {
     @Test
     public void success() {
     	
-    	new Expectations() {{
-    		remote.loginUser(anyString, anyString);
-    	}};
+    	//new Expectations() {{
+    	//	remote.loginUser(anyString, anyString);
+    	//}};
     	
         LoginUserIntegrator integrator = 
         		new LoginUserIntegrator(USERNAME, PASSWORD);

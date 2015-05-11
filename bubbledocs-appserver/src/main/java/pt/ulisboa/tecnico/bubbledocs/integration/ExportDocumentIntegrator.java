@@ -25,8 +25,8 @@ public class ExportDocumentIntegrator extends BubbleDocsIntegrator {
 	protected void dispatch() throws UnavailableServiceException {
 		ExportDocumentService localService = 
 				new ExportDocumentService(userToken, docId);
-		StoreRemoteServices remoteService = new StoreRemoteServices();
-
+		StoreRemoteServices remoteService = StoreRemoteServices.getInstance();
+		
 		try {
 			localService.execute();
 			this.document = localService.getResult();

@@ -22,14 +22,14 @@ public class ImportDocumentIntegrator extends BubbleDocsIntegrator {
 
 	@Override
 	protected void dispatch() throws UnavailableServiceException, InvalidSessionException {
-		byte[] newFile;
+		byte[] newFile = null;
 		GetUsername4TokenService service = new GetUsername4TokenService(userToken);
 		service.execute();
 		String username = service.getResult();
 		
 		if(Session.getInstance().isValidSession(userToken)) {
 			try {
-				StoreRemoteServices remoteService = new StoreRemoteServices();
+				StoreRemoteServices remoteService = StoreRemoteServices.getInstance();
 				newFile = remoteService.loadDocument(username, docId.toString());
 				ImportDocumentService localService = 
 						new ImportDocumentService(newFile, username);
