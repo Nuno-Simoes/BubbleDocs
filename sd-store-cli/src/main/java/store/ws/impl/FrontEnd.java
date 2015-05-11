@@ -27,7 +27,8 @@ public class FrontEnd {
 	private static SDStore port1;
 	private static SDStore port2;
 	public static  String token;
-
+	
+	private int quoruns;
 	private int seq;
 
 	public static FrontEnd frontEnd = null;
