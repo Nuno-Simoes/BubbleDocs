@@ -32,10 +32,7 @@ public class FrontEnd {
 	private static SDStore port2;
 	public static  String senderToken;
 	public static String reciverToken;
-	
-	//private int quoruns;
-	private int seq;
-	
+		
 	String endpointAddress0 = null;
 	String endpointAddress1 = null;
 	String endpointAddress2 = null;
@@ -56,7 +53,6 @@ public class FrontEnd {
 
 	public FrontEnd() {
 		this.connect();
-		this.seq=0;
 	}
 
 	public static FrontEnd getInstance() {
@@ -109,7 +105,6 @@ public class FrontEnd {
 
 		senderToken = new XMLOutputter().outputString(doc);
 
-		
 		try {
 			requestContext0.put(RelayClientHandler.REQUEST_PROPERTY, senderToken);
 			requestContext0.put(ENDPOINT_ADDRESS_PROPERTY, endpointAddress0);
@@ -128,6 +123,7 @@ public class FrontEnd {
 			e.printStackTrace();
 		}
 		
+		// waits for Q responses
 		responseContext0 = bindingProvider0.getResponseContext();
 		responseContext1 = bindingProvider1.getResponseContext();
 		responseContext2 = bindingProvider2.getResponseContext();
@@ -178,7 +174,9 @@ public class FrontEnd {
 	}
 
 	public void store (DocUserPair docUserPair, byte[] contents) {
-
+		
+		// read to find maxseq
+		
 		// root element
 		Element root = new Element("root");
 		org.jdom2.Document doc = new org.jdom2.Document();
@@ -186,7 +184,7 @@ public class FrontEnd {
 
 		// tag element
 		Element tag = new Element("tag");
-		tag.setAttribute(new Attribute("seq", Integer.toString(seq)));
+		tag.setAttribute(new Attribute("seq", "")); // send maxseq+1
 		tag.setAttribute(new Attribute("pid", ""));
 
 		doc.getRootElement().addContent(tag);
@@ -202,8 +200,16 @@ public class FrontEnd {
 		senderToken = new XMLOutputter().outputString(doc);
 
 		try {
+			requestContext0.put(RelayClientHandler.REQUEST_PROPERTY, senderToken);
+			requestContext0.put(ENDPOINT_ADDRESS_PROPERTY, endpointAddress0);
 			port0.store(docUserPair, contents);
+			
+			requestContext1.put(RelayClientHandler.REQUEST_PROPERTY, senderToken);
+			requestContext1.put(ENDPOINT_ADDRESS_PROPERTY, endpointAddress1);
 			port1.store(docUserPair, contents);
+			
+			requestContext2.put(RelayClientHandler.REQUEST_PROPERTY, senderToken);
+			requestContext2.put(ENDPOINT_ADDRESS_PROPERTY, endpointAddress2);
 			port2.store(docUserPair, contents);
 		} catch (CapacityExceeded_Exception e) {
 			e.printStackTrace();
@@ -212,7 +218,10 @@ public class FrontEnd {
 		} catch (UserDoesNotExist_Exception e) {
 			e.printStackTrace();
 		}
-
-		this.seq++;
+		
+		// waits for Q acks
+		responseContext0 = bindingProvider0.getResponseContext();
+		responseContext1 = bindingProvider1.getResponseContext();
+		responseContext2 = bindingProvider2.getResponseContext();
 	}
 }

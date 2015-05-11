@@ -38,7 +38,6 @@ import store.ws.impl.handler.RelayServerHandler;
 		portName="SDStoreImplPort",
 		targetNamespace="urn:pt:ulisboa:tecnico:sdis:store:ws",
 		serviceName="SDStore")
-
 @HandlerChain(file="/handler-chain.xml")
 public class StoreImpl implements SDStore {
 
@@ -181,7 +180,6 @@ public class StoreImpl implements SDStore {
 		String userID = docUserPair.getUserId();
 		String documentID = docUserPair.getDocumentId();
 
-
 		if(receivedSeq>seq) {
 
 			// 1 - Verify if user does not exist. If true, throw new 
@@ -311,7 +309,6 @@ public class StoreImpl implements SDStore {
         // put token in message context
         messageContext.put(RelayServerHandler.RESPONSE_PROPERTY, token);
         
-      
 		// 3 - Else, read
 		return repository.readDocument(documentID);
 	}
