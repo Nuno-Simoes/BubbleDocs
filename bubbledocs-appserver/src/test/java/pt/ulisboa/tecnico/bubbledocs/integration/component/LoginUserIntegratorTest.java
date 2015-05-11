@@ -35,7 +35,6 @@ public class LoginUserIntegratorTest extends BubbleDocsIntegratorTest {
     
     @Test
     public void success() {
-    	
         LoginUserIntegrator integrator = 
         		new LoginUserIntegrator(USERNAME, PASSWORD);
         integrator.execute();

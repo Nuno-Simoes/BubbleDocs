@@ -28,17 +28,26 @@ public class StoreImpl implements SDStore {
 	List<User> users = new ArrayList<User>();
 	
 	public StoreImpl () {
+		
+		// Users for SDis
 		User alice = new User("alice");
 		User bruno = new User("bruno");
 		User carla = new User("carla");
 		User duarte = new User("duarte");
 		User eduardo = new User("eduardo");
 		
+		// Users for ES
+		User poe = new User("poe");
+		User ars = new User("ars");
+		
 		users.add(alice);
 		users.add(bruno);
 		users.add(carla);
 		users.add(duarte);
 		users.add(eduardo);
+		
+		users.add(poe);
+		users.add(ars);
 	}
 	
 	public User findUser (String userId) {

@@ -72,7 +72,7 @@ public class ExportDocumentIntegratorTest extends BubbleDocsIntegratorTest {
     	ExportDocumentIntegrator integrator = new ExportDocumentIntegrator(lars, docId, "ars", docName);
         integrator.execute();
         
-        ImportDocumentIntegrator integrator1 = new ImportDocumentIntegrator(lars,Integer.toString(docId));
+        ImportDocumentIntegrator integrator1 = new ImportDocumentIntegrator(lars, Integer.toString(docId));
         integrator1.execute();
         Spreadsheet s = integrator1.getResult();
         Spreadsheet s1 = getSpreadSheet(NAME);
