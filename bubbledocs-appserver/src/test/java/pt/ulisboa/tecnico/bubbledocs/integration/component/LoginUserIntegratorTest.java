@@ -33,9 +33,6 @@ public class LoginUserIntegratorTest extends BubbleDocsIntegratorTest {
     	ars.setPassword(PASSWORD);
     }
     
-    @Mocked
-    IDRemoteServices remote;
-    
     @Test
     public void success() {
     	
