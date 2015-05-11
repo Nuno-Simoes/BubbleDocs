@@ -1,10 +1,21 @@
 package store.ws.impl;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.jws.HandlerChain;
 import javax.jws.WebService;
+import javax.xml.ws.WebServiceContext;
+import javax.xml.ws.handler.MessageContext;
+import javax.annotation.Resource;
 
+import org.jdom2.JDOMException;
+import org.jdom2.input.SAXBuilder;
+import org.jdom2.Element;
+
+import static javax.xml.bind.DatatypeConverter.parseBase64Binary;
 import pt.ulisboa.tecnico.sdis.store.ws.CapacityExceeded;
 import pt.ulisboa.tecnico.sdis.store.ws.CapacityExceeded_Exception;
 import pt.ulisboa.tecnico.sdis.store.ws.DocAlreadyExists;
@@ -15,6 +26,7 @@ import pt.ulisboa.tecnico.sdis.store.ws.DocUserPair;
 import pt.ulisboa.tecnico.sdis.store.ws.SDStore;
 import pt.ulisboa.tecnico.sdis.store.ws.UserDoesNotExist;
 import pt.ulisboa.tecnico.sdis.store.ws.UserDoesNotExist_Exception;
+import store.ws.impl.handler.RelayServerHandler;
 
 @WebService(
 		endpointInterface="pt.ulisboa.tecnico.sdis.store.ws.SDStore",
@@ -23,9 +35,15 @@ import pt.ulisboa.tecnico.sdis.store.ws.UserDoesNotExist_Exception;
 		portName="SDStoreImplPort",
 		targetNamespace="urn:pt:ulisboa:tecnico:sdis:store:ws",
 		serviceName="SDStore")
+
+@HandlerChain(file="/handler-chain.xml")
 public class StoreImpl implements SDStore {
 
 	List<User> users = new ArrayList<User>();
+	public static final String CLASS_NAME = StoreImpl.class.getSimpleName();
+	
+	@Resource
+	private WebServiceContext webServiceContext;
 	
 	public StoreImpl () {
 		
@@ -125,6 +143,33 @@ public class StoreImpl implements SDStore {
 			throws CapacityExceeded_Exception, DocDoesNotExist_Exception,
 			UserDoesNotExist_Exception {
 		
+		// retrieve message context
+        MessageContext messageContext = webServiceContext.getMessageContext();
+		
+        // *** #6 ***
+        // get token from message context
+        String propertyValue = (String) messageContext.get(RelayServerHandler.REQUEST_PROPERTY);
+        System.out.printf("%s got token '%s' from response context%n", CLASS_NAME, propertyValue);
+        
+        org.jdom2.Document jdomDoc = null;
+        
+        SAXBuilder builder = new SAXBuilder();
+        builder.setIgnoringElementContentWhitespace(true);
+        
+        try {
+        	jdomDoc = builder.build(new ByteArrayInputStream(parseBase64Binary(propertyValue)));
+        } catch (JDOMException je) {
+        	je.printStackTrace();
+        } catch (IOException ie) {
+        	ie.printStackTrace();
+        }
+        
+        Element root = jdomDoc.getRootElement();
+        Element document = root.getChild("document");
+        docUserPair.setUserId(document.getAttributeValue("userId"));
+        docUserPair.setDocumentId(document.getAttributeValue("docId"));
+        contents = parseBase64Binary(document.getAttributeValue("content"));
+
 		String userID = docUserPair.getUserId();
 		String documentID = docUserPair.getDocumentId();
 		
@@ -168,6 +213,12 @@ public class StoreImpl implements SDStore {
 		
 		// 4 - Else, write.
 		repository.writeDocument(documentID, contents);
+		
+		
+		 // *** #7 ***
+        // put token in message context
+        messageContext.put(RelayServerHandler.RESPONSE_PROPERTY, "ack");
+		
 	}
 
 	// Lets user docUserPair.getUserId() read docUserPair.getDocumentId()
