@@ -149,9 +149,8 @@ public class RemoveUserIntegratorTest extends BubbleDocsIntegratorTest {
 		service.execute();
 	}
 
-	@Mocked IDRemoteServices remote;
 	@Test()
-	public void unavailableService() {
+	public void unavailableService(@Mocked final IDRemoteServices remote) {
 		Portal p = Portal.getInstance();
 
 		new Expectations() {{

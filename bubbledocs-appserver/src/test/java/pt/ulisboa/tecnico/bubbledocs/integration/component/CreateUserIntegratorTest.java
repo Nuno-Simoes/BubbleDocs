@@ -108,11 +108,8 @@ public class CreateUserIntegratorTest extends BubbleDocsIntegratorTest {
         integrator.execute();
     }
     
-    @Mocked
-    IDRemoteServices remote;
-    
     @Test(expected = UnavailableServiceException.class)
-    public void unavailableService() {
+    public void unavailableService(@Mocked final IDRemoteServices remote) {
     	
     	new Expectations() {{
     		remote.createUser(anyString, anyString);
@@ -124,7 +121,7 @@ public class CreateUserIntegratorTest extends BubbleDocsIntegratorTest {
     
     
     @Test(expected = LoginBubbleDocsException.class) 
-    public void compensationDone() {
+    public void compensationDone(@Mocked final IDRemoteServices remote) {
     	
     	new Expectations() {{
     		remote.createUser(anyString, anyString);
