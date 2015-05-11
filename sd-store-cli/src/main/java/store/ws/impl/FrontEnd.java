@@ -25,8 +25,9 @@ public class FrontEnd {
 	private static SDStore port0;
 	private static SDStore port1;
 	private static SDStore port2;
-	private String token;
-
+	public static  String token;
+	
+	private int quoruns;
 	private int seq;
 
 	public static FrontEnd frontEnd = null;
@@ -69,17 +70,14 @@ public class FrontEnd {
 		port0 = service.getSDStoreImplPort();
 		bindingProvider = (BindingProvider) port0;
 		requestContext = bindingProvider.getRequestContext();
-		requestContext.put(ENDPOINT_ADDRESS_PROPERTY, endpointAddress0);
 
 		port1 = service.getSDStoreImplPort();
 		bindingProvider = (BindingProvider) port1;
 		requestContext = bindingProvider.getRequestContext();
-		requestContext.put(ENDPOINT_ADDRESS_PROPERTY, endpointAddress1);
 
 		port2 = service.getSDStoreImplPort();
 		bindingProvider = (BindingProvider) port2;
 		requestContext = bindingProvider.getRequestContext();
-		requestContext.put(ENDPOINT_ADDRESS_PROPERTY, endpointAddress2);	
 	}
 
 	public byte[] load (DocUserPair docUserPair) {
@@ -126,7 +124,7 @@ public class FrontEnd {
 		Element document = new Element("document");
 		document.setAttribute(new Attribute("userId", docUserPair.getUserId()));
 		document.setAttribute(new Attribute("docId", docUserPair.getDocumentId()));
-		document.addContent(printBase64Binary(contents));
+		document.setAttribute(new Attribute("content", printBase64Binary(contents)));
 		
 		doc.getRootElement().addContent(document);
 
@@ -146,5 +144,4 @@ public class FrontEnd {
 
 		this.seq++;
 	}
-
 }
