@@ -66,7 +66,6 @@ public class ExportDocumentIntegratorTest extends BubbleDocsIntegratorTest {
     	
     }
     
-    @Mocked StoreRemoteServices remote;
     @Test
     public void success() {
   
@@ -123,7 +122,7 @@ public class ExportDocumentIntegratorTest extends BubbleDocsIntegratorTest {
     }
         
     @Test(expected = UnavailableServiceException.class)
-    public void Unavailableintegrator() {
+    public void Unavailableintegrator(@Mocked final StoreRemoteServices remote) {
     	
     	new Expectations() {{
     		remote.storeDocument(anyString, anyString, withNotNull()); 

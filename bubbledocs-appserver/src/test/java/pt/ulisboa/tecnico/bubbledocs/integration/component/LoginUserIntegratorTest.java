@@ -39,10 +39,6 @@ public class LoginUserIntegratorTest extends BubbleDocsIntegratorTest {
     @Test
     public void success() {
     	
-    	new Expectations() {{
-    		remote.loginUser(anyString, anyString);
-    	}};
-    	
         LoginUserIntegrator integrator = 
         		new LoginUserIntegrator(USERNAME, PASSWORD);
         integrator.execute();
@@ -95,24 +91,21 @@ public class LoginUserIntegratorTest extends BubbleDocsIntegratorTest {
         integrator.execute();
     } 
     
+    @Test(expected = LoginBubbleDocsException.class)
+    public void loginUserWithWrongPasswordRemote() throws Exception {
+    
+        LoginUserIntegrator integrator = new LoginUserIntegrator(USERNAME, WRONG_PASSWORD);
+        integrator.execute();
+    }
+    
     @Test (expected = UnavailableServiceException.class)
-    public void unavailableService() throws Exception {
+    public void unavailableService(@Mocked final IDRemoteServices remote) throws Exception {
+    	
     	new Expectations() {{
     		remote.loginUser(anyString, anyString);
     		result = new RemoteInvocationException();
     	}};
     	
     	new LoginUserIntegrator(USERNAME, WRONG_PASSWORD).execute();
-    }
-    
-    @Test(expected = LoginBubbleDocsException.class)
-    public void loginUserWithWrongPasswordRemote() throws Exception {
-    	new Expectations() {{
-    		remote.loginUser(anyString, anyString);
-    		result = new LoginBubbleDocsException();
-    	}};
- 
-        LoginUserIntegrator integrator = new LoginUserIntegrator(USERNAME, WRONG_PASSWORD);
-        integrator.execute();
     }
 }

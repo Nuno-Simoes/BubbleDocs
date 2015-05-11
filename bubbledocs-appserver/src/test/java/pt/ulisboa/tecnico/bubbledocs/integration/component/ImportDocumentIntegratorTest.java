@@ -81,7 +81,6 @@ public class ImportDocumentIntegratorTest extends BubbleDocsIntegratorTest {
 		document = service.getResult();
 	}
 
-	@Mocked StoreRemoteServices remote;
 	@Test
 	public void success() {
 
@@ -97,19 +96,6 @@ public class ImportDocumentIntegratorTest extends BubbleDocsIntegratorTest {
 		assertEquals(result.getId(), 2);		
 	}
 
-	@Test(expected=UnavailableServiceException.class)
-	public void unavailableService() {
-
-		new Expectations() {{
-			remote.loadDocument(anyString, anyString);
-			result = new RemoteInvocationException();
-		}};
-
-		ImportDocumentIntegrator integrator =
-				new ImportDocumentIntegrator(validToken, Integer.toString(DOC_ID));
-		integrator.execute();
-	}
-
 	@Test(expected=InvalidSessionException.class)
 	public void notLoggedUser() {
 		ImportDocumentIntegrator integrator =
@@ -122,6 +108,19 @@ public class ImportDocumentIntegratorTest extends BubbleDocsIntegratorTest {
 
 		ImportDocumentIntegrator integrator =
 				new ImportDocumentIntegrator(invalidToken, Integer.toString(DOC_ID));
+		integrator.execute();
+	}
+	
+	@Test(expected=UnavailableServiceException.class)
+	public void unavailableService(@Mocked final StoreRemoteServices remote) {
+
+		new Expectations() {{
+			remote.loadDocument(anyString, anyString);
+			result = new RemoteInvocationException();
+		}};
+
+		ImportDocumentIntegrator integrator =
+				new ImportDocumentIntegrator(validToken, Integer.toString(DOC_ID));
 		integrator.execute();
 	}
 }

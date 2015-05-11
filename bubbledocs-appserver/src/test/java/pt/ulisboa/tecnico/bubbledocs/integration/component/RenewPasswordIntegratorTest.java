@@ -41,15 +41,8 @@ public class RenewPasswordIntegratorTest extends BubbleDocsIntegratorTest {
 		notLoggedUserToken = notLoggedUser.getToken();
 	}
 
-	@Mocked
-	IDRemoteServices remote;
-
 	@Test
 	public void success() {
-		
-		new Expectations() {{
-			remote.renewPassword(anyString);
-		}};
 		
 		boolean pass = false;
 		RenewPasswordIntegrator integrator = 
@@ -73,7 +66,7 @@ public class RenewPasswordIntegratorTest extends BubbleDocsIntegratorTest {
 	}
 
 	@Test(expected = UnavailableServiceException.class)
-	public void unavailableService() {
+	public void unavailableService(@Mocked final IDRemoteServices remote) {
 		
 		new Expectations() {{
 			remote.renewPassword(anyString); 
