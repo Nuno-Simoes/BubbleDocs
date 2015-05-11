@@ -142,11 +142,17 @@ public class StoreImpl implements SDStore {
 		// throw new DocDoesNotExist_Exception.
 		Repository repository = user.getRepository();
 		if ((repository==null) || !repository.documentExists(documentID)) {
-			DocDoesNotExist docDoesNotExist = new DocDoesNotExist();
-			docDoesNotExist.setDocId(documentID);
-			throw new DocDoesNotExist_Exception("Invalid document", 
-					docDoesNotExist);
+			//DocDoesNotExist docDoesNotExist = new DocDoesNotExist();
+			//docDoesNotExist.setDocId(documentID);
+			//throw new DocDoesNotExist_Exception("Invalid document", 
+			//		docDoesNotExist);
+			try {
+				createDoc(docUserPair);
+			} catch (DocAlreadyExists_Exception e) {
+				e.printStackTrace();
+			}			
 		}
+		repository = user.getRepository();
 		
 		// 3 - Verify if capacity of repository plus capacity of contents
 		// exceeds size limit for repository. If true, throw new
@@ -182,7 +188,7 @@ public class StoreImpl implements SDStore {
 		}
 		
 		// 2 - Verify if document name does not exist in repository. If true,
-		// throw new DocDoesNotExist_Exception.return null;
+		// throw new DocDoesNotExist_Exception
 		Repository repository = user.getRepository();
 		if (repository==null || !repository.documentExists(documentID)) {
 			DocDoesNotExist docDoesNotExist = new DocDoesNotExist();
