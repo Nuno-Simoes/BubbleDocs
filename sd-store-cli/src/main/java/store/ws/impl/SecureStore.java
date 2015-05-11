@@ -20,7 +20,7 @@ public class SecureStore {
 	private Cipher aes;
 	private SecretKey key;
 	private IvParameterSpec iv;
-	
+		
 	public SecureStore () {
 		this.key = generateKey();
 		this.iv = generateIv();
@@ -77,7 +77,6 @@ public class SecureStore {
 			bpe.printStackTrace();
 		}
 		
-		System.out.println("CIPHER: " + cipherText);
 		frontEnd.store(docUserPair, cipherText);
 	}
 	

@@ -3,7 +3,7 @@ package store.ws.impl;
 public class Document {
 	
 	public String documentId;
-	public byte[] contents;
+	public byte[] contents;	
 	
 	public Document (String documentId) {
 		this.documentId = documentId;
