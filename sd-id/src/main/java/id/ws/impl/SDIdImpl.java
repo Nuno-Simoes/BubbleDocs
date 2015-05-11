@@ -1,8 +1,15 @@
 package id.ws.impl;
 
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.jws.WebService;
 
 import pt.ulisboa.tecnico.sdis.id.ws.AuthReqFailed;
@@ -63,7 +70,7 @@ public class SDIdImpl implements SDId {
 			iu.setUserId(userId);
 			throw new InvalidUser_Exception("Wrong Username", iu);
 		}
-		
+
 		try {
 			if (emailAddress.equals("") || emailAddress.equals(null)) {
 				InvalidEmail ie = new InvalidEmail();
@@ -122,19 +129,12 @@ public class SDIdImpl implements SDId {
 
 		User u = new User(userId, null, emailAddress);
 		user.add(u);
-		
+
 	}
 
 	public void renewPassword(String userId) throws UserDoesNotExist_Exception {
 
-		User us=null;
-
-		for (User u : user) {
-			if (u.getUserId().equals(userId)) {
-				us = u;
-				break;
-			}
-		}
+		User us = findUser(userId);
 
 		if (us == null) {
 			UserDoesNotExist udne = new UserDoesNotExist();
@@ -143,6 +143,7 @@ public class SDIdImpl implements SDId {
 					udne);
 		} else {
 			us.setPassword();
+			System.out.println("Nova password de " + us.getUserId() + ": " + us.getPassword());
 		}
 
 	}
@@ -164,13 +165,35 @@ public class SDIdImpl implements SDId {
 
 	public byte[] requestAuthentication(String userId, byte[] reserved)
 			throws AuthReqFailed_Exception {
-		
+
+		User u = findUser(userId);
 		byte[] pass = { 0 };
+
 		try {
-			String s = new String(reserved);
-			for (User u : user) {
-				if (u.getUserId().equals(userId)) {
-					if (u.getPassword().equals(s)) {
+			String password = new String(reserved);
+			System.out.println("Password: " + password);
+			
+			System.out.println("Secret Key: " + u.getSecretKey());
+			System.out.println("Iv: " + u.getIv());
+			
+			Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
+
+			cipher.init(Cipher.ENCRYPT_MODE, u.getSecretKey(), u.getIv());
+			byte[] cipherPwBytes = cipher.doFinal(reserved);
+			
+			String cipherPassword = new String(cipherPwBytes);
+			System.out.println("Password Cifrada: " + cipherPassword);
+
+			cipher.init(Cipher.DECRYPT_MODE, u.getSecretKey(), u.getIv());
+			byte[] decipherPwBytes = cipher.doFinal(cipherPwBytes);
+
+			String decipherPassword = new String(decipherPwBytes);
+			
+			System.out.println("Password Decifrada: " + decipherPassword);
+
+			for (User us : user) {
+				if (us.getUserId().equals(userId)) {
+					if (us.getPassword().equals(decipherPassword)) {
 						pass[0] = 1;
 						return pass;
 					} else {
@@ -185,6 +208,30 @@ public class SDIdImpl implements SDId {
 			AuthReqFailed arf = new AuthReqFailed();
 			arf.setReserved(reserved);
 			throw new AuthReqFailed_Exception("Authentication Failed", arf);
+		} catch (NoSuchAlgorithmException e) {
+			AuthReqFailed arf = new AuthReqFailed();
+			arf.setReserved(reserved);
+			throw new AuthReqFailed_Exception("Authentication Failed", arf);
+		} catch (NoSuchPaddingException e) {
+			AuthReqFailed arf = new AuthReqFailed();
+			arf.setReserved(reserved);
+			throw new AuthReqFailed_Exception("Authentication Failed", arf);
+		} catch (InvalidKeyException e) {
+			AuthReqFailed arf = new AuthReqFailed();
+			arf.setReserved(reserved);
+			throw new AuthReqFailed_Exception("Authentication Failed", arf);
+		} catch (IllegalBlockSizeException e) {
+			AuthReqFailed arf = new AuthReqFailed();
+			arf.setReserved(reserved);
+			throw new AuthReqFailed_Exception("Authentication Failed", arf);
+		} catch (BadPaddingException e) {
+			AuthReqFailed arf = new AuthReqFailed();
+			arf.setReserved(reserved);
+			throw new AuthReqFailed_Exception("Authentication Failed", arf);
+		} catch (InvalidAlgorithmParameterException e) {
+			AuthReqFailed arf = new AuthReqFailed();
+			arf.setReserved(reserved);
+			throw new AuthReqFailed_Exception("Authentication Failed", arf);
 		}
 
 		AuthReqFailed arf = new AuthReqFailed();
@@ -192,5 +239,5 @@ public class SDIdImpl implements SDId {
 		throw new AuthReqFailed_Exception("Authentication Failed", arf);
 
 	}
-	
+
 }
