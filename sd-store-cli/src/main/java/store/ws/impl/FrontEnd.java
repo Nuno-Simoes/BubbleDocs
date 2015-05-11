@@ -4,7 +4,7 @@ import static javax.xml.ws.BindingProvider.ENDPOINT_ADDRESS_PROPERTY;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+
 import java.util.Map;
 
 import javax.xml.registry.JAXRException;
@@ -14,9 +14,6 @@ import org.jdom2.*;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.XMLOutputter;
 
-import com.sun.xml.ws.api.EndpointAddress;
-import com.sun.xml.ws.client.ResponseContext;
-
 import pt.ulisboa.tecnico.sdis.store.ws.CapacityExceeded_Exception;
 import pt.ulisboa.tecnico.sdis.store.ws.DocDoesNotExist_Exception;
 import pt.ulisboa.tecnico.sdis.store.ws.DocUserPair;
@@ -24,7 +21,6 @@ import pt.ulisboa.tecnico.sdis.store.ws.SDStore;
 import pt.ulisboa.tecnico.sdis.store.ws.SDStore_Service;
 import pt.ulisboa.tecnico.sdis.store.ws.UserDoesNotExist_Exception;
 import store.ws.handler.RelayClientHandler;
-import store.ws.impl.handler.RelayServerHandler;
 import store.ws.uddi.UDDINaming;
 import static javax.xml.bind.DatatypeConverter.parseBase64Binary;
 import static javax.xml.bind.DatatypeConverter.printBase64Binary;
@@ -37,7 +33,7 @@ public class FrontEnd {
 	public static  String senderToken;
 	public static String reciverToken;
 	
-	private int quoruns;
+	//private int quoruns;
 	private int seq;
 	
 	String endpointAddress0 = null;

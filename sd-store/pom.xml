@@ -167,7 +167,6 @@
               <argument>${ws.url1}</argument>
               <argument>${ws.url2}</argument>
               <argument>${ws.url3}</argument>
-              
             </arguments>
           </configuration>
       </plugin>
