@@ -2,7 +2,6 @@ package store.ws.impl;
 
 import static javax.xml.ws.BindingProvider.ENDPOINT_ADDRESS_PROPERTY;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
 import javax.xml.registry.JAXRException;
@@ -132,7 +131,6 @@ public class FrontEnd {
 		doc.getRootElement().addContent(document);
 
 		token = new XMLOutputter().outputString(doc);
-		System.out.println("TOKEN: " + token);
 
 		try {
 			port0.store(docUserPair, contents);
