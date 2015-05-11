@@ -2,10 +2,7 @@ package pt.ulisboa.tecnico.bubbledocs.service;
 
 import pt.ulisboa.tecnico.bubbledocs.domain.RootUser;
 import pt.ulisboa.tecnico.bubbledocs.domain.User;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.DuplicateUsernameException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidPermissionException;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidUsernameException;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
 
 public class CreateUserService extends BubbleDocsService {
 
@@ -23,9 +20,7 @@ public class CreateUserService extends BubbleDocsService {
 	}
 
 	@Override
-	protected void dispatch() throws InvalidPermissionException, 
-	LoginBubbleDocsException, InvalidUsernameException, 
-	DuplicateUsernameException {
+	protected void dispatch() throws InvalidPermissionException {
 		User u = super.getUser(userToken);
 		if(u instanceof RootUser) {
 			((RootUser) u).addUser(newUsername, name, 

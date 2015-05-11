@@ -1,6 +1,5 @@
 package pt.ulisboa.tecnico.bubbledocs.integration;
 
-import pt.ulisboa.tecnico.bubbledocs.exceptions.BubbledocsException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.RemoteInvocationException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.UnavailableServiceException;
 import pt.ulisboa.tecnico.bubbledocs.service.ExportDocumentService;
@@ -14,7 +13,8 @@ public class ExportDocumentIntegrator extends BubbleDocsIntegrator {
 	private String docName;
 	private byte[] document;
 
-	public ExportDocumentIntegrator(String userToken, int docId, String username, String docName){
+	public ExportDocumentIntegrator(String userToken, int docId, 
+			String username, String docName){
 		this.userToken = userToken;
 		this.docId = docId;
 		this.username = username;
@@ -22,8 +22,9 @@ public class ExportDocumentIntegrator extends BubbleDocsIntegrator {
 	}
 
 	@Override
-	protected void dispatch() throws BubbledocsException, UnavailableServiceException {
-		ExportDocumentService localService = new ExportDocumentService(userToken, docId);
+	protected void dispatch() throws UnavailableServiceException {
+		ExportDocumentService localService = 
+				new ExportDocumentService(userToken, docId);
 		StoreRemoteServices remoteService = new StoreRemoteServices();
 
 		try {

@@ -108,7 +108,6 @@
   
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <mainclass>store.ws.impl.StoreMain</mainclass>
 
     <ws.uddi>http://localhost:8081</ws.uddi>
     <ws.name>SdStore</ws.name>

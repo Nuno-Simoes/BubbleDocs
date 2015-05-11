@@ -12,12 +12,12 @@ public class Cell extends Cell_Base {
         super();
     }
     
-    public Cell(int line , int column){
+    public Cell(int line , int column) {
     	super();
     	this.init(line, column);
     }
     
-    protected void init (int line, int column){
+    protected void init (int line, int column) {
     	this.setLine(line);
     	this.setColumn(column);
     	this.setContent(new Literal(Double.NaN));
@@ -44,7 +44,7 @@ public class Cell extends Cell_Base {
       	return element;
     }
     
-    public void importFromXML (Element element) {
+    public void importFromXML (Element element) throws ImportDocumentException {
     	try {
     		this.setLine(element.getAttribute("line").getIntValue());
     		this.setColumn(element.getAttribute("column").getIntValue());

@@ -26,7 +26,8 @@ public class ImportDocumentService extends BubbleDocsService {
     }
 
     @Override
-    protected void dispatch() throws InvalidSessionException {
+    protected void dispatch() throws InvalidSessionException, 
+    		ImportDocumentException {
     	User u = Portal.getInstance().findUser(username);
     	Session s = Session.getInstance();
     	

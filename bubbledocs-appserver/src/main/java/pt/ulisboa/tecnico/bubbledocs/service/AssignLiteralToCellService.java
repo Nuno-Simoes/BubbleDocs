@@ -8,8 +8,6 @@ import pt.ulisboa.tecnico.bubbledocs.domain.Spreadsheet;
 import pt.ulisboa.tecnico.bubbledocs.domain.User;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidContentException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidPermissionException;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.OutOfBoundsException;
 
 public class AssignLiteralToCellService extends BubbleDocsService {
 
@@ -29,7 +27,7 @@ public class AssignLiteralToCellService extends BubbleDocsService {
 
 	@Override
 	protected void dispatch() throws InvalidPermissionException,
-		LoginBubbleDocsException, InvalidContentException, OutOfBoundsException{
+			InvalidContentException {
 		
 		User u = super.getUser(token);
 		Portal p = Portal.getInstance();

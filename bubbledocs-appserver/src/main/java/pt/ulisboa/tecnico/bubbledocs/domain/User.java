@@ -1,14 +1,9 @@
 package pt.ulisboa.tecnico.bubbledocs.domain;
 
-import java.util.List;
-
 import pt.ulisboa.tecnico.bubbledocs.exceptions.EmptySpreadsheetNameException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidPermissionException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidSpreadsheetSizeException;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidUsernameException;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.OutOfBoundsException;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.SpreadsheetDoesNotExistException;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.UserDoesNotExistException;
+import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
 
 public class User extends User_Base {
 	
@@ -27,22 +22,6 @@ public class User extends User_Base {
 		this.setEmail(email);
 		this.setSessionTime(0);
 		this.setToken(null);
-	}
-
-	public void listSpreadsheets (List<Spreadsheet> list, String str) {
-		for (Spreadsheet s : this.getPortal().getSpreadsheetsSet()) {
-			if (this.getUsername().equals(s.getOwner())) {
-				list.add(s);
-			}
-		}
-	}
-
-	public void listSpreadsheets (List<Spreadsheet> list) {
-		for (Spreadsheet s : this.getPortal().getSpreadsheetsSet()) {
-			if (this.getUsername().equals(s.getOwner())) {
-				list.add(s);
-			}
-		}
 	}
 
 	public Spreadsheet createSpreadsheet(String name, int lines, int columns) 
@@ -74,8 +53,7 @@ public class User extends User_Base {
 	}
 
 	public void modifyPermissions (String username, int sheetId, boolean read, 
-			boolean write) throws UserDoesNotExistException, 
-			SpreadsheetDoesNotExistException {
+			boolean write) {
 		Portal portal = Portal.getInstance();
 		Permission p = findPermission(this.getUsername(), sheetId);
 		User u = portal.findUser(username);
@@ -97,24 +75,8 @@ public class User extends User_Base {
 		}	   
 	}
 
-	public void modifyProtection (int sheetId, int line, 
-			int column, boolean protection) throws UserDoesNotExistException, 
-			SpreadsheetDoesNotExistException, InvalidPermissionException, 
-			OutOfBoundsException {
-		Portal portal = Portal.getInstance();
-		Permission p = findPermission(this.getUsername(), sheetId);
-		Spreadsheet s = portal.findSpreadsheet(sheetId);
-
-		if (portal.isOwner(this, s) || p.getWrite()) {
-			Cell c = s.getCell(line, column);
-			c.setIsProtected(protection);
-		} else throw new InvalidPermissionException(this.getUsername());	   
-	}
-
-
 	public Permission findPermission (String username, int sheetId) 
-			throws UserDoesNotExistException, SpreadsheetDoesNotExistException, 
-			InvalidPermissionException {
+			throws InvalidPermissionException {
 		Portal portal = Portal.getInstance();
 		User u = portal.findUser(username);
 		Spreadsheet s = portal.findSpreadsheet(sheetId);
@@ -128,9 +90,7 @@ public class User extends User_Base {
 		throw new InvalidPermissionException(username);
 	}
 
-	public void setContent (int sheetId, int line, int column, Content content)
-			throws UserDoesNotExistException, SpreadsheetDoesNotExistException, 
-			InvalidPermissionException, OutOfBoundsException {
+	public void setContent (int sheetId, int line, int column, Content content) {
 		Portal portal = Portal.getInstance();
 		Permission p = findPermission(this.getUsername(), sheetId);
 		Spreadsheet s = portal.findSpreadsheet(sheetId);
@@ -148,9 +108,9 @@ public class User extends User_Base {
 	}
 
 	@Override
-	public void setUsername(String username) throws InvalidUsernameException {
+	public void setUsername(String username) throws LoginBubbleDocsException {
 		if (username.equals("") || username.length() < 3 || username.length() > 8) {
-			throw new InvalidUsernameException();
+			throw new LoginBubbleDocsException();
 		}
 		super.setUsername(username);
 	}

@@ -2,7 +2,6 @@ package pt.ulisboa.tecnico.bubbledocs.service;
 
 import pt.ulisboa.tecnico.bubbledocs.domain.Session;
 import pt.ulisboa.tecnico.bubbledocs.domain.User;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
 
 public class GetUsername4TokenService extends BubbleDocsService {
 	
@@ -14,7 +13,7 @@ public class GetUsername4TokenService extends BubbleDocsService {
 	}
 
 	@Override
-	protected void dispatch() throws LoginBubbleDocsException {
+	protected void dispatch() {
 		Session s = Session.getInstance();
 		User u = s.getLoggedUser(token);
 		this.username = u.getUsername();

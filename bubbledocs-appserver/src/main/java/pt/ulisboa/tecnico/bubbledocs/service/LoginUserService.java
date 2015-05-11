@@ -2,8 +2,6 @@ package pt.ulisboa.tecnico.bubbledocs.service;
 
 import pt.ulisboa.tecnico.bubbledocs.domain.Portal;
 import pt.ulisboa.tecnico.bubbledocs.domain.Session;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidPermissionException;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
 
 public class LoginUserService extends BubbleDocsService {
 
@@ -19,8 +17,7 @@ public class LoginUserService extends BubbleDocsService {
 	}
 
 	@Override
-	protected void dispatch() throws InvalidPermissionException, 
-		LoginBubbleDocsException {
+	protected void dispatch() {
 		
 		Portal p = Portal.getInstance();
 		Session s = Session.getInstance();

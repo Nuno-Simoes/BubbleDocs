@@ -9,7 +9,6 @@
   </parent>
   
 
-  <groupId>SD-STORE</groupId>
   <artifactId>store-ws_wsdl</artifactId>
   <packaging>jar</packaging>
 

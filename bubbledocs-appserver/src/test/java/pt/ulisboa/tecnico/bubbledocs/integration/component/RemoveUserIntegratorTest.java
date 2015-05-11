@@ -66,6 +66,7 @@ public class RemoveUserIntegratorTest extends BubbleDocsIntegratorTest {
 		} catch (LoginBubbleDocsException une) {
 			deletedUser = true;
 		}
+		
 		assertTrue("user was not deleted", deletedUser);
 
 		try {
@@ -73,6 +74,7 @@ public class RemoveUserIntegratorTest extends BubbleDocsIntegratorTest {
 		} catch (SpreadsheetDoesNotExistException sne) {
 			deletedSpreadsheet = true;
 		}
+		
 		assertTrue("User spreadsheets were not deleted", deletedSpreadsheet);        
 	}
 
@@ -93,19 +95,21 @@ public class RemoveUserIntegratorTest extends BubbleDocsIntegratorTest {
 		} catch (LoginBubbleDocsException le) {
 			deleted = true;
 		}
+		
 		assertTrue("Removed user but not removed from session", deleted);
 	}
 
 	@Test(expected = LoginBubbleDocsException.class)
 	public void userNotLogged() {
 		RemoveUserIntegrator service = new RemoveUserIntegrator(logzecabra,
-				USERNAME_DOES_NOT_EXIST);;
-				service.execute();
+				USERNAME_DOES_NOT_EXIST);
+		service.execute();
 	}
 
 	@Test(expected = LoginBubbleDocsException.class)
 	public void userToDeleteDoesNotExist() {
-		RemoveUserIntegrator service = new RemoveUserIntegrator(root, USERNAME_DOES_NOT_EXIST);
+		RemoveUserIntegrator service = 
+				new RemoveUserIntegrator(root, USERNAME_DOES_NOT_EXIST);
 		service.execute();
 	}
 
@@ -113,7 +117,8 @@ public class RemoveUserIntegratorTest extends BubbleDocsIntegratorTest {
 	public void notRootUser() {
 		String ars = addUserToSession(USERNAME);
 
-		RemoveUserIntegrator service = new RemoveUserIntegrator(ars, USERNAME_TO_DELETE);
+		RemoveUserIntegrator service = 
+				new RemoveUserIntegrator(ars, USERNAME_TO_DELETE);
 		service.execute();
 	}
 
@@ -121,7 +126,8 @@ public class RemoveUserIntegratorTest extends BubbleDocsIntegratorTest {
 	public void rootNotInSession() {
 		removeUserFromSession(root);
 
-		RemoveUserIntegrator service = new RemoveUserIntegrator(root, USERNAME_TO_DELETE);
+		RemoveUserIntegrator service = 
+				new RemoveUserIntegrator(root, USERNAME_TO_DELETE);
 		service.execute();
 	}
 
@@ -130,13 +136,16 @@ public class RemoveUserIntegratorTest extends BubbleDocsIntegratorTest {
 		String ars = addUserToSession(USERNAME);
 		removeUserFromSession(ars);
 
-		RemoveUserIntegrator service = new RemoveUserIntegrator(ars, USERNAME_TO_DELETE);
+		RemoveUserIntegrator service = 
+				new RemoveUserIntegrator(ars, USERNAME_TO_DELETE);
 		service.execute();
 	}
 
 	@Test(expected = LoginBubbleDocsException.class)
 	public void accessUserDoesNotExist() {
-		RemoveUserIntegrator service = new RemoveUserIntegrator(USERNAME_DOES_NOT_EXIST, USERNAME_TO_DELETE);
+		RemoveUserIntegrator service = 
+				new RemoveUserIntegrator(USERNAME_DOES_NOT_EXIST,
+						USERNAME_TO_DELETE);
 		service.execute();
 	}
 
@@ -150,12 +159,15 @@ public class RemoveUserIntegratorTest extends BubbleDocsIntegratorTest {
 			result = new RemoteInvocationException();
 		}};
 
-		try{
+		try {
 			new RemoveUserIntegrator(root, USERNAME_TO_DELETE).execute();
-		}catch(UnavailableServiceException use){
-			assertEquals(USERNAME_TO_DELETE, p.findUser(USERNAME_TO_DELETE).getUsername());
-			assertEquals(NAME_TO_DELETE, p.findUser(USERNAME_TO_DELETE).getName());
-			assertEquals(EMAIL_TO_DELETE, p.findUser(USERNAME_TO_DELETE).getEmail());
+		} catch (UnavailableServiceException use) {
+			assertEquals(USERNAME_TO_DELETE, 
+					p.findUser(USERNAME_TO_DELETE).getUsername());
+			assertEquals(NAME_TO_DELETE, 
+					p.findUser(USERNAME_TO_DELETE).getName());
+			assertEquals(EMAIL_TO_DELETE, 
+					p.findUser(USERNAME_TO_DELETE).getEmail());
 		}
 	}
 }

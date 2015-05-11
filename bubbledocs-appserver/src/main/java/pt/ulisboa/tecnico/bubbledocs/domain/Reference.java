@@ -43,7 +43,8 @@ public class Reference extends Reference_Base {
       	return element;
     }
     
-    public void importFromXML (Element element, Cell cell) {
+    public void importFromXML (Element element, Cell cell) 
+    		throws ImportDocumentException {
     	
     	Spreadsheet s = cell.getSpreadsheet();
     	
@@ -56,7 +57,7 @@ public class Reference extends Reference_Base {
     	}
     }
     
-    public void importFromXML (Element element) {
+    public void importFromXML (Element element) throws ImportDocumentException {
     	
     	Spreadsheet s = this.getCell().getSpreadsheet();
     	

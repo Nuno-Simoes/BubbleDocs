@@ -16,8 +16,8 @@ public class AssignBinaryFunctionToCellService extends BubbleDocsService {
 	private String binaryFunction;
 	private String result;
 
-	public AssignBinaryFunctionToCellService(String userToken, int sheetId, String cellId,
-			String binaryFunction) {
+	public AssignBinaryFunctionToCellService(String userToken, int sheetId, 
+			String cellId, String binaryFunction) {
 		this.userToken = userToken;
 		this.sheetId = sheetId;
 		this.cellId = cellId;
@@ -25,7 +25,7 @@ public class AssignBinaryFunctionToCellService extends BubbleDocsService {
 	}
 	
 	@Override
-	protected void dispatch() {
+	protected void dispatch() throws InvalidPermissionException {
 		User u = getUser(userToken);
     	Portal p = Portal.getInstance();
     	Spreadsheet spread = p.findSpreadsheet(sheetId);

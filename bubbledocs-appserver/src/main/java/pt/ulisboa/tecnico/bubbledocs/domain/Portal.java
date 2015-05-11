@@ -1,8 +1,5 @@
 package pt.ulisboa.tecnico.bubbledocs.domain;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import pt.ist.fenixframework.FenixFramework;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.DuplicateUsernameException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
@@ -38,55 +35,7 @@ public class Portal extends Portal_Base {
 		
 		return portal;
 	}
-	
-	public List<Spreadsheet> listSpreadsheets (String username) {
-    	List<Spreadsheet> list = new ArrayList<Spreadsheet>();
-    	
-    	for (User u : this.getUsersSet()) {
-    		if (u.getUsername().equals(username)) {
-    			u.listSpreadsheets(list);
-    		}
-    	} 
-    	
-    	return list;
-    }
-
-	public List<Spreadsheet> listSpreadsheets (User user, String str) {
-    	List<Spreadsheet> list = new ArrayList<Spreadsheet>();
-    	
-    	for (User u : this.getUsersSet()) {
-    		if (u.getUsername().equals(user.getUsername())) {
-    			u.listSpreadsheets(list, str);
-    		}
-    	} 
-    	
-    	return list;
-    }
-    
-    public void removeSpreadsheet (User u) {
-    	for (Spreadsheet s : this.getSpreadsheetsSet()) {
-    		if (s.getOwner().equals(u.getUsername())) {
-    			s.delete();
-    			this.removeSpreadsheets(s);
-    		}
-    	}
-    }
-    
-    public void removeSpreadsheet (String username, String sheetName) {
-    	for (Spreadsheet s : this.getSpreadsheetsSet()) {
-    		if (s.getOwner().equals(username) && s.getName().equals(sheetName)) {
-    			s.delete();
-    			this.removeSpreadsheets(s);
-    		}
-    	}
-    }
-
-    public void removeSpreadsheet (int id) throws SpreadsheetDoesNotExistException {
-    	Spreadsheet s = this.findSpreadsheet(id);
-		s.delete();
-    	this.removeSpreadsheets(s);
-    }
-    
+   
     public Spreadsheet findSpreadsheet (int id) 
     		throws SpreadsheetDoesNotExistException {
     	for (Spreadsheet s : this.getSpreadsheetsSet()) {
@@ -125,14 +74,6 @@ public class Portal extends Portal_Base {
     		return true;
     	}
     	return false;
-    }
-    
-    public void listUsers () {
-    	for (User u : this.getUsersSet()) {
-    		System.out.print("Username: " + u.getUsername());
-    		System.out.print(", Name: " + u.getName());
-    		System.out.println(", Email: " + u.getEmail());
-    	}
     }
     
     @Override
@@ -180,8 +121,4 @@ public class Portal extends Portal_Base {
     	throw new LoginBubbleDocsException();
 	}
 
-	public void renewPassword(String username, String password) {
-		User u = this.findUser(username);
-		u.setPassword(password);
-	} 
 }

@@ -1,7 +1,6 @@
 package pt.ulisboa.tecnico.bubbledocs.integration;
 
 import pt.ulisboa.tecnico.bubbledocs.exceptions.RemoteInvocationException;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.UnavailableServiceException;
 import pt.ulisboa.tecnico.bubbledocs.service.LoginUserService;
 import pt.ulisboa.tecnico.bubbledocs.service.remote.IDRemoteServices;
 
@@ -17,7 +16,7 @@ public class LoginUserIntegrator extends BubbleDocsIntegrator {
 	}
 	
 	@Override
-	protected void dispatch() throws UnavailableServiceException {
+	protected void dispatch() {
 		
 		IDRemoteServices remoteService = new IDRemoteServices();
 		LoginUserService localService;

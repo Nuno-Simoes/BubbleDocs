@@ -4,9 +4,7 @@ import pt.ulisboa.tecnico.bubbledocs.domain.Permission;
 import pt.ulisboa.tecnico.bubbledocs.domain.Portal;
 import pt.ulisboa.tecnico.bubbledocs.domain.Spreadsheet;
 import pt.ulisboa.tecnico.bubbledocs.domain.User;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.BubbledocsException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidPermissionException;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
 
 public class GetSpreadsheetContentService extends BubbleDocsService {
 
@@ -20,8 +18,7 @@ public class GetSpreadsheetContentService extends BubbleDocsService {
 	}
 
 	@Override
-	protected void dispatch() throws BubbledocsException, InvalidPermissionException, 
-	LoginBubbleDocsException {
+	protected void dispatch() throws InvalidPermissionException {
 		User u = super.getUser(userToken);
 		Portal p = Portal.getInstance();
 		Spreadsheet s = p.findSpreadsheet(docId);

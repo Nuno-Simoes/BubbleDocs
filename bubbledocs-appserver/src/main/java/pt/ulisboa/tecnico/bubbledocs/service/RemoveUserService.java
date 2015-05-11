@@ -2,10 +2,7 @@ package pt.ulisboa.tecnico.bubbledocs.service;
 
 import pt.ulisboa.tecnico.bubbledocs.domain.RootUser;
 import pt.ulisboa.tecnico.bubbledocs.domain.User;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.DuplicateUsernameException;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidPermissionException;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.UnavailableServiceException;
 
 public class RemoveUserService extends BubbleDocsService {
 	private String userToken;
@@ -17,9 +14,7 @@ public class RemoveUserService extends BubbleDocsService {
 	}
 
 	@Override
-	protected void dispatch() throws InvalidPermissionException, 
-		LoginBubbleDocsException, DuplicateUsernameException,
-		UnavailableServiceException {
+	protected void dispatch() throws InvalidPermissionException {
 		
 		User u = getUser(userToken);
 		

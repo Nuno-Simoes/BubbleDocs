@@ -23,13 +23,15 @@ public class CreateUserIntegrator extends BubbleDocsIntegrator {
 
 	@Override
 	protected void dispatch() throws UnavailableServiceException {
-		CreateUserService localService = new CreateUserService(userToken, newUsername, email, name);
+		CreateUserService localService = 
+				new CreateUserService(userToken, newUsername, email, name);
 		IDRemoteServices remoteService = new IDRemoteServices();
 		try {
 			localService.execute();
 			remoteService.createUser(newUsername, email);
 		} catch (RemoteInvocationException rie) {
-			RemoveUserService compensationService = new RemoveUserService(userToken, newUsername);
+			RemoveUserService compensationService = 
+					new RemoveUserService(userToken, newUsername);
 			compensationService.execute();
 			throw new UnavailableServiceException();
 		}

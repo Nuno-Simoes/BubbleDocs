@@ -32,26 +32,19 @@ public class LoginUserIntegratorTest extends BubbleDocsIntegratorTest {
     	User ars = createUser(USERNAME, NAME, EMAIL);
     	ars.setPassword(PASSWORD);
     }
-
-    // returns the time of the last access for the user with token userToken.
-    // It must get this data from the session object of the application
-    private float getLastAccessTimeInSession(String userToken) {
-    	Portal p = Portal.getInstance();
-    	User u = p.findUserByToken(userToken);
-    	return u.getSessionTime();
-    }
     
     @Mocked
     IDRemoteServices remote;
     
     @Test
-    public void success() throws Exception {
+    public void success() {
     	
     	new Expectations() {{
     		remote.loginUser(anyString, anyString);
     	}};
     	
-        LoginUserIntegrator integrator = new LoginUserIntegrator(USERNAME, PASSWORD);
+        LoginUserIntegrator integrator = 
+        		new LoginUserIntegrator(USERNAME, PASSWORD);
         integrator.execute();
         
         User u = super.getUserFromUsername(USERNAME);
@@ -59,15 +52,17 @@ public class LoginUserIntegratorTest extends BubbleDocsIntegratorTest {
         
         assertEquals(u, super.getUserFromSession(token));
         
-        float difference = (getLastAccessTimeInSession(token) - (float) (System.currentTimeMillis()/3600000));
+        float difference = (getLastAccessTimeInSession(token) - 
+        		(float) (System.currentTimeMillis()/3600000));
 
         assertTrue("Access time in session not correctly set", difference >= 0);
         assertTrue("diference in seconds greater than expected", difference < 2);
     }
         
     @Test
-    public void successLoginTwice() throws Exception {    	
-        LoginUserIntegrator integrator = new LoginUserIntegrator(USERNAME, PASSWORD);
+    public void successLoginTwice() {    	
+        LoginUserIntegrator integrator = 
+        		new LoginUserIntegrator(USERNAME, PASSWORD);
         
         integrator.execute();
         User u1 = super.getUserFromUsername(USERNAME);
@@ -87,7 +82,8 @@ public class LoginUserIntegratorTest extends BubbleDocsIntegratorTest {
     public void changedPassword() {
     	Portal p = Portal.getInstance();
     	User ars = p.findUser(USERNAME);
-    	LoginUserService service = new LoginUserService(USERNAME, NEW_PASSWORD, false);
+    	LoginUserService service = 
+    			new LoginUserService(USERNAME, NEW_PASSWORD, false);
     	service.execute();
 
     	assertEquals(NEW_PASSWORD, ars.getPassword());

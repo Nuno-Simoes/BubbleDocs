@@ -93,4 +93,10 @@ public class BubbleDocsIntegratorTest {
     	User u = s.getLoggedUser(token);
     	return u;
     }
+    
+    public float getLastAccessTimeInSession(String userToken) {
+    	Portal p = Portal.getInstance();
+    	User u = p.findUserByToken(userToken);
+    	return u.getSessionTime();
+    }
 }

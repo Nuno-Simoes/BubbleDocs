@@ -9,7 +9,6 @@ import org.junit.Test;
 import pt.ulisboa.tecnico.bubbledocs.domain.User;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.DuplicateUsernameException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidPermissionException;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidUsernameException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.RemoteInvocationException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.UnavailableServiceException;
@@ -78,19 +77,19 @@ public class CreateUserIntegratorTest extends BubbleDocsIntegratorTest {
         integrator.execute();
     }
     
-    @Test(expected = InvalidUsernameException.class)
+    @Test(expected = LoginBubbleDocsException.class)
     public void usernameTooLong() {
     	CreateUserIntegrator integrator = new CreateUserIntegrator(root, USERNAME_TOO_LONG, EMAIL, NAME);
     	integrator.execute();
     }
     
-    @Test(expected = InvalidUsernameException.class)
+    @Test(expected = LoginBubbleDocsException.class)
     public void usernameTooShort() {
     	CreateUserIntegrator integrator = new CreateUserIntegrator(root, USERNAME_TOO_SHORT, EMAIL, NAME);
     	integrator.execute();
     }
     
-    @Test(expected = InvalidUsernameException.class)
+    @Test(expected = LoginBubbleDocsException.class)
     public void emptyUsername() {
         CreateUserIntegrator integrator = new CreateUserIntegrator(root, "", EMAIL, NAME);
         integrator.execute();

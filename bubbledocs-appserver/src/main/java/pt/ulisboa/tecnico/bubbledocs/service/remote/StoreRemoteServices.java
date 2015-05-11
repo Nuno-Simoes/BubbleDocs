@@ -22,7 +22,7 @@ public class StoreRemoteServices {
 	}
 
 	public void storeDocument(String username, String docName, byte[] document)
-			throws CannotStoreDocumentException, RemoteInvocationException{
+			throws CannotStoreDocumentException, RemoteInvocationException {
 		DocUserPair pair = new DocUserPair();
 		pair.setUserId(username);
 		pair.setDocumentId(docName);

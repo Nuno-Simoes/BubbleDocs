@@ -32,7 +32,7 @@ public class Spreadsheet extends Spreadsheet_Base {
 		this.setColumns(columns);
 	}
 
-    public Cell splitCellId(String cellId){
+    public Cell splitCellId(String cellId) {
 		String string = cellId;
 		String[] parts = string.split(";");
 		int part1 = Integer.parseInt(parts[0]); 
@@ -40,9 +40,8 @@ public class Spreadsheet extends Spreadsheet_Base {
 		
 		return getCell(part1, part2);
     }
-    
-    
-    public Cell splitCellReference(String reference){
+        
+    public Cell splitCellReference(String reference) throws InvalidContentException {
     	String strings = reference;
 		String[] part = strings.split(";");
 		int part3, part4;
@@ -91,9 +90,9 @@ public class Spreadsheet extends Spreadsheet_Base {
     	
     	if(secondPartTest.length==1) {
     		try {
-    		secondArgument = new Literal(Integer.parseInt(secondPart));
+    			secondArgument = new Literal(Integer.parseInt(secondPart));
     		} catch (NumberFormatException nfe) {
-			throw new InvalidContentException();
+    			throw new InvalidContentException();
     		}
     	} else {
     		secondArgument = new Reference(this.splitCellReference(secondPart));
@@ -136,9 +135,8 @@ public class Spreadsheet extends Spreadsheet_Base {
 		return element;
 	}
 	
-	public void importFromXML (Element element) {
+	public void importFromXML (Element element) throws ImportDocumentException {
 		this.setName(element.getAttributeValue("name"));
-		//this.setOwner(element.getAttributeValue("owner"));
 		Date date = new Date();
 		String newDate = date.toString();
 		this.setDate(newDate);
@@ -201,7 +199,7 @@ public class Spreadsheet extends Spreadsheet_Base {
 	}
 	
 	public void setContent (int line, int column, Content content) 
-			throws OutOfBoundsException, ProtectedCellException {
+			throws ProtectedCellException {
 		Cell c = getCell(line, column);
 		if (c.getIsProtected()) {
 			throw new ProtectedCellException();

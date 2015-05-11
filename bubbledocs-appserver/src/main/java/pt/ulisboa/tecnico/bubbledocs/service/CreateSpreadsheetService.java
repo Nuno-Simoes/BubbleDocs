@@ -2,8 +2,6 @@ package pt.ulisboa.tecnico.bubbledocs.service;
 
 import pt.ulisboa.tecnico.bubbledocs.domain.Spreadsheet;
 import pt.ulisboa.tecnico.bubbledocs.domain.User;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.UserDoesNotExistException;
 
 public class CreateSpreadsheetService extends BubbleDocsService {
 	
@@ -13,8 +11,8 @@ public class CreateSpreadsheetService extends BubbleDocsService {
 	private String userToken;
 	private Spreadsheet result;
 	
-	public CreateSpreadsheetService(String userToken, String sheetName, int lines, 
-			int columns) {
+	public CreateSpreadsheetService(String userToken, String sheetName, 
+			int lines, int columns) {
 		this.sheetName = sheetName;
 		this.lines = lines;
 		this.columns = columns;
@@ -22,7 +20,7 @@ public class CreateSpreadsheetService extends BubbleDocsService {
 	}
 
 	@Override
-	protected void dispatch() throws UserDoesNotExistException, LoginBubbleDocsException {
+	protected void dispatch() {
 		User u = super.getUser(userToken);
 		this.result = u.createSpreadsheet(sheetName, lines, columns);
 	}

@@ -9,7 +9,6 @@ import pt.ulisboa.tecnico.bubbledocs.domain.Permission;
 import pt.ulisboa.tecnico.bubbledocs.domain.Portal;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidPermissionException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidSessionException;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
 
 public class AssignReferenceToCellService extends BubbleDocsService {
 	
@@ -29,8 +28,8 @@ public class AssignReferenceToCellService extends BubbleDocsService {
     }
 
     @Override
-    protected void dispatch() throws InvalidPermissionException,
-    	LoginBubbleDocsException, InvalidSessionException {
+    protected void dispatch() throws InvalidPermissionException, 
+    		InvalidSessionException {
     	
     	User u = getUser(token);
     	Portal p = Portal.getInstance();

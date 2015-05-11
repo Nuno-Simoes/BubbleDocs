@@ -20,8 +20,8 @@ public class CreateSpreadsheetIntegrator extends BubbleDocsIntegrator {
 
 	@Override
 	protected void dispatch(){
-		CreateSpreadsheetService localService = new CreateSpreadsheetService(
-				userToken, sheetName, lines, columns);
+		CreateSpreadsheetService localService = 
+				new CreateSpreadsheetService(userToken, sheetName, lines, columns);
 		localService.execute();
 	}
 }

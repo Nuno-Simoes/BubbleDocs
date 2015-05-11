@@ -15,7 +15,8 @@ public class GetSpreadsheetContentIntegrator extends BubbleDocsIntegrator {
 
 	@Override
 	protected void dispatch() {
-		GetSpreadsheetContentService localService = new GetSpreadsheetContentService(userToken, docId);
+		GetSpreadsheetContentService localService = 
+				new GetSpreadsheetContentService(userToken, docId);
 		localService.execute();
 		result = localService.getResult();
 	}

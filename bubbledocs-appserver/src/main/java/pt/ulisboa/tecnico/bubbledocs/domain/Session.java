@@ -4,7 +4,6 @@ import java.util.Random;
 
 import pt.ulisboa.tecnico.bubbledocs.exceptions.LoginBubbleDocsException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.UnavailableServiceException;
-import pt.ulisboa.tecnico.bubbledocs.exceptions.UserDoesNotExistException;
 
 public class Session extends Session_Base {
 	
@@ -22,7 +21,7 @@ public class Session extends Session_Base {
 	}
 	
 	public void login(String username, String password, boolean status)
-			throws UserDoesNotExistException, UnavailableServiceException  {
+			throws UnavailableServiceException  {
 		Portal p = Portal.getInstance();
 		User u = p.findUser(username);
 
@@ -40,7 +39,7 @@ public class Session extends Session_Base {
 			this.addUsers(u);
 			this.removeOldUsers();
 		} else {
-			throw new  UnavailableServiceException();
+			throw new UnavailableServiceException();
 		}
 	}
     
@@ -98,7 +97,7 @@ public class Session extends Session_Base {
     	throw new LoginBubbleDocsException();
     }
     
-    public boolean isValidSession(String token) throws LoginBubbleDocsException {
+    public boolean isValidSession(String token) {
     	for (User loggedUser : this.getUsersSet()) {
     		if(loggedUser.getToken().equals(token) && !timeExceeded(loggedUser)) {
     			return true;
