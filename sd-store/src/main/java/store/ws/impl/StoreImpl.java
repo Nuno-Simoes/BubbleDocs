@@ -261,7 +261,6 @@ public class StoreImpl implements SDStore {
 		Element simpleDocument = jdomDoc.getRootElement();
 		docUserPair.setUserId(simpleDocument.getAttributeValue("userId"));
 		docUserPair.setDocumentId(simpleDocument.getAttributeValue("docId"));
-		
 
 		String userID = docUserPair.getUserId();
 		String documentID = docUserPair.getDocumentId();
@@ -285,12 +284,6 @@ public class StoreImpl implements SDStore {
 			throw new DocDoesNotExist_Exception("Invalid document", 
 					docDoesNotExist);
 		}
-
-		/*
-		// 3 - Else, read
-		return repository.readDocument(documentID);
-		*/
-		
 		
 		// root element
 		Element root = new Element("root");
@@ -318,6 +311,8 @@ public class StoreImpl implements SDStore {
         // put token in message context
         messageContext.put(RelayServerHandler.RESPONSE_PROPERTY, token);
         
-        //result
+      
+		// 3 - Else, read
+		return repository.readDocument(documentID);
 	}
 }
