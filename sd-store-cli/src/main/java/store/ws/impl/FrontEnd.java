@@ -2,6 +2,7 @@ package store.ws.impl;
 
 import java.util.Map;
 
+import javax.jws.HandlerChain;
 import javax.xml.registry.JAXRException;
 import javax.xml.ws.BindingProvider;
 
@@ -15,7 +16,6 @@ import pt.ulisboa.tecnico.sdis.store.ws.UserDoesNotExist_Exception;
 import store.ws.handler.RelayClientHandler;
 import store.ws.uddi.UDDINaming;
 
-
 public class FrontEnd {
 
     public static final String CLASS_NAME = FrontEnd.class.getSimpleName();
@@ -25,7 +25,7 @@ public class FrontEnd {
     public void connect () {
 
 		String uddiURL = "http://localhost:8081";
-		String name0 = "SdStore0";
+		String name0 = "SdStore";
 
 		try {
 			UDDINaming uddiNaming = new UDDINaming(uddiURL);
