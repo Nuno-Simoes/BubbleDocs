@@ -72,7 +72,7 @@ public class FrontEnd {
 
 	    // make remote call
 	    System.out.printf("Remote call to %s ...%n", url);
-
+	    
 	    try {
 			port.store(docUserPair, contents);
 		} catch (CapacityExceeded_Exception e) {

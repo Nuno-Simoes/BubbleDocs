@@ -38,7 +38,7 @@ import store.ws.impl.handler.RelayServerHandler;
 		portName="SDStoreImplPort",
 		targetNamespace="urn:pt:ulisboa:tecnico:sdis:store:ws",
 		serviceName="SDStore")
-@HandlerChain(file="/handler-chain.xml")
+@HandlerChain(file="handler-chain.xml")
 public class StoreImpl implements SDStore {
 
 	List<User> users = new ArrayList<User>();
@@ -158,7 +158,7 @@ public class StoreImpl implements SDStore {
         System.out.printf("%s got token '%s' from response context%n", CLASS_NAME, propertyValue);
 
         // server processing
-        System.out.printf("fazer coiso");
+        System.out.println("estou a fazer coiso");
 
         // *** #7 ***
         // put token in message context
