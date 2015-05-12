@@ -158,7 +158,6 @@ public class StoreImpl implements SDStore {
         System.out.printf("%s got token '%s' from response context%n", CLASS_NAME, propertyValue);
 
         // server processing
-        System.out.println("estou a fazer coiso");
 
         // *** #7 ***
         // put token in message context

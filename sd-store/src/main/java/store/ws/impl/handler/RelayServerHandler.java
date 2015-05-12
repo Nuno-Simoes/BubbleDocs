@@ -40,9 +40,7 @@ public class RelayServerHandler implements SOAPHandler<SOAPMessageContext> {
 
     public boolean handleMessage(SOAPMessageContext smc) {
         Boolean outbound = (Boolean) smc.get(MessageContext.MESSAGE_OUTBOUND_PROPERTY);
-        
-        System.out.println("IUGADGALFSJGLSAHDLGALSFGLJHGSFALJHGSFLSA");
-        
+                
         if (outbound) {
             // outbound message
 

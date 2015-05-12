@@ -42,9 +42,7 @@ public class RelayClientHandler implements SOAPHandler<SOAPMessageContext> {
         Boolean outbound = (Boolean) smc.get(MessageContext.MESSAGE_OUTBOUND_PROPERTY);
         if (outbound) {
             // outbound message
-        	
-        	System.out.println("aqui entrei............");
-        	
+        	        	
             // *** #2 ***
             // get token from request context
             String propertyValue = (String) smc.get(REQUEST_PROPERTY);

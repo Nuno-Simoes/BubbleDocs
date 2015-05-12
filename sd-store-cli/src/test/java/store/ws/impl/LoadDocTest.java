@@ -25,6 +25,7 @@ public class LoadDocTest extends StoreServiceTest {
 //		port.createDoc(docUserPair);
 		byte[] contents = "Any string".getBytes();
 		FrontEnd.getInstance().store(docUserPair, contents);
+		FrontEnd.getInstance().load(docUserPair);
 //		port.load(docUserPair);
 	}
 	
