@@ -1,5 +1,7 @@
 package store.ws.impl;
 
+import static javax.xml.bind.DatatypeConverter.parseBase64Binary;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +16,7 @@ public class Repository {
 		this.size = 0;
 		this.capacity = 10*1024;
 		this.user = user;
+		document.setContents(parseBase64Binary(""));
 		this.documents = new ArrayList<Document>();
 		documents.add(document);
 	}

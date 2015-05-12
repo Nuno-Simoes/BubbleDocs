@@ -1,9 +1,8 @@
 package store.ws.impl;
 
 import org.junit.*;
-import pt.ulisboa.tecnico.sdis.store.ws.DocDoesNotExist_Exception;
+
 import pt.ulisboa.tecnico.sdis.store.ws.DocUserPair;
-import pt.ulisboa.tecnico.sdis.store.ws.UserDoesNotExist_Exception;
 
 public class LoadDocTest extends StoreServiceTest {
 	
@@ -24,7 +23,7 @@ public class LoadDocTest extends StoreServiceTest {
 		
 //		port.createDoc(docUserPair);
 		byte[] contents = "Any string".getBytes();
-		FrontEnd.getInstance().store(docUserPair, contents);
+		//FrontEnd.getInstance().store(docUserPair, contents);
 		FrontEnd.getInstance().load(docUserPair);
 //		port.load(docUserPair);
 	}

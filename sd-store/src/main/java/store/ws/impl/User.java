@@ -19,7 +19,7 @@ public class User {
 	}
 	
 	public void createRepository (String documentId) {
-		this.repository = new Repository (this, new Document (documentId));
+		this.repository = new Repository (this, new Document(documentId));
 	}
 	
 }
