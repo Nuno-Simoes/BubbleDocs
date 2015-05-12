@@ -34,13 +34,6 @@ public class StoreServiceTest {
 	//one-time initialisation and clean-up
 	@BeforeClass
 	public static void oneTimeSetUp() throws JAXRException {
-		UDDINaming uddiNaming = new UDDINaming(uddiURL);
-		String endpointAddress = uddiNaming.lookup(name);
-		SDStore_Service service = new SDStore_Service();
-		port = service.getSDStoreImplPort();
-		BindingProvider bindingProvider = (BindingProvider) port;
-		Map<String, Object> requestContext = bindingProvider.getRequestContext();
-		requestContext.put(ENDPOINT_ADDRESS_PROPERTY, endpointAddress);
 	}
 
 	@AfterClass

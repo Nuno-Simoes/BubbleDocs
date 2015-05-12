@@ -8,10 +8,12 @@ pt/ulisboa/tecnico/sdis/store/ws/DocAlreadyExists_Exception.class
 store/ws/impl/Document.class
 pt/ulisboa/tecnico/sdis/store/ws/StoreResponse.class
 pt/ulisboa/tecnico/sdis/store/ws/CapacityExceeded_Exception.class
+store/ws/impl/handler/RelayServerHandler.class
 pt/ulisboa/tecnico/sdis/store/ws/CreateDocResponse.class
 pt/ulisboa/tecnico/sdis/store/ws/Load.class
 store/ws/impl/StoreMain.class
 pt/ulisboa/tecnico/sdis/store/ws/CapacityExceeded.class
+store/ws/impl/handler/LoggingHandler.class
 pt/ulisboa/tecnico/sdis/store/ws/ObjectFactory.class
 pt/ulisboa/tecnico/sdis/store/ws/SDStore.class
 store/ws/uddi/UDDINaming.class

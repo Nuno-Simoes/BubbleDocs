@@ -116,9 +116,7 @@
 
     <ws.uddi>http://localhost:8081</ws.uddi>
     <ws.name>SdStore</ws.name>
-    <ws.url1>http://localhost:808</ws.url1>
-    <ws.url2>2</ws.url2>
-    <ws.url3>/store-ws/endpoint</ws.url3>
+    <ws.url1>http://localhost:8082/store-ws/endpoint</ws.url1>
   </properties>
   
   <build>
@@ -164,8 +162,6 @@
               <argument>${ws.uddi}</argument>
               <argument>${ws.name}</argument>
               <argument>${ws.url1}</argument>
-              <argument>${ws.url2}</argument>
-              <argument>${ws.url3}</argument>
             </arguments>
           </configuration>
       </plugin>

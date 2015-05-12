@@ -8,16 +8,16 @@ public class StoreMain {
 
     public static void main(String[] args) {
         // Check arguments
-        if (args.length < 5) {
+        if (args.length < 3) {
             System.err.println("Argument(s) missing!");
             System.err.printf("Usage: java %s uddiURL wsName wsURL%n", StoreMain.class.getName());
             return;
         }
 
         String uddiURL = args[0];
-        int index = Integer.parseInt(args[3]) - 2;
-        String name = args[1] + Integer.toString(index);
-        String url = args[2] + args[3] + args[4];
+        String name = args[1];
+        
+        String url = args[2];
 
         Endpoint endpoint = null;
         UDDINaming uddiNaming = null;
@@ -32,7 +32,7 @@ public class StoreMain {
             // publish to UDDI
             System.out.printf("Publishing '%s' to UDDI at %s%n", name, uddiURL);
             uddiNaming = new UDDINaming(uddiURL);
-            uddiNaming.rebind(name, url);
+            uddiNaming.bind(name, url);
 
             // wait
             System.out.println("Awaiting connections");

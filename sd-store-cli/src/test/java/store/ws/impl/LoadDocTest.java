@@ -24,10 +24,11 @@ public class LoadDocTest extends StoreServiceTest {
 		
 //		port.createDoc(docUserPair);
 		byte[] contents = "Any string".getBytes();
-		port.store(docUserPair, contents);
-		port.load(docUserPair);
+		FrontEnd.getInstance().store(docUserPair, contents);
+//		port.load(docUserPair);
 	}
 	
+	/*
 	// Read empty document
 	@Test
 	public void readEmptySuccess() throws Exception {
@@ -66,4 +67,5 @@ public class LoadDocTest extends StoreServiceTest {
 		docUserPair.setDocumentId(DOC_EXISTS);
 		port.load(docUserPair);
 	}
+	*/
 }
