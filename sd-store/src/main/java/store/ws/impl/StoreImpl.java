@@ -83,6 +83,7 @@ public class StoreImpl implements SDStore {
 	}
 
 	public String encode (String userId, String docId, byte[] contents) {
+		System.out.println("ENCODE SERVER");
 		Element root = new Element("root");
 		org.jdom2.Document doc = new org.jdom2.Document();
 		doc.setRootElement(root);
@@ -102,6 +103,7 @@ public class StoreImpl implements SDStore {
 	}
 	
 	public int decode (String document) {
+		System.out.println("DECODE SERVER");
 		org.jdom2.Document jdomDoc = null;
 		
 		SAXBuilder builder = new SAXBuilder();

@@ -8,17 +8,17 @@ public class StoreMain {
 
     public static void main(String[] args) {
         // Check arguments
-        if (args.length < 3) {
+        if (args.length < 5) {
             System.err.println("Argument(s) missing!");
             System.err.printf("Usage: java %s uddiURL wsName wsURL%n", StoreMain.class.getName());
             return;
         }
 
+        String index = Integer.toString((Integer.parseInt(args[3]) - 2));
         String uddiURL = args[0];
-        String name = args[1];
+        String name = args[1] + index;
+        String url = args[2] + args[3] + args[4];
         
-        String url = args[2];
-
         Endpoint endpoint = null;
         UDDINaming uddiNaming = null;
         
