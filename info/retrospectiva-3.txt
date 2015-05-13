@@ -1,10 +1,11 @@
 Retrospective of third week:
 * [ALL] Regarding the SD part of the project. Both groups had problems implementing
 their respective parts, hence the reason why there are such discrepancies 
-between the estimated time and real time, and some tasks weren´t fully developed.
+between the estimated time and real time, and some tasks weren´t fully developed,
+or even developed.
 Because of this, we all developed the SD part as a group, as opposed to
 having tasks partitioned by each member.
 
-* [marcoist] The last task relative to ES .....
+* [marcoist]  The last task relative to ES was done without major issues.
 
-* [PJBNascimento] The last task relative to ES......
+* [PJBNascimento] The last task relative to ES was done without major issues.

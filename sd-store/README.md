@@ -37,13 +37,15 @@ JUDDI:
 
 [3] Obter versÃ£o entregue
 
-> git clone -b SD-STORE_R_1 https://github.com/tecnico-softeng-distsys-2015/T_04_07_23-project.git projectoG23
+> git clone -b SD-STORE_R_2 https://github.com/tecnico-softeng-distsys-2015/T_04_07_23-project.git projectoG23
 
-[4] Construir e executar **servidor**
+[4] Construir e executar **servidores**
 
 > cd projectoG23/sd-store
 > mvn clean package 
 > mvn exec:java
+> mvn exec:java -Dws.url2=3
+> mvn exec:java -Dws.url2=4
 
 
 [5] Construir **cliente**

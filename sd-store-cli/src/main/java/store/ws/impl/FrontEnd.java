@@ -303,7 +303,6 @@ public class FrontEnd {
 
 		List<BindingProvider> bindingProvider = new ArrayList<BindingProvider>();
 		List<Map<String, Object>> requestContext = new ArrayList<Map<String, Object>>();
-		/*List<Response<LoadResponse>> response = new ArrayList<Response<LoadResponse>>();*/
 
 		for (int i = 0; i < NOS; i++ ){
 
@@ -318,9 +317,32 @@ public class FrontEnd {
 			port.get(i).createDoc(docUserPair);
 			
 			Map<String, Object> newResponseContext = (bindingProvider.get(i)).getResponseContext();
-			String newValue = (String)newResponseContext.get(RelayClientHandler.RESPONSE_PROPERTY);
+			newResponseContext.get(RelayClientHandler.RESPONSE_PROPERTY);
 		}
-
-
 	}
+	
+	public List<String> listDocs(String userId) throws UserDoesNotExist_Exception {
+		
+		List<BindingProvider> bindingProvider = new ArrayList<BindingProvider>();
+		List<Map<String, Object>> requestContext = new ArrayList<Map<String, Object>>();
+		List<List<String>> result = new ArrayList<List<String>>();
+
+		
+		for (int i = 0; i < NOS; i++ ){
+
+			BindingProvider newBindingProvider = (BindingProvider) port.get(i);
+			bindingProvider.add(i, newBindingProvider);
+			
+			Map<String, Object> newRequestContext = bindingProvider.get(i).getRequestContext();
+			requestContext.add(i, newRequestContext);
+			(requestContext.get(i)).put(RelayClientHandler.REQUEST_PROPERTY, "");
+			(requestContext.get(i)).put(ENDPOINT_ADDRESS_PROPERTY, url.get(i));
+	
+			result.add(i, port.get(i).listDocs(userId));
+			
+			Map<String, Object> newResponseContext = (bindingProvider.get(i)).getResponseContext();
+			newResponseContext.get(RelayClientHandler.RESPONSE_PROPERTY);
+		}
+		return result.get(0);
+	}	
 }
