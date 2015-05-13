@@ -217,7 +217,7 @@ public class FrontEnd {
 		builder.setIgnoringElementContentWhitespace(true);
 
 		try {
-			jdomDoc = builder.build(new ByteArrayInputStream(parseBase64Binary(document)));
+			jdomDoc = builder.build(new ByteArrayInputStream(document.getBytes()));
 		} catch (JDOMException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
