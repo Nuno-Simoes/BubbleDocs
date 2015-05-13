@@ -6,13 +6,13 @@ import pt.ulisboa.tecnico.bubbledocs.domain.Spreadsheet;
 import pt.ulisboa.tecnico.bubbledocs.integration.AssignBinaryFunctionToCellIntegrator;
 import pt.ulisboa.tecnico.bubbledocs.integration.AssignLiteralToCellIntegrator;
 import pt.ulisboa.tecnico.bubbledocs.integration.AssignReferenceToCellIntegrator;
+import pt.ulisboa.tecnico.bubbledocs.integration.CreateSpreadsheetIntegrator;
 import pt.ulisboa.tecnico.bubbledocs.integration.CreateUserIntegrator;
 import pt.ulisboa.tecnico.bubbledocs.integration.GetSpreadsheetContentIntegrator;
 import pt.ulisboa.tecnico.bubbledocs.integration.ImportDocumentIntegrator;
 import pt.ulisboa.tecnico.bubbledocs.integration.LoginUserIntegrator;
 import pt.ulisboa.tecnico.bubbledocs.integration.RemoveUserIntegrator;
 import pt.ulisboa.tecnico.bubbledocs.integration.RenewPasswordIntegrator;
-import pt.ulisboa.tecnico.bubbledocs.service.CreateSpreadsheetService;
 import pt.ulisboa.tecnico.bubbledocs.service.ExportDocumentService;
 
 public class RemoteSystemIT extends SystemTest {
@@ -44,13 +44,12 @@ public class RemoteSystemIT extends SystemTest {
 		login.execute();
 		String token = login.getResult();
 		
-		// ALTERAR QUANDO HOUVER INTEGRATOR
 		// Create spreadsheet
 		String nameDocument = "Lord of the Rings";
 		int lines = 5;
 		int columns = 4;
-		CreateSpreadsheetService createSpreadsheet = 
-				new CreateSpreadsheetService(token, nameDocument, lines, columns);
+		CreateSpreadsheetIntegrator createSpreadsheet = 
+				new CreateSpreadsheetIntegrator(token, nameDocument, lines, columns);
 		createSpreadsheet.execute();
 		Spreadsheet document = createSpreadsheet.getResult();
 		

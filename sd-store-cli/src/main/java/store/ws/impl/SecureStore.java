@@ -12,7 +12,10 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 
+import pt.ulisboa.tecnico.sdis.store.ws.CapacityExceeded_Exception;
+import pt.ulisboa.tecnico.sdis.store.ws.DocDoesNotExist_Exception;
 import pt.ulisboa.tecnico.sdis.store.ws.DocUserPair;
+import pt.ulisboa.tecnico.sdis.store.ws.UserDoesNotExist_Exception;
 
 public class SecureStore {
 	
@@ -55,7 +58,7 @@ public class SecureStore {
 		return this.iv;
 	}
 	
-	public void store (DocUserPair docUserPair, byte[] contents) {
+	public void store (DocUserPair docUserPair, byte[] contents) throws DocDoesNotExist_Exception, UserDoesNotExist_Exception, CapacityExceeded_Exception {
 		
 		byte[] cipherText = null;
 		
@@ -80,7 +83,7 @@ public class SecureStore {
 		frontEnd.store(docUserPair, cipherText);
 	}
 	
-	public byte[] load (DocUserPair docUserPair) {
+	public byte[] load (DocUserPair docUserPair) throws DocDoesNotExist_Exception, UserDoesNotExist_Exception {
 		
 		byte[] cipherText = frontEnd.load(docUserPair);
 		byte[] decryptedText = null;

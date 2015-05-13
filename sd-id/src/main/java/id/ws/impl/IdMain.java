@@ -1,12 +1,14 @@
 package id.ws.impl;
 
+
+
 import id.ws.uddi.UDDINaming;
 
 import javax.xml.ws.Endpoint;
 
 public class IdMain {
 
-    public static void main(String[] args) {
+	public static void main(String[] args) {
         // Check arguments
         if (args.length < 3) {
             System.err.println("Argument(s) missing!");

@@ -58,6 +58,7 @@ public class StoreImpl implements SDStore {
 		User alice = new User("alice");
 		alice.createRepository("grades");
 		User bruno = new User("bruno");
+		bruno.createRepository("project");
 		User carla = new User("carla");
 		User duarte = new User("duarte");
 		User eduardo = new User("eduardo");
@@ -79,6 +80,9 @@ public class StoreImpl implements SDStore {
 
 		users.add(poe);
 		users.add(ars);
+		poe.createRepository("The Raven");
+		ars.createRepository("folha");
+		
 		
 		this.seq=0;
 		this.pid=randInt(10, 100);
