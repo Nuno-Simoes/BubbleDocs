@@ -35,7 +35,7 @@ public class RelayServerHandler implements SOAPHandler<SOAPMessageContext> {
     public static final String RESPONSE_NS = REQUEST_NS;
 
     public static final String CLASS_NAME = RelayServerHandler.class.getSimpleName();
-    public static final String TOKEN = "server-handler";
+    public static final String TOKEN = "";
 
 
     public boolean handleMessage(SOAPMessageContext smc) {
@@ -67,7 +67,7 @@ public class RelayServerHandler implements SOAPHandler<SOAPMessageContext> {
 
                 // *** #9 ***
                 // add header element value
-                String newValue = propertyValue + "," + TOKEN;
+                String newValue = propertyValue + TOKEN;
                 element.addTextNode(newValue);
 
                 System.out.printf("%s put token '%s' on response message header%n", CLASS_NAME, TOKEN);
@@ -111,7 +111,7 @@ public class RelayServerHandler implements SOAPHandler<SOAPMessageContext> {
 
                 // *** #5 ***
                 // put token in request context
-                String newValue = headerValue + "," + TOKEN;
+                String newValue = headerValue +TOKEN;
                 System.out.printf("%s put token '%s' on request context%n", CLASS_NAME, TOKEN);
                 smc.put(REQUEST_PROPERTY, newValue);
                 // set property scope to application so that server class can access property

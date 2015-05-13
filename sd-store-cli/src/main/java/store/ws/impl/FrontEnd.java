@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import javax.xml.registry.JAXRException;
 import javax.xml.ws.BindingProvider;
@@ -26,6 +27,7 @@ import pt.ulisboa.tecnico.sdis.store.ws.DocUserPair;
 import pt.ulisboa.tecnico.sdis.store.ws.LoadResponse;
 import pt.ulisboa.tecnico.sdis.store.ws.SDStore;
 import pt.ulisboa.tecnico.sdis.store.ws.SDStore_Service;
+import pt.ulisboa.tecnico.sdis.store.ws.StoreResponse;
 import pt.ulisboa.tecnico.sdis.store.ws.UserDoesNotExist_Exception;
 import store.ws.handler.RelayClientHandler;
 import store.ws.uddi.UDDINaming;
@@ -37,6 +39,7 @@ public class FrontEnd {
     private static final int NOS = 3;
     private List<String> url = new ArrayList<String>();
     private List<SDStore> port = new ArrayList<SDStore>();
+    private int pid;
     
     public void connect () {
 
@@ -63,7 +66,15 @@ public class FrontEnd {
 		for (int i=0; i<NOS; i++) {
 			port.add(i, newPort);
 		}
+		this.pid = randInt(0, 9);
 	}
+    
+    public static int randInt(int min, int max) {
+        Random rand = new Random();
+        int randomNum = rand.nextInt((max - min) + 1) + min;
+
+        return randomNum;
+    }
     
    	public static FrontEnd frontEnd = null;
     
@@ -82,7 +93,6 @@ public class FrontEnd {
 		
 		List<BindingProvider> bindingProvider = new ArrayList<BindingProvider>();
 		List<Map<String, Object>> requestContext = new ArrayList<Map<String, Object>>();
-		List<Map<String, Object>> responseContext = new ArrayList<Map<String, Object>>();
 		List<byte[]> result = new ArrayList<byte[]>();
 		List<Response<LoadResponse>> response = new ArrayList<Response<LoadResponse>>();
 		
@@ -113,6 +123,7 @@ public class FrontEnd {
 		
 		byte[] finalResult = null;
 		int finalSeq = 0;
+		int finalPid = 0;
 		
 		for (Integer i : set) {
 			byte[] newResult = null;
@@ -128,76 +139,131 @@ public class FrontEnd {
 			
 			Map<String, Object> newResponseContext = (bindingProvider.get(i)).getResponseContext();
 			String newValue = (String)newResponseContext.get(RelayClientHandler.RESPONSE_PROPERTY);
-			int newSeq = decode(newValue);
+			int newSeq = decodeSeq(newValue);
+			int newPid = decodePid(newValue);
 			
-			if(newSeq>finalSeq) {
+	        if ((newSeq > finalSeq) || ((newSeq==finalSeq) && (newPid>finalPid))) {
+				finalSeq = newSeq;
 				finalResult = newResult;
 			}
 		}
-		
 		return finalResult;
 	}
 
 	public void store (DocUserPair docUserPair, byte[] contents) {
-		
-		/*BindingProvider bindingProvider = (BindingProvider) port;
-	    Map<String, Object> requestContext = bindingProvider.getRequestContext();
 
-		requestContext.put(RelayClientHandler.REQUEST_PROPERTY, "");
-		requestContext.put(ENDPOINT_ADDRESS_PROPERTY, url);
+		List<BindingProvider> bindingProvider = new ArrayList<BindingProvider>();
+		List<Map<String, Object>> requestContext = new ArrayList<Map<String, Object>>();
+		List<Response<LoadResponse>> response = new ArrayList<Response<LoadResponse>>();
 		
 		String reservedUser = "reservedUser";
 		String reservedDoc = "reservedDoc";
 		DocUserPair reservedPair = new DocUserPair();
 		reservedPair.setDocumentId(reservedDoc);
 		reservedPair.setUserId(reservedUser);
-				
-		try {
-			port.load(reservedPair);
-		} catch (DocDoesNotExist_Exception e1) {
-			e1.printStackTrace();
-		} catch (UserDoesNotExist_Exception e1) {
-			e1.printStackTrace();
+		
+		for (int i=0; i<NOS; i++) {
+			BindingProvider newBindingProvider = (BindingProvider)(port.get(i));
+			bindingProvider.add(i, newBindingProvider);
+			
+			Map<String, Object> newRequestContext = (bindingProvider.get(i)).getRequestContext();
+			requestContext.add(newRequestContext);
+			(requestContext.get(i)).put(RelayClientHandler.REQUEST_PROPERTY, "");
+			(requestContext.get(i)).put(ENDPOINT_ADDRESS_PROPERTY, url.get(i));
+			
+			Response<LoadResponse> newResponse = (port.get(i)).loadAsync(reservedPair);
+			response.add(i, newResponse);			
 		}
 		
-		Map<String, Object> responseContext = bindingProvider.getResponseContext();
-	    String finalValue = (String) responseContext.get(RelayClientHandler.RESPONSE_PROPERTY);
-	    int tag = decode(finalValue);
-	    String maxTag = Integer.toString(tag+1);
+		int q = 0;
+		HashSet<Integer> set = new HashSet<Integer>();
 		
+		while (q<(NOS/2+1)) {
+			for (int i=0; i<NOS; i++) {
+				if ((response.get(i)).isDone()) {
+					set.add(i);
+				}
+			}
+			q = set.size();
+		}
+		
+		int finalSeq = 0;
+		int finalPid = 0;
+		
+		for (Integer i : set) {
+			
+			try {
+				(port.get(i)).load(docUserPair);
+			} catch (DocDoesNotExist_Exception e) {
+				e.printStackTrace();
+			} catch (UserDoesNotExist_Exception e) {
+				e.printStackTrace();
+			}
+			
+			Map<String, Object> newResponseContext = (bindingProvider.get(i)).getResponseContext();
+			String newValue = (String)newResponseContext.get(RelayClientHandler.RESPONSE_PROPERTY);
+			int newSeq = decodeSeq(newValue);
+			int newPid = decodePid(newValue);
+			
+			if(newSeq>finalSeq) {
+				finalSeq = newSeq;
+			} else if(newSeq==finalSeq) {
+				if(newPid>finalPid) {
+					finalSeq = newSeq;
+				}
+			}
+		}
+		
+		finalSeq++;				
 	    String propertyValue = encode(docUserPair.getUserId(), docUserPair.getDocumentId(), 
-	    		contents, maxTag);
+	    		contents, Integer.toString(finalSeq), Integer.toString(pid));
 	    
-	    BindingProvider bindingProvider2 = (BindingProvider) port;
-	    Map<String, Object> requestContext2 = bindingProvider2.getRequestContext();
+	    List<BindingProvider> bindingProvider2 = new ArrayList<BindingProvider>();
+	    List<Map<String, Object>> requestContext2 = new ArrayList<Map<String, Object>>();
+		List<Response<StoreResponse>> response2 = new ArrayList<Response<StoreResponse>>();
 
-		requestContext2.put(RelayClientHandler.REQUEST_PROPERTY, propertyValue);
-		requestContext2.put(ENDPOINT_ADDRESS_PROPERTY, url);
+	    for (int i=0; i<NOS; i++) {
+	    	BindingProvider newBindingProvider = (BindingProvider)(port.get(i));
+	    	bindingProvider2.add(i, newBindingProvider);
+	    	
+	    	Map<String, Object> newRequestContext = (bindingProvider.get(i)).getRequestContext();
+	    	requestContext2.add(i, newRequestContext);
+	    	(requestContext.get(i)).put(RelayClientHandler.REQUEST_PROPERTY, propertyValue);
+	    	(requestContext.get(i)).put(ENDPOINT_ADDRESS_PROPERTY, url.get(i));
+	    	
+	    	Response<StoreResponse> newResponse = (port.get(i)).storeAsync(docUserPair, contents);
+	    	response2.add(i, newResponse);
+
+	    }
 	    
-	    try {
-			port.store(docUserPair, contents);
-		} catch (CapacityExceeded_Exception e) {
-			e.printStackTrace();
-		} catch (DocDoesNotExist_Exception e) {
-			e.printStackTrace();
-		} catch (UserDoesNotExist_Exception e) {
-			e.printStackTrace();
-		}
-
-	    Map<String, Object> responseContext2 = bindingProvider.getResponseContext();
-	    String finalValue2 = (String) responseContext2.get(RelayClientHandler.RESPONSE_PROPERTY);
-	    System.out.printf("%s got token '%s' from response context%n", CLASS_NAME, finalValue2);*/
+	    int ack=0;
+	    while (ack<(NOS/2+1)) {
+	    	for (int i=0; i<NOS; i++) {
+	    		if (!response2.get(i).isDone()) {
+	    			try {
+						(port.get(i)).store(docUserPair, contents);
+					} catch (CapacityExceeded_Exception e) {
+						e.printStackTrace();
+					} catch (DocDoesNotExist_Exception e) {
+						e.printStackTrace();
+					} catch (UserDoesNotExist_Exception e) {
+						e.printStackTrace();
+					}
+	    		} else {
+	    			ack++;
+	    		}
+	    	}
+	    }
 	}
 	
-	public String encode (String userId, String docId, byte[] contents, String seq) {
-		System.out.println("ENCODE CLIENT");
+	public String encode (String userId, String docId, byte[] contents, String seq, String pid) {
 		Element root = new Element("root");
 		org.jdom2.Document doc = new org.jdom2.Document();
 		doc.setRootElement(root);
 		
 		Element tag = new Element("tag");
 		tag.setAttribute(new Attribute("seq", seq));
-		tag.setAttribute(new Attribute("pid", ""));
+		tag.setAttribute(new Attribute("pid", pid));
 		doc.getRootElement().addContent(tag);
 		
 		Element document = new Element("document");
@@ -209,8 +275,7 @@ public class FrontEnd {
 		return new XMLOutputter().outputString(doc);
 	}
 	
-	public int decode (String document) {
-		System.out.println("DECODE CLIENT");
+	public int decodeSeq (String document) {
 		org.jdom2.Document jdomDoc = null;
 		
 		SAXBuilder builder = new SAXBuilder();
@@ -224,13 +289,31 @@ public class FrontEnd {
 			e.printStackTrace();
 		}
 		
-		System.out.println(jdomDoc);
-		
 		Element root = jdomDoc.getRootElement();
 		Element tag = root.getChild("tag");
 		int receivedSeq = Integer.parseInt(tag.getAttributeValue("seq"));
-		
+				
 		return receivedSeq;
 	}
 	
+	public int decodePid (String document) {
+		org.jdom2.Document jdomDoc = null;
+		
+		SAXBuilder builder = new SAXBuilder();
+		builder.setIgnoringElementContentWhitespace(true);
+
+		try {
+			jdomDoc = builder.build(new ByteArrayInputStream(document.getBytes()));
+		} catch (JDOMException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		Element root = jdomDoc.getRootElement();
+		Element tag = root.getChild("tag");
+		int receivedPid = Integer.parseInt(tag.getAttributeValue("pid"));
+				
+		return receivedPid;
+	}	
 }

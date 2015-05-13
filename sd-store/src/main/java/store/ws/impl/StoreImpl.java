@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.jws.HandlerChain;
 import javax.jws.WebService;
@@ -50,6 +51,7 @@ public class StoreImpl implements SDStore {
     private WebServiceContext webServiceContext;
 
 	private int seq;
+	private int pid;
 
 	public StoreImpl () {
 
@@ -80,8 +82,16 @@ public class StoreImpl implements SDStore {
 		users.add(ars);
 		
 		this.seq=0;
+		this.pid=randInt(10, 100);
 	}
+	
+	public static int randInt(int min, int max) {
+	    Random rand = new Random();
+	    int randomNum = rand.nextInt((max - min) + 1) + min;
 
+	    return randomNum;
+	}
+	
 	public String encode (String userId, String docId, byte[] contents) {
 		System.out.println("ENCODE SERVER");
 		Element root = new Element("root");
@@ -90,7 +100,7 @@ public class StoreImpl implements SDStore {
 		
 		Element tag = new Element("tag");
 		tag.setAttribute(new Attribute("seq", Integer.toString(this.seq)));
-		tag.setAttribute(new Attribute("pid", ""));
+		tag.setAttribute(new Attribute("pid", Integer.toString(this.pid)));
 		doc.getRootElement().addContent(tag);
 		
 		Element document = new Element("document");
@@ -102,15 +112,14 @@ public class StoreImpl implements SDStore {
 		return new XMLOutputter().outputString(doc);
 	}
 	
-	public int decode (String document) {
-		System.out.println("DECODE SERVER");
+	public int decodeSeq (String document) {
 		org.jdom2.Document jdomDoc = null;
 		
 		SAXBuilder builder = new SAXBuilder();
 		builder.setIgnoringElementContentWhitespace(true);
-		
+
 		try {
-			jdomDoc = builder.build(new ByteArrayInputStream(parseBase64Binary(document)));
+			jdomDoc = builder.build(new ByteArrayInputStream(document.getBytes()));
 		} catch (JDOMException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -120,8 +129,29 @@ public class StoreImpl implements SDStore {
 		Element root = jdomDoc.getRootElement();
 		Element tag = root.getChild("tag");
 		int receivedSeq = Integer.parseInt(tag.getAttributeValue("seq"));
-		
+				
 		return receivedSeq;
+	}
+	
+	public int decodePid (String document) {
+		org.jdom2.Document jdomDoc = null;
+		
+		SAXBuilder builder = new SAXBuilder();
+		builder.setIgnoringElementContentWhitespace(true);
+
+		try {
+			jdomDoc = builder.build(new ByteArrayInputStream(document.getBytes()));
+		} catch (JDOMException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		Element root = jdomDoc.getRootElement();
+		Element tag = root.getChild("tag");
+		int receivedPid = Integer.parseInt(tag.getAttributeValue("pid"));
+				
+		return receivedPid;
 	}
 	
 	public User findUser (String userId) {
@@ -207,8 +237,10 @@ public class StoreImpl implements SDStore {
         String propertyValue = (String) messageContext.get(RelayServerHandler.REQUEST_PROPERTY);
         System.out.printf("%s got token '%s' from response context%n", CLASS_NAME, propertyValue);
         
-        int receivedTag = decode(propertyValue);
-        if (receivedTag > this.seq) {
+        int receivedSeq = decodeSeq(propertyValue);
+        int receivedPid = decodePid(propertyValue);
+        
+        if ((receivedSeq > this.seq) || ((receivedSeq==this.seq) && (receivedPid>this.pid))) {
 
         	String username = docUserPair.getUserId();
         	String document = docUserPair.getDocumentId();
@@ -236,7 +268,7 @@ public class StoreImpl implements SDStore {
         	// 3 - Else, write.
         	repository.writeDocument(document, contents);
         	
-        	this.seq = receivedTag;
+        	this.seq = receivedSeq;
         }
 
         // *** #7 ***
