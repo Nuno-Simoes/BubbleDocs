@@ -30,7 +30,6 @@ import pt.ulisboa.tecnico.sdis.store.ws.DocUserPair;
 import pt.ulisboa.tecnico.sdis.store.ws.SDStore;
 import pt.ulisboa.tecnico.sdis.store.ws.UserDoesNotExist;
 import pt.ulisboa.tecnico.sdis.store.ws.UserDoesNotExist_Exception;
-import store.ws.handler.RelayClientHandler;
 import store.ws.impl.handler.RelayServerHandler;
 
 @WebService(
@@ -82,7 +81,7 @@ public class StoreImpl implements SDStore {
 
 		users.add(poe);
 		users.add(ars);
-		poe.createRepository("The Raven");
+		poe.createRepository("13");
 		ars.createRepository("folha");
 		
 		
