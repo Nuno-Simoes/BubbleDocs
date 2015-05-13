@@ -1,5 +1,6 @@
 package id.ws.impl;
 
+import java.io.IOException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -7,9 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
+import javax.crypto.spec.SecretKeySpec;
 import javax.jws.WebService;
 
 import pt.ulisboa.tecnico.sdis.id.ws.AuthReqFailed;
@@ -37,13 +38,14 @@ public class SDIdImpl implements SDId {
 		User carla = new User("carla", "Ccc3", "carla@tecnico.pt");
 		User duarte = new User("duarte", "Ddd4", "duarte@tecnico.pt");
 		User eduardo = new User("eduardo", "Eee5", "eduardo@tecnico.pt");
+		User sdStore = new User("sdStore", "sdstore1", "sdStore@sdstore.com");
 
 		user.add(alice);
 		user.add(bruno);
 		user.add(carla);
 		user.add(duarte);
 		user.add(eduardo);
-
+		user.add(sdStore);
 	}
 
 	public User findUser(String userId) {
@@ -126,8 +128,10 @@ public class SDIdImpl implements SDId {
 						"Email Address Already Exists", eae);
 			}
 		}
-
+		
 		User u = new User(userId, null, emailAddress);
+		u.setPassword();
+		System.out.println("Password de " + u.getUserId() + ": " + u.getPassword());
 		user.add(u);
 
 	}
@@ -143,7 +147,8 @@ public class SDIdImpl implements SDId {
 					udne);
 		} else {
 			us.setPassword();
-			System.out.println("Nova password de " + us.getUserId() + ": " + us.getPassword());
+			System.out.println("Nova password de " + us.getUserId() + ": "
+					+ us.getPassword());
 		}
 
 	}
@@ -164,38 +169,31 @@ public class SDIdImpl implements SDId {
 	}
 
 	public byte[] requestAuthentication(String userId, byte[] reserved)
-			throws AuthReqFailed_Exception {
-
+			throws AuthReqFailed_Exception{
 		User u = findUser(userId);
-		byte[] pass = { 0 };
-
+		String string = new String(reserved);
+		String[] parts = string.split(";");
+		String part1 = parts[0];
+		String part2 = parts[1];
+		User s = findUser(part1);
+		
+		Kerberos kerb = Kerberos.getInstance();
 		try {
-			String password = new String(reserved);
-			System.out.println("Password: " + password);
-			
-			System.out.println("Secret Key: " + u.getSecretKey());
-			System.out.println("Iv: " + u.getIv());
-			
-			Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
-
-			cipher.init(Cipher.ENCRYPT_MODE, u.getSecretKey(), u.getIv());
-			byte[] cipherPwBytes = cipher.doFinal(reserved);
-			
-			String cipherPassword = new String(cipherPwBytes);
-			System.out.println("Password Cifrada: " + cipherPassword);
-
-			cipher.init(Cipher.DECRYPT_MODE, u.getSecretKey(), u.getIv());
-			byte[] decipherPwBytes = cipher.doFinal(cipherPwBytes);
-
-			String decipherPassword = new String(decipherPwBytes);
-			
-			System.out.println("Password Decifrada: " + decipherPassword);
-
+			String password = u.getPassword();
+			SecretKeySpec clientKey = kerb.generatePasswordKey(u.getPassword());
+			SecretKeySpec serverKey = kerb.generatePasswordKey(s.getPassword());
+			SecretKeySpec sessionKey = kerb.generateSessionKey();
+			System.out.println("sessionKey" + sessionKey);
+			byte[] message = kerb.generateMessage(sessionKey, part2, clientKey);
+			byte[] ticket = kerb.generateTicket(u.getUserId(), s.getUserId(),
+					sessionKey, serverKey);
+			System.out.println("last check");
+			byte[] combined = kerb.combineMessage(ticket, message);
 			for (User us : user) {
 				if (us.getUserId().equals(userId)) {
-					if (us.getPassword().equals(decipherPassword)) {
-						pass[0] = 1;
-						return pass;
+					if (us.getPassword().equals(password)) {
+						System.out.println(" Autenticado ");
+						return combined;
 					} else {
 						AuthReqFailed arf = new AuthReqFailed();
 						arf.setReserved(reserved);
@@ -212,11 +210,11 @@ public class SDIdImpl implements SDId {
 			AuthReqFailed arf = new AuthReqFailed();
 			arf.setReserved(reserved);
 			throw new AuthReqFailed_Exception("Authentication Failed", arf);
-		} catch (NoSuchPaddingException e) {
+		} catch (InvalidKeyException e) {
 			AuthReqFailed arf = new AuthReqFailed();
 			arf.setReserved(reserved);
 			throw new AuthReqFailed_Exception("Authentication Failed", arf);
-		} catch (InvalidKeyException e) {
+		} catch (NoSuchPaddingException e) {
 			AuthReqFailed arf = new AuthReqFailed();
 			arf.setReserved(reserved);
 			throw new AuthReqFailed_Exception("Authentication Failed", arf);
@@ -228,7 +226,11 @@ public class SDIdImpl implements SDId {
 			AuthReqFailed arf = new AuthReqFailed();
 			arf.setReserved(reserved);
 			throw new AuthReqFailed_Exception("Authentication Failed", arf);
-		} catch (InvalidAlgorithmParameterException e) {
+		} catch (IOException e) {
+			AuthReqFailed arf = new AuthReqFailed();
+			arf.setReserved(reserved);
+			throw new AuthReqFailed_Exception("Authentication Failed", arf);
+		}catch(InvalidAlgorithmParameterException e){
 			AuthReqFailed arf = new AuthReqFailed();
 			arf.setReserved(reserved);
 			throw new AuthReqFailed_Exception("Authentication Failed", arf);
