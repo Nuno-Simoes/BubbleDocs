@@ -1,8 +1,16 @@
 package store.ws.impl;
 
+import org.junit.Test;
+
+import pt.ulisboa.tecnico.sdis.store.ws.DocUserPair;
+import pt.ulisboa.tecnico.sdis.store.ws.DocDoesNotExist_Exception;
+import pt.ulisboa.tecnico.sdis.store.ws.UserDoesNotExist_Exception;
+import static javax.xml.bind.DatatypeConverter.printBase64Binary;
+import static org.junit.Assert.*;
+
 public class StoreDocTest extends StoreServiceTest {
 	
-/*	String USER_EXISTS = "alice";
+	String USER_EXISTS = "alice";
 	String USER_EXISTS_2 = "bruno";
 	String EMPTY_USER = "carla";
 	String DOC_EXISTS = "grades";
@@ -18,20 +26,12 @@ public class StoreDocTest extends StoreServiceTest {
 		
 //		port.createDoc(docUserPair);
 		byte[] contents = "The quick brown fox jumps over the lazy dog".getBytes();
-		port.store(docUserPair, contents);
-	}
-	
-	// Document that exceeds repository capacity
-	@Test(expected=CapacityExceeded_Exception.class)
-	public void capacityExceeded() throws Exception {
-		DocUserPair docUserPair = new DocUserPair();
-		docUserPair.setUserId(USER_EXISTS);
-		docUserPair.setDocumentId(DOC_EXISTS);
+		client.store(docUserPair, contents);
+		byte[] result = client.load(docUserPair);
 		
-		byte[] contents = new byte[10*1025];
-		port.store(docUserPair, contents);
+		assertEquals(printBase64Binary(contents), printBase64Binary(result));
 	}
-	
+		
 	// User that exists but does not have documents
 	@Test(expected=DocDoesNotExist_Exception.class)
 	public void emptyRepository() throws Exception {
@@ -39,7 +39,7 @@ public class StoreDocTest extends StoreServiceTest {
 		docUserPair.setUserId(EMPTY_USER);
 		docUserPair.setDocumentId(DOC_EXISTS);
 		byte[] contents = "Any string".getBytes();
-		port.store(docUserPair, contents);
+		client.store(docUserPair, contents);
 	}
 	
 	// User that exists but does not have given document
@@ -50,7 +50,7 @@ public class StoreDocTest extends StoreServiceTest {
 		docUserPair.setDocumentId(DOC_DOES_NOT_EXIST);
 
 		byte[] contents = "Any string".getBytes();
-		port.store(docUserPair, contents);
+		client.store(docUserPair, contents);
 	}
 	
 	// User that does not exist
@@ -61,6 +61,6 @@ public class StoreDocTest extends StoreServiceTest {
 		docUserPair.setDocumentId(DOC_EXISTS);
 		
 		byte[] contents = "Any string".getBytes();
-		port.store(docUserPair, contents);
-	}*/
+		client.store(docUserPair, contents);
+	}
 }

@@ -87,7 +87,7 @@ public class FrontEnd {
 		return frontEnd;
 	}
 
-	public byte[] load (DocUserPair docUserPair) {
+	public byte[] load (DocUserPair docUserPair) throws DocDoesNotExist_Exception, UserDoesNotExist_Exception {
 		
 		List<BindingProvider> bindingProvider = new ArrayList<BindingProvider>();
 		List<Map<String, Object>> requestContext = new ArrayList<Map<String, Object>>();
@@ -126,17 +126,12 @@ public class FrontEnd {
 		for (Integer i : set) {
 			byte[] newResult = null;
 			
-			try {
-				newResult = ((port.get(i)).load(docUserPair));
-				result.add(newResult);
-			} catch (DocDoesNotExist_Exception e) {
-				e.printStackTrace();
-			} catch (UserDoesNotExist_Exception e) {
-				e.printStackTrace();
-			}
+			newResult = ((port.get(i)).load(docUserPair));
+			result.add(newResult);
 			
 			Map<String, Object> newResponseContext = (bindingProvider.get(i)).getResponseContext();
 			String newValue = (String)newResponseContext.get(RelayClientHandler.RESPONSE_PROPERTY);
+			System.out.println("NEW VALUE: " + newValue);
 			int newSeq = decodeSeq(newValue);
 			int newPid = decodePid(newValue);
 			
@@ -145,10 +140,11 @@ public class FrontEnd {
 				finalResult = newResult;
 			}
 		}
+		
 		return finalResult;
 	}
 
-	public void store (DocUserPair docUserPair, byte[] contents) {
+	public void store (DocUserPair docUserPair, byte[] contents) throws DocDoesNotExist_Exception, UserDoesNotExist_Exception, CapacityExceeded_Exception {
 
 		List<BindingProvider> bindingProvider = new ArrayList<BindingProvider>();
 		List<Map<String, Object>> requestContext = new ArrayList<Map<String, Object>>();
@@ -190,13 +186,7 @@ public class FrontEnd {
 		
 		for (Integer i : set) {
 			
-			try {
-				(port.get(i)).load(docUserPair);
-			} catch (DocDoesNotExist_Exception e) {
-				e.printStackTrace();
-			} catch (UserDoesNotExist_Exception e) {
-				e.printStackTrace();
-			}
+			(port.get(i)).load(docUserPair);
 			
 			Map<String, Object> newResponseContext = (bindingProvider.get(i)).getResponseContext();
 			String newValue = (String)newResponseContext.get(RelayClientHandler.RESPONSE_PROPERTY);
@@ -238,15 +228,7 @@ public class FrontEnd {
 	    while (ack<(NOS/2+1)) {
 	    	for (int i=0; i<NOS; i++) {
 	    		if (!response2.get(i).isDone()) {
-	    			try {
-						(port.get(i)).store(docUserPair, contents);
-					} catch (CapacityExceeded_Exception e) {
-						e.printStackTrace();
-					} catch (DocDoesNotExist_Exception e) {
-						e.printStackTrace();
-					} catch (UserDoesNotExist_Exception e) {
-						e.printStackTrace();
-					}
+	    			(port.get(i)).store(docUserPair, contents);
 	    		} else {
 	    			ack++;
 	    		}
@@ -274,6 +256,7 @@ public class FrontEnd {
 	}
 	
 	public int decodeSeq (String document) {
+				
 		org.jdom2.Document jdomDoc = null;
 		
 		SAXBuilder builder = new SAXBuilder();

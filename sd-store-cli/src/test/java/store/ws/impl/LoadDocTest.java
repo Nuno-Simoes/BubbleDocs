@@ -2,8 +2,11 @@ package store.ws.impl;
 
 import org.junit.*;
 
+import pt.ulisboa.tecnico.sdis.store.ws.DocDoesNotExist_Exception;
 import pt.ulisboa.tecnico.sdis.store.ws.DocUserPair;
+import pt.ulisboa.tecnico.sdis.store.ws.UserDoesNotExist_Exception;
 import static javax.xml.bind.DatatypeConverter.printBase64Binary;
+
 import static org.junit.Assert.*;
 
 public class LoadDocTest extends StoreServiceTest {
@@ -18,28 +21,26 @@ public class LoadDocTest extends StoreServiceTest {
 	
 	// Read document
 	@Test
-	public void readSuccess() throws Exception {
+	public void loadSuccess() throws Exception {
 		DocUserPair docUserPair = new DocUserPair();
 		docUserPair.setUserId(USER_EXISTS);
 		docUserPair.setDocumentId(DOC_EXISTS);
 		
 		byte[] contents = "Any string".getBytes();
-		FrontEnd.getInstance().store(docUserPair, contents);
-		byte[] result = FrontEnd.getInstance().load(docUserPair);
+		client.store(docUserPair, contents);
+		byte[] result = client.load(docUserPair);
 		
 		assertEquals(printBase64Binary(contents), printBase64Binary(result));
 	}
 	
-	/*
 	// Read empty document
 	@Test
-	public void readEmptySuccess() throws Exception {
+	public void loadEmptySuccess() throws Exception {
 		DocUserPair docUserPair = new DocUserPair();
 		docUserPair.setUserId(USER_EXISTS_2);
 		docUserPair.setDocumentId(DOC_EXISTS_2);
 		
-//		port.createDoc(docUserPair);
-		port.load(docUserPair);
+		client.load(docUserPair);
 	}
 	
 	// User that exists but does not have documents
@@ -48,7 +49,8 @@ public class LoadDocTest extends StoreServiceTest {
 		DocUserPair docUserPair = new DocUserPair();
 		docUserPair.setUserId(EMPTY_USER);
 		docUserPair.setDocumentId(NEW_DOC_EMPTY);
-		port.load(docUserPair);
+		
+		client.load(docUserPair);
 	}
 		
 	// User that exists but does not have given document
@@ -58,7 +60,7 @@ public class LoadDocTest extends StoreServiceTest {
 		docUserPair.setUserId(USER_EXISTS_2);
 		docUserPair.setDocumentId(DOC_EXISTS);
 			
-		port.load(docUserPair);
+		client.load(docUserPair);
 	}
 	
 	// User that does not exist
@@ -67,7 +69,6 @@ public class LoadDocTest extends StoreServiceTest {
 		DocUserPair docUserPair = new DocUserPair();
 		docUserPair.setUserId(USER_DOES_NOT_EXIST);
 		docUserPair.setDocumentId(DOC_EXISTS);
-		port.load(docUserPair);
+		client.load(docUserPair);
 	}
-	*/
 }
