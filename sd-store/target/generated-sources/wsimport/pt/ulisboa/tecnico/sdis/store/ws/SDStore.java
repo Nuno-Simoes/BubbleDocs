@@ -60,8 +60,8 @@ public interface SDStore {
      * @param contents
      * @param docUserPair
      * @throws UserDoesNotExist_Exception
-     * @throws CapacityExceeded_Exception
      * @throws DocDoesNotExist_Exception
+     * @throws CapacityExceeded_Exception
      */
     @WebMethod
     @RequestWrapper(localName = "store", targetNamespace = "urn:pt:ulisboa:tecnico:sdis:store:ws", className = "pt.ulisboa.tecnico.sdis.store.ws.Store")

@@ -1,6 +1,7 @@
 package id.ws.impl;
 
 import id.ws.uddi.UDDINaming;
+import id.ws.handler.RelayClientHandler;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -12,6 +13,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import static javax.xml.bind.DatatypeConverter.parseBase64Binary;
@@ -33,12 +36,17 @@ import org.jdom2.output.XMLOutputter;
 
 import pt.ulisboa.tecnico.sdis.id.ws.SDId;
 import pt.ulisboa.tecnico.sdis.id.ws.SDId_Service;
+import pt.ulisboa.tecnico.sdis.store.ws.DocUserPair;
 import pt.ulisboa.tecnico.sdis.store.ws.SDStore;
 import pt.ulisboa.tecnico.sdis.store.ws.SDStore_Service;
 import static javax.xml.ws.BindingProvider.ENDPOINT_ADDRESS_PROPERTY;
 
 public class ClientIdMain {
 
+	public static final String TOKEN = "client";
+
+	public static final String CLASS_NAME = ClientIdMain.class.getSimpleName();
+	
 	public static void main(String[] args) throws Exception {
 		// Check arguments
 		if (args.length < 2) {
@@ -50,6 +58,7 @@ public class ClientIdMain {
 		
 		SecretKeySpec originalKey = null;
 		byte[] ticketToServer=null;
+		
 		String uddiURL = args[0];
 		String name = args[1];
 		String url = args[2];
@@ -90,8 +99,15 @@ public class ClientIdMain {
 		BindingProvider bindingProvider = (BindingProvider) port;
 		Map<String, Object> requestContext = bindingProvider
 				.getRequestContext();
-		requestContext.put(ENDPOINT_ADDRESS_PROPERTY, endpointAddress);
 		
+		// *** #1 ***
+        // put token in request context
+        String initialValue = TOKEN;
+        System.out.printf("%s put token '%s' on request context%n", CLASS_NAME, initialValue);
+        requestContext.put(RelayClientHandler.REQUEST_PROPERTY, initialValue);
+        
+        // set endpoint address
+        requestContext.put(ENDPOINT_ADDRESS_PROPERTY, url);
 
 		BindingProvider bindingProvider1 = (BindingProvider) port1;
 		Map<String, Object> requestContext1 = bindingProvider1
@@ -99,37 +115,37 @@ public class ClientIdMain {
 		requestContext1.put(ENDPOINT_ADDRESS_PROPERTY, endpointAddress1);
 
 		while (true) {
-			System.out.println("escolha a opcao \n 1:Create User \n 2:Remove User \n 3:Renew Password \n 4:Request Authentication \n 5:Create Document \n 6:List Documents ");
+			System.out.println("Insira um numero para seleccionar a opcao \n 1:Create User \n 2:Remove User \n 3:Renew Password \n 4:Request Authentication \n 5:Create Document \n 6:List Documents \n 7:Exit");
 			BufferedReader bufferRead = new BufferedReader(
 					new InputStreamReader(System.in));
 			String s = bufferRead.readLine();
 			String k;
 			if (s.equals("1")) {
-				System.out.println("Create a new User: ");
-				System.out.println("insert userId");
+				System.out.println("Create new user: ");
+				System.out.println("Insert userId: ");
 				s = bufferRead.readLine();
-				System.out.println("insert email");
+				System.out.println("Insert email: ");
 				k = bufferRead.readLine();
 				port.createUser(s, k);
 			}
 			if (s.equals("2")) {
-				System.out.println("Remove User: ");
-				System.out.println("Enter userId to remove: ");
+				System.out.println("Remove user: ");
+				System.out.println("Insert userId: ");
 				s = bufferRead.readLine();
 				port.removeUser(s);
 			}
 			if (s.equals("3")) {
 				System.out.println("Renew password: ");
-				System.out.println("Enter userId");
+				System.out.println("Insert userId: ");
 				s = bufferRead.readLine();
 				port.renewPassword(s);
 			}
 			if (s.equals("4")) {
 				// parte do request
-				System.out.println("Enter userId");
+				System.out.println("Insert userId: ");
 				s = bufferRead.readLine();
 				System.out.println(s);
-				System.out.println("enter a number n");
+				System.out.println("Insert a random number: ");
 				byte[] reserved = bufferRead.readLine().getBytes();
 				String userPass = bufferRead.readLine();
 				byte[] finalProduct = port.requestAuthentication(s,
@@ -148,24 +164,24 @@ public class ClientIdMain {
 				// parte criar doc1
 				String part1Deciphered = decipher(userKey,
 						parseBase64Binary(part1Message));
-				System.out.println("part1Deciphered !!!!!!!!!!!"
-						+ part1Deciphered);
+				System.out.println("\n!!!!!!!!!!! Xml Document deciphered part 1 !!!!!!!!!!!\n"
+						+ part1Deciphered + "\n");
 				Document part1Xml = loadXML(part1Deciphered.getBytes());
 				Element rootDoc1 = part1Xml.getRootElement();
 				// sacar sessionKey da parte1Xml
 				String sessionKey = rootDoc1.getAttributeValue("sessionKey");
 				byte[] deKey = parseBase64Binary(sessionKey);
-				System.out.println("decodedkey " + deKey);
+				System.out.println("\n!!!!!!!!!!! Session key !!!!!!!!!!!\n " + deKey + "\n");
 				originalKey = new SecretKeySpec(deKey, 0,
 						deKey.length, "AES");
 				System.out.println("originalKey " + originalKey);
 				// parte criar doc2
 				ticketToServer = parseBase64Binary(part2Message);
-				System.out.println("ticket !!!!!!!!!!!!!!"
-						+ ticketToServer);
+				System.out.println("\n!!!!!!!!!!! Ticket from server !!!!!!!!!!!\n"
+						+ ticketToServer + "\n");
 			}
 			if (s.equals("5")) {
-				System.out.println("insert userId");
+				System.out.println("Insert userId: ");
 				s=bufferRead.readLine();
 				
 				Element root = new Element("root");
@@ -174,13 +190,46 @@ public class ClientIdMain {
 				byte[] authent = authenticator(s,originalKey);
 				root.setAttribute(new Attribute("ticket", ticketToServer.toString()));
 				root.setAttribute(new Attribute("authenticator", authent.toString()));
-				byte[] allExceptRequest = new XMLOutputter().outputString(doc).getBytes();
+				String allExceptRequest = new XMLOutputter().outputString(doc);
 				
-				//port1.createDoc(docUserPair);
+				DocUserPair pair = new DocUserPair();
+				pair.setUserId(s);
+				pair.setDocumentId(allExceptRequest);
+				// make remote call
+		        System.out.printf("Remote call to %s ...%n", url);
+		        port1.createDoc(pair);
+		        
+		        // access response context
+		        Map<String, Object> responseContext = bindingProvider.getResponseContext();
+
+		        // *** #12 ***
+		        // get token from response context
+		        String finalValue = (String) responseContext.get(RelayClientHandler.RESPONSE_PROPERTY);
+		        System.out.printf("%s got token '%s' from response context%n", CLASS_NAME, finalValue);
+				
 			}
 			if (s.equals("6")) {
+
+				System.out.println("Insert userId: ");
+				s=bufferRead.readLine();
+				System.out.printf("Remote call to %s ...%n", url);
+				List<String> list = port1.listDocs(s);
+				for(Iterator<String> i = list.iterator(); i.hasNext(); ) {
+				    String item = i.next();
+				    System.out.println(item);
+				}
+				// access response context
+		        Map<String, Object> responseContext = bindingProvider.getResponseContext();
+
+		        // *** #12 ***
+		        // get token from response context
+		        String finalValue = (String) responseContext.get(RelayClientHandler.RESPONSE_PROPERTY);
+		        System.out.printf("%s got token '%s' from response context%n", CLASS_NAME, finalValue);
 				
-				//port1.listDocs(userId);
+			}
+			if(s.equals("7")){
+				System.out.println("Goodbye!");
+				break;
 			}
 		}
 	}

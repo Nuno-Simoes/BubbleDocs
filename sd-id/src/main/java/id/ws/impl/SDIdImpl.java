@@ -1,18 +1,35 @@
 package id.ws.impl;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
-import javax.jws.WebService;
+import javax.jws.*;
+import javax.xml.ws.WebServiceContext;
+import javax.xml.ws.handler.MessageContext;
 
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.JDOMException;
+import org.jdom2.input.SAXBuilder;
+
+import javax.annotation.Resource;
+import javax.jws.*;
+import javax.xml.ws.WebServiceContext;
+import javax.xml.ws.handler.MessageContext;
+
+import id.ws.impl.handler.*;
 import pt.ulisboa.tecnico.sdis.id.ws.AuthReqFailed;
 import pt.ulisboa.tecnico.sdis.id.ws.AuthReqFailed_Exception;
 import pt.ulisboa.tecnico.sdis.id.ws.EmailAlreadyExists;
@@ -27,25 +44,30 @@ import pt.ulisboa.tecnico.sdis.id.ws.UserAlreadyExists_Exception;
 import pt.ulisboa.tecnico.sdis.id.ws.UserDoesNotExist;
 import pt.ulisboa.tecnico.sdis.id.ws.UserDoesNotExist_Exception;
 
-@WebService(endpointInterface = "pt.ulisboa.tecnico.sdis.id.ws.SDId", wsdlLocation = "SD-ID.1_1.wsdl", name = "SdId", portName = "SDIdImplPort", targetNamespace = "urn:pt:ulisboa:tecnico:sdis:id:ws", serviceName = "SDId")
+@WebService(endpointInterface = "pt.ulisboa.tecnico.sdis.id.ws.SDId",
+	wsdlLocation = "SD-ID.1_1.wsdl",
+	name = "SdId",
+	portName = "SDIdImplPort",
+	targetNamespace = "urn:pt:ulisboa:tecnico:sdis:id:ws",
+	serviceName = "SDId")
+@HandlerChain(file="handler-chain.xml")
 public class SDIdImpl implements SDId {
+
+	public static final String TOKEN = "server";
+	public static final String CLASS_NAME = SDIdImpl.class.getSimpleName();
+
+	@Resource
+	private WebServiceContext webServiceContext;
 
 	List<User> user = new ArrayList<User>();
 
 	public SDIdImpl() {
-		
-		// Users for SD
 		User alice = new User("alice", "Aaa1", "alice@tecnico.pt");
 		User bruno = new User("bruno", "Bbb2", "bruno@tecnico.pt");
 		User carla = new User("carla", "Ccc3", "carla@tecnico.pt");
 		User duarte = new User("duarte", "Ddd4", "duarte@tecnico.pt");
 		User eduardo = new User("eduardo", "Eee5", "eduardo@tecnico.pt");
 		User sdStore = new User("sdStore", "sdstore1", "sdStore@sdstore.com");
-		
-		// User for ES
-		User smf = new User("smf", "smf", "smf@smf.smf");
-		User jose = new User("jose", "jose", "jose@jose.jose");
-		User ars = new User("ars", "Antonio", "rito@tecnico.pt");
 
 		user.add(alice);
 		user.add(bruno);
@@ -53,9 +75,68 @@ public class SDIdImpl implements SDId {
 		user.add(duarte);
 		user.add(eduardo);
 		user.add(sdStore);
-		user.add(smf);
-		user.add(jose);
-		user.add(ars);
+	}
+
+	private String decodeTicket(String document) throws Exception {
+		Document received = loadXML(document.getBytes());
+		Element root = received.getRootElement();
+		String ticket = root.getAttributeValue("ticket");
+		return ticket;
+	}
+
+	private String decodeAuthenticator(String document) throws Exception {
+		Document received = loadXML(document.getBytes());
+		Element root = received.getRootElement();
+		String authenticator = root.getAttributeValue("authenticator");
+		return authenticator;
+	}
+
+	private static Document loadXML(byte[] doc) throws Exception {
+		Document jdomDoc;
+
+		SAXBuilder builder = new SAXBuilder();
+		builder.setIgnoringElementContentWhitespace(true);
+		jdomDoc = builder.build(new ByteArrayInputStream(doc));
+
+		return jdomDoc;
+	}
+
+	public boolean checkRequest(Document doc) throws Exception {
+		// retrieve message context
+		MessageContext messageContext = webServiceContext.getMessageContext();
+
+		// *** #6 ***
+		// get token from message context
+		String propertyValue = (String) messageContext
+				.get(RelayServerHandler.REQUEST_PROPERTY);
+		System.out.printf("%s got token '%s' from response context%n",
+				CLASS_NAME, propertyValue);
+		
+		String receivedTicket = decodeTicket(propertyValue);
+		String receivedAuthenticator = decodeAuthenticator(propertyValue);
+		Document ticket = loadXML(receivedTicket.getBytes());
+		Element rootTicket = ticket.getRootElement();
+		String ticketDate = rootTicket.getAttributeValue("expiration");
+		Document authenticator = loadXML(receivedAuthenticator.getBytes());
+		Element rootAuthenticator = authenticator.getRootElement();
+		String authenticatorDate = rootAuthenticator
+				.getAttributeValue("currentTime");
+		SimpleDateFormat parserSDF = new SimpleDateFormat(
+				"EEE MMM d HH:mm:ss zzz yyyy");
+		Date ticketTime = parserSDF.parse(ticketDate);
+		Date authenticatorTime = parserSDF.parse(authenticatorDate);
+		boolean after = authenticatorTime.after(ticketTime);
+		// server processing
+        String result = String.format("The result is %b!", after);
+        System.out.printf("Result: %s%n", result);
+		// *** #7 ***
+		// put token in message context
+		String newValue = propertyValue + "," + TOKEN;
+		System.out.printf("%s put token '%s' on request context%n", CLASS_NAME,
+				TOKEN);
+		messageContext.put(RelayServerHandler.RESPONSE_PROPERTY, newValue);
+		return after;
+
 	}
 
 	public User findUser(String userId) {
@@ -138,10 +219,11 @@ public class SDIdImpl implements SDId {
 						"Email Address Already Exists", eae);
 			}
 		}
-		
+
 		User u = new User(userId, null, emailAddress);
 		u.setPassword();
-		System.out.println("Password de " + u.getUserId() + ": " + u.getPassword());
+		System.out.println("Password de " + u.getUserId() + ": "
+				+ u.getPassword());
 		user.add(u);
 
 	}
@@ -179,14 +261,14 @@ public class SDIdImpl implements SDId {
 	}
 
 	public byte[] requestAuthentication(String userId, byte[] reserved)
-			throws AuthReqFailed_Exception{
+			throws AuthReqFailed_Exception {
 		User u = findUser(userId);
 		String string = new String(reserved);
 		String[] parts = string.split(";");
 		String part1 = parts[0];
 		String part2 = parts[1];
 		User s = findUser(part1);
-		
+
 		Kerberos kerb = Kerberos.getInstance();
 		try {
 			String password = u.getPassword();
@@ -197,7 +279,6 @@ public class SDIdImpl implements SDId {
 			byte[] message = kerb.generateMessage(sessionKey, part2, clientKey);
 			byte[] ticket = kerb.generateTicket(u.getUserId(), s.getUserId(),
 					sessionKey, serverKey);
-			System.out.println("last check");
 			byte[] combined = kerb.combineMessage(ticket, message);
 			for (User us : user) {
 				if (us.getUserId().equals(userId)) {
@@ -240,7 +321,7 @@ public class SDIdImpl implements SDId {
 			AuthReqFailed arf = new AuthReqFailed();
 			arf.setReserved(reserved);
 			throw new AuthReqFailed_Exception("Authentication Failed", arf);
-		}catch(InvalidAlgorithmParameterException e){
+		} catch (InvalidAlgorithmParameterException e) {
 			AuthReqFailed arf = new AuthReqFailed();
 			arf.setReserved(reserved);
 			throw new AuthReqFailed_Exception("Authentication Failed", arf);

@@ -1,8 +1,6 @@
 package id.ws.impl;
 
-
-
-import id.ws.uddi.UDDINaming;
+import id.ws.uddi.*;
 
 import javax.xml.ws.Endpoint;
 

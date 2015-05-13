@@ -2,7 +2,9 @@ package store.ws.impl;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -16,6 +18,7 @@ import javax.annotation.Resource;
 import static javax.xml.bind.DatatypeConverter.printBase64Binary;
 
 import org.jdom2.Attribute;
+import org.jdom2.Document;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.XMLOutputter;
@@ -169,96 +172,100 @@ public class StoreImpl implements SDStore {
 	}
 
 	// Creates new empty document with name docUserPair.getDocumentId()
-	// for user docUserPair.getUserId()
-	public void createDoc(DocUserPair docUserPair)
-			throws DocAlreadyExists_Exception {
+		// for user docUserPair.getUserId()
+		public void createDoc(DocUserPair docUserPair) throws DocAlreadyExists_Exception {
 
-		// retrieve message context
-		MessageContext messageContext = webServiceContext.getMessageContext();
+			// retrieve message context
+			MessageContext messageContext = webServiceContext.getMessageContext();
+			// *** #6 ***
+			// get token from message context
+			String propertyValue = (String) messageContext
+					.get(RelayServerHandler.REQUEST_PROPERTY);
+			System.out.printf("%s got token '%s' from response context%n",
+					CLASS_NAME, propertyValue);
 
-		// *** #6 ***
-		// get token from message context
-		String propertyValue = (String) messageContext
-				.get(RelayServerHandler.REQUEST_PROPERTY);
-		System.out.printf("%s got token '%s' from response context%n",
-				CLASS_NAME, propertyValue);
+			String userID = docUserPair.getUserId();
+			String documentID = docUserPair.getDocumentId();
 
-		String userID = docUserPair.getUserId();
-		String documentID = docUserPair.getDocumentId();
+			// 1 - Verify if user does not exist. If true, create new user with
+			// username userID.
+			User user = findUser(userID);
+			if (user == null) {
+				user = new User(userID);
+				users.add(user);
+			}
 
-		// 1 - Verify if user does not exist. If true, create new user with
-		// username userID.
-		User user = findUser(userID);
-		if (user == null) {
-			user = new User(userID);
-			users.add(user);
+			// 2 - Verify if user does not have a repository. If true, create a
+			// new repository for that user with given document.
+			Repository repository = user.getRepository();
+			if (repository == null) {
+				user.createRepository(documentID);
+				return;
+			}
+
+			// 3 - Verify if document name already exists in repository. If true,
+			// throw new DocAlreadyExists_Exception.
+			if (repository.documentExists(documentID)) {
+				DocAlreadyExists docAlreadyExists = new DocAlreadyExists();
+				docAlreadyExists.setDocId(documentID);
+					throw new DocAlreadyExists_Exception("Duplicate document",
+							docAlreadyExists);
+				
+			}
+
+			// 4 - Else, create new empty document in user repository.
+			try {
+				if (checkRequest(documentID)) {
+					String newValue = "Expired";
+					System.out.printf("%s put token '%s' on request context%n",
+							CLASS_NAME, TOKEN);
+					messageContext.put(RelayServerHandler.RESPONSE_PROPERTY,
+							newValue);
+				} else {
+					repository.addDocument(userID);
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
-		// 2 - Verify if user does not have a repository. If true, create a
-		// new repository for that user with given document.
-		Repository repository = user.getRepository();
-		if (repository == null) {
-			user.createRepository(documentID);
-			return;
+		// Lists all documents for userId
+		public List<String> listDocs(String userId)
+				throws UserDoesNotExist_Exception {
+			
+			// retrieve message context
+					MessageContext messageContext = webServiceContext.getMessageContext();
+					// *** #6 ***
+					// get token from message context
+					String propertyValue = (String) messageContext
+							.get(RelayServerHandler.REQUEST_PROPERTY);
+					System.out.printf("%s got token '%s' from response context%n",
+							CLASS_NAME, propertyValue);
+
+			// 1 - Verify if given user does not exist. If true, throw new
+			// UserDoesNotExist_Exception.
+			User user = findUser(userId);
+			if (user == null) {
+				UserDoesNotExist userDoesNotExist = new UserDoesNotExist();
+				userDoesNotExist.setUserId(userId);
+				throw new UserDoesNotExist_Exception("Invalid user",
+						userDoesNotExist);
+			}
+
+			// 2 - Else, list name of all documents in said repository.
+			if (user.getRepository() == null) {
+				return new ArrayList<String>();
+			} else {
+				String newValue = "Success";
+				System.out.printf("%s put token '%s' on request context%n",
+						CLASS_NAME, TOKEN);
+				messageContext.put(RelayServerHandler.RESPONSE_PROPERTY,
+						newValue);
+				return user.getRepository().listDocuments();
+			}
 		}
 
-		// 3 - Verify if document name already exists in repository. If true,
-		// throw new DocAlreadyExists_Exception.
-		if (repository.documentExists(documentID)) {
-			DocAlreadyExists docAlreadyExists = new DocAlreadyExists();
-			docAlreadyExists.setDocId(documentID);
-			throw new DocAlreadyExists_Exception("Duplicate document",
-					docAlreadyExists);
-		}
-
-		// 4 - Else, create new empty document in user repository.
-		repository.addDocument(documentID);
-
-		// *** #7 ***
-		// put token in message context
-		String newValue = "ack";
-		System.out.printf("%s put token '%s' on request context%n", CLASS_NAME,
-				TOKEN);
-		messageContext.put(RelayServerHandler.RESPONSE_PROPERTY, newValue);
-
-	}
-
-	// Lists all documents for userId
-	public List<String> listDocs(String userId)
-			throws UserDoesNotExist_Exception {
-
-		// retrieve message context
-		MessageContext messageContext = webServiceContext.getMessageContext();
-
-		// *** #6 ***
-		// get token from message context
-		String propertyValue = (String) messageContext
-				.get(RelayServerHandler.REQUEST_PROPERTY);
-		System.out.printf("%s got token '%s' from response context%n",
-				CLASS_NAME, propertyValue);
-
-		// 1 - Verify if given user does not exist. If true, throw new
-		// UserDoesNotExist_Exception.
-		User user = findUser(userId);
-		if (user == null) {
-			UserDoesNotExist userDoesNotExist = new UserDoesNotExist();
-			userDoesNotExist.setUserId(userId);
-			throw new UserDoesNotExist_Exception("Invalid user",
-					userDoesNotExist);
-		}
-		
-		String newValue = "";
-		System.out.printf("%s put token '%s' on request context%n", CLASS_NAME,
-				TOKEN);
-		messageContext.put(RelayServerHandler.RESPONSE_PROPERTY, newValue);
-
-		// 2 - Else, list name of all documents in said repository.
-		if (user.getRepository() == null) {
-			return new ArrayList<String>();
-		} else {
-			return user.getRepository().listDocuments();
-		}
-	}
 
 	// Writes docUserPair.getDocumentId() for user docUserPair.getUserId()
 	// with contents
@@ -364,5 +371,48 @@ public class StoreImpl implements SDStore {
 		messageContext.put(RelayServerHandler.RESPONSE_PROPERTY, newValue);
 
 		return repository.readDocument(document);
+	}
+	
+	private String decodeTicket(String document) throws Exception {
+		Document received = loadXML(document.getBytes());
+		Element root = received.getRootElement();
+		String ticket = root.getAttributeValue("ticket");
+		return ticket;
+	}
+
+	private String decodeAuthenticator(String document) throws Exception {
+		Document received = loadXML(document.getBytes());
+		Element root = received.getRootElement();
+		String authenticator = root.getAttributeValue("authenticator");
+		return authenticator;
+	}
+
+	private static Document loadXML(byte[] doc) throws Exception {
+		Document jdomDoc;
+
+		SAXBuilder builder = new SAXBuilder();
+		builder.setIgnoringElementContentWhitespace(true);
+		jdomDoc = builder.build(new ByteArrayInputStream(doc));
+
+		return jdomDoc;
+	}
+
+	public boolean checkRequest(String doc) throws Exception {
+		String receivedTicket = decodeTicket(doc);
+		String receivedAuthenticator = decodeAuthenticator(doc);
+		Document ticket = loadXML(receivedTicket.getBytes());
+		Element rootTicket = ticket.getRootElement();
+		String ticketDate = rootTicket.getAttributeValue("expiration");
+		Document authenticator = loadXML(receivedAuthenticator.getBytes());
+		Element rootAuthenticator = authenticator.getRootElement();
+		String authenticatorDate = rootAuthenticator
+				.getAttributeValue("currentTime");
+		SimpleDateFormat parserSDF = new SimpleDateFormat(
+				"EEE MMM d HH:mm:ss zzz yyyy");
+		Date ticketTime = parserSDF.parse(ticketDate);
+		Date authenticatorTime = parserSDF.parse(authenticatorDate);
+		boolean after = authenticatorTime.after(ticketTime);
+		return after;
+
 	}
 }
