@@ -7,7 +7,7 @@ Project planning and execution of third week:
 | marcoist      | 2 | 0 | 3 | 3 | 2 | 0 | 2 | 82, 101, 104            |
 | Nuno-Simoes   | 3 | 3 | 5 | 5 | 4 | 4 | 4 | 99, 105                 |
 | PJBNascimento | 3 | 2 | 4 | 4 | 4 | 3 | 4 | 84, 110                 |
-| ritap420      | 3 | 2 | 5 | 5 | 3 | 3 | 4 | 93, 100, 102            |
+| ritap420      | 3 | 2 | 5 | 5 | 3 | 3 | 4 | 100, 102            |
 
 Retrospective of second week:
 * [ALL] As a group we decided to implement all the tasks relative to the 

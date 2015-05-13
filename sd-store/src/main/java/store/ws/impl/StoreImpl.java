@@ -167,7 +167,7 @@ public class StoreImpl implements SDStore {
 	// for user docUserPair.getUserId()
 	public void createDoc(DocUserPair docUserPair)
 			throws DocAlreadyExists_Exception {
-
+		
 		String userID = docUserPair.getUserId();
 		String documentID = docUserPair.getDocumentId();
 
