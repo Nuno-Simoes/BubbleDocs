@@ -17,7 +17,7 @@ import javax.xml.ws.WebServiceFeature;
  * Generated source version: 2.2
  * 
  */
-@WebServiceClient(name = "SDStore", targetNamespace = "urn:pt:ulisboa:tecnico:sdis:store:ws", wsdlLocation = "file:/Users/nuno/Documents/workspace/bubbledocs/sd-store/src/main/resources/SD-STORE.1_1.wsdl")
+@WebServiceClient(name = "SDStore", targetNamespace = "urn:pt:ulisboa:tecnico:sdis:store:ws", wsdlLocation = "file:/C:/Workspace/bubbledocs/sd-store/src/main/resources/SD-STORE.1_1.wsdl")
 public class SDStore_Service
     extends Service
 {
@@ -30,7 +30,7 @@ public class SDStore_Service
         URL url = null;
         WebServiceException e = null;
         try {
-            url = new URL("file:/Users/nuno/Documents/workspace/bubbledocs/sd-store/src/main/resources/SD-STORE.1_1.wsdl");
+            url = new URL("file:/C:/Workspace/bubbledocs/sd-store/src/main/resources/SD-STORE.1_1.wsdl");
         } catch (MalformedURLException ex) {
             e = new WebServiceException(ex);
         }
