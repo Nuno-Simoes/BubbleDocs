@@ -66,6 +66,8 @@ public class StoreImpl implements SDStore {
 		// Users for ES
 		User poe = new User("poe");
 		User ars = new User("ars");
+		User sam = new User("sam");
+		User ton = new User("ton");
 
 		users.add(alice);
 		users.add(bruno);
@@ -80,9 +82,12 @@ public class StoreImpl implements SDStore {
 
 		users.add(poe);
 		users.add(ars);
-		poe.createRepository("13");
+		users.add(sam);
+		users.add(ton);
+		poe.createRepository("The Raven");
 		ars.createRepository("folha");
-		
+		sam.createRepository("folha");
+		ton.createRepository("folha");
 		
 		this.seq=0;
 		this.pid=randInt(10, 100);
@@ -96,7 +101,6 @@ public class StoreImpl implements SDStore {
 	}
 	
 	public String encode (String userId, String docId, byte[] contents) {
-		System.out.println("ENCODE SERVER");
 		Element root = new Element("root");
 		org.jdom2.Document doc = new org.jdom2.Document();
 		doc.setRootElement(root);

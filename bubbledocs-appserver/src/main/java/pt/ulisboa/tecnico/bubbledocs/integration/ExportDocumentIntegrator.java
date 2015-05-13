@@ -6,9 +6,9 @@ import pt.ulisboa.tecnico.bubbledocs.service.ExportDocumentService;
 import pt.ulisboa.tecnico.bubbledocs.service.remote.StoreRemoteServices;
 
 public class ExportDocumentIntegrator extends BubbleDocsIntegrator {
-
-	private String userToken;
+	
 	private int docId;
+	private String userToken;
 	private String username;
 	private String docName;
 	private byte[] document;

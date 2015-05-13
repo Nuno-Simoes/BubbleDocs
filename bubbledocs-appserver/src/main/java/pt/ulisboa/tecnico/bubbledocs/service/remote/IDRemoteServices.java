@@ -5,7 +5,6 @@ import static javax.xml.ws.BindingProvider.ENDPOINT_ADDRESS_PROPERTY;
 import java.util.Map;
 
 import id.ws.uddi.UDDINaming;
-import pt.ulisboa.tecnico.bubbledocs.domain.Portal;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.DuplicateEmailException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.DuplicateUsernameException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidEmailException;
@@ -19,9 +18,6 @@ import pt.ulisboa.tecnico.sdis.id.ws.SDId;
 import pt.ulisboa.tecnico.sdis.id.ws.SDId_Service;
 import pt.ulisboa.tecnico.sdis.id.ws.UserAlreadyExists_Exception;
 import pt.ulisboa.tecnico.sdis.id.ws.UserDoesNotExist_Exception;
-import static javax.xml.ws.BindingProvider.ENDPOINT_ADDRESS_PROPERTY;
-
-import java.util.Map;
 
 import javax.xml.registry.JAXRException;
 import javax.xml.ws.BindingProvider;

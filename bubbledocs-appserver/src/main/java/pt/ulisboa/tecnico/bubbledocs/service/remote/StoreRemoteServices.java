@@ -48,6 +48,7 @@ public class StoreRemoteServices {
 		} catch (DocDoesNotExist_Exception | UserDoesNotExist_Exception e) {
 			throw new CannotLoadDocumentException();
 		}
+		
 		return document;
 	}
 }
