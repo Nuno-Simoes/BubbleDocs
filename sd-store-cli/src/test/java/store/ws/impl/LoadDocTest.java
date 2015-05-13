@@ -3,6 +3,8 @@ package store.ws.impl;
 import org.junit.*;
 
 import pt.ulisboa.tecnico.sdis.store.ws.DocUserPair;
+import static javax.xml.bind.DatatypeConverter.printBase64Binary;
+import static org.junit.Assert.*;
 
 public class LoadDocTest extends StoreServiceTest {
 	
@@ -21,11 +23,11 @@ public class LoadDocTest extends StoreServiceTest {
 		docUserPair.setUserId(USER_EXISTS);
 		docUserPair.setDocumentId(DOC_EXISTS);
 		
-//		port.createDoc(docUserPair);
 		byte[] contents = "Any string".getBytes();
 		FrontEnd.getInstance().store(docUserPair, contents);
-		FrontEnd.getInstance().load(docUserPair);
-//		port.load(docUserPair);
+		byte[] result = FrontEnd.getInstance().load(docUserPair);
+		
+		assertEquals(printBase64Binary(contents), printBase64Binary(result));
 	}
 	
 	/*

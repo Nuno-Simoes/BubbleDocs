@@ -1,26 +1,17 @@
 package store.ws.impl;
 
-import java.util.Map;
-
 import javax.xml.registry.JAXRException;
-import javax.xml.ws.BindingProvider;
 
 import org.junit.*;
 
 import pt.ulisboa.tecnico.sdis.store.ws.CapacityExceeded_Exception;
 import pt.ulisboa.tecnico.sdis.store.ws.DocDoesNotExist_Exception;
 import pt.ulisboa.tecnico.sdis.store.ws.DocUserPair;
-import pt.ulisboa.tecnico.sdis.store.ws.SDStore;
-import pt.ulisboa.tecnico.sdis.store.ws.SDStore_Service;
 import pt.ulisboa.tecnico.sdis.store.ws.UserDoesNotExist_Exception;
-import store.ws.uddi.UDDINaming;
-import static javax.xml.ws.BindingProvider.ENDPOINT_ADDRESS_PROPERTY;
 
 public class StoreServiceTest {
 
-	static private String uddiURL = "http://localhost:8081";
-	static private String name = "SdStore";
-	static protected SDStore port;
+	static protected FrontEnd client;
 
 	public static StoreServiceTest store = null;
 
@@ -34,11 +25,12 @@ public class StoreServiceTest {
 	//one-time initialisation and clean-up
 	@BeforeClass
 	public static void oneTimeSetUp() throws JAXRException {
+		client = FrontEnd.getInstance();
 	}
 
 	@AfterClass
 	public static void oneTimeTearDown() {
-		port = null;
+		client = null;
 	}
 
 	public void store (String username, String docName, byte[] document) 
@@ -47,7 +39,7 @@ public class StoreServiceTest {
 		DocUserPair pair = new DocUserPair();
 		pair.setUserId(username);
 		pair.setDocumentId(docName);
-		port.store(pair, document);
+		client.store(pair, document);
 	}
 
 	public byte[] load (String username, String docName) 
@@ -55,6 +47,6 @@ public class StoreServiceTest {
 		DocUserPair pair = new DocUserPair();
 		pair.setDocumentId(docName);
 		pair.setUserId(username);
-		return port.load(pair);
+		return client.load(pair);
 	}
 }

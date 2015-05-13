@@ -8,7 +8,6 @@ import javax.xml.ws.handler.MessageContext;
 import javax.xml.ws.handler.MessageContext.Scope;
 import javax.xml.ws.handler.soap.*;
 
-
 /**
  *  This is the handler client class of the Relay example.
  *

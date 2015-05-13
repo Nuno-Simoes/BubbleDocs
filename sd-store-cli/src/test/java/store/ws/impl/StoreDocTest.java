@@ -1,15 +1,8 @@
 package store.ws.impl;
 
-import org.junit.*;
-
-import pt.ulisboa.tecnico.sdis.store.ws.DocDoesNotExist_Exception;
-import pt.ulisboa.tecnico.sdis.store.ws.DocUserPair;
-import pt.ulisboa.tecnico.sdis.store.ws.UserDoesNotExist_Exception;
-import pt.ulisboa.tecnico.sdis.store.ws.CapacityExceeded_Exception;
-
 public class StoreDocTest extends StoreServiceTest {
 	
-	String USER_EXISTS = "alice";
+/*	String USER_EXISTS = "alice";
 	String USER_EXISTS_2 = "bruno";
 	String EMPTY_USER = "carla";
 	String DOC_EXISTS = "grades";
@@ -69,5 +62,5 @@ public class StoreDocTest extends StoreServiceTest {
 		
 		byte[] contents = "Any string".getBytes();
 		port.store(docUserPair, contents);
-	}
+	}*/
 }

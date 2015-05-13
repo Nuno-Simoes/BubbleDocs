@@ -2,7 +2,6 @@ package store.ws.impl;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -13,7 +12,6 @@ import javax.xml.registry.JAXRException;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Response;
 
-import static javax.xml.bind.DatatypeConverter.parseBase64Binary;
 import static javax.xml.bind.DatatypeConverter.printBase64Binary;
 
 import org.jdom2.*;

@@ -1,11 +1,8 @@
 package store.ws.impl;
 
-import org.junit.*;
-import pt.ulisboa.tecnico.sdis.store.ws.UserDoesNotExist_Exception;
-
 public class ListDocsTest extends StoreServiceTest {
 	
-	String USER_EXISTS = "bruno";
+/*	String USER_EXISTS = "bruno";
 	String USER_EXISTS_EMPTY = "carla";
 	String USER_DOES_NOT_EXIST = "gabriel";
 	String NEW_DOC = "grades";
@@ -25,5 +22,5 @@ public class ListDocsTest extends StoreServiceTest {
 	@Test (expected=UserDoesNotExist_Exception.class)
 	public void userDoesNotExist() throws Exception {
 		port.listDocs(USER_DOES_NOT_EXIST);
-	}
+	}*/
 }

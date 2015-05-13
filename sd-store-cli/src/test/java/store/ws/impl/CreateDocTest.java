@@ -1,13 +1,8 @@
 package store.ws.impl;
 
-import org.junit.*;
-
-import pt.ulisboa.tecnico.sdis.store.ws.DocAlreadyExists_Exception;
-import pt.ulisboa.tecnico.sdis.store.ws.DocUserPair;
-
 public class CreateDocTest extends StoreServiceTest {
 	
-	String USER_EXISTS = "alice";
+/*	String USER_EXISTS = "alice";
 	String USER_EXISTS_2 = "bruno"; 
 	String USER_DOES_NOT_EXIST = "francisco";
 	String NEW_DOC = "grades";
@@ -56,5 +51,5 @@ public class CreateDocTest extends StoreServiceTest {
 		docUserPair.setDocumentId(NEW_DOC);
 		
 		port.createDoc(docUserPair);
-	}
+	}*/
 }
