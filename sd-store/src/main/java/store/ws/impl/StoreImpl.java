@@ -103,14 +103,13 @@ public class StoreImpl implements SDStore {
 	}
 	
 	public int decode (String document) {
-		System.out.println("DECODE SERVER");
 		org.jdom2.Document jdomDoc = null;
 		
 		SAXBuilder builder = new SAXBuilder();
 		builder.setIgnoringElementContentWhitespace(true);
-		
+
 		try {
-			jdomDoc = builder.build(new ByteArrayInputStream(parseBase64Binary(document)));
+			jdomDoc = builder.build(new ByteArrayInputStream(document.getBytes()));
 		} catch (JDOMException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -120,7 +119,7 @@ public class StoreImpl implements SDStore {
 		Element root = jdomDoc.getRootElement();
 		Element tag = root.getChild("tag");
 		int receivedSeq = Integer.parseInt(tag.getAttributeValue("seq"));
-		
+				
 		return receivedSeq;
 	}
 	
