@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.jws.HandlerChain;
 import javax.jws.WebService;
@@ -50,6 +51,7 @@ public class StoreImpl implements SDStore {
     private WebServiceContext webServiceContext;
 
 	private int seq;
+	private int pid;
 
 	public StoreImpl () {
 
@@ -80,8 +82,16 @@ public class StoreImpl implements SDStore {
 		users.add(ars);
 		
 		this.seq=0;
+		this.pid=randInt(10, 100);
 	}
+	
+	public static int randInt(int min, int max) {
+	    Random rand = new Random();
+	    int randomNum = rand.nextInt((max - min) + 1) + min;
 
+	    return randomNum;
+	}
+	
 	public String encode (String userId, String docId, byte[] contents) {
 		System.out.println("ENCODE SERVER");
 		Element root = new Element("root");

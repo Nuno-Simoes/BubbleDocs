@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import javax.xml.registry.JAXRException;
 import javax.xml.ws.BindingProvider;
@@ -38,6 +39,7 @@ public class FrontEnd {
     private static final int NOS = 3;
     private List<String> url = new ArrayList<String>();
     private List<SDStore> port = new ArrayList<SDStore>();
+    private int pid;
     
     public void connect () {
 
@@ -64,7 +66,15 @@ public class FrontEnd {
 		for (int i=0; i<NOS; i++) {
 			port.add(i, newPort);
 		}
+		this.pid = randInt(0, 9);
 	}
+    
+    public static int randInt(int min, int max) {
+        Random rand = new Random();
+        int randomNum = rand.nextInt((max - min) + 1) + min;
+
+        return randomNum;
+    }
     
    	public static FrontEnd frontEnd = null;
     
