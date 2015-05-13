@@ -100,7 +100,7 @@ public class StoreImpl implements SDStore {
 		
 		Element tag = new Element("tag");
 		tag.setAttribute(new Attribute("seq", Integer.toString(this.seq)));
-		tag.setAttribute(new Attribute("pid", ""));
+		tag.setAttribute(new Attribute("pid", Integer.toString(this.pid)));
 		doc.getRootElement().addContent(tag);
 		
 		Element document = new Element("document");
@@ -112,7 +112,7 @@ public class StoreImpl implements SDStore {
 		return new XMLOutputter().outputString(doc);
 	}
 	
-	public int decode (String document) {
+	public int decodeSeq (String document) {
 		org.jdom2.Document jdomDoc = null;
 		
 		SAXBuilder builder = new SAXBuilder();
@@ -131,6 +131,27 @@ public class StoreImpl implements SDStore {
 		int receivedSeq = Integer.parseInt(tag.getAttributeValue("seq"));
 				
 		return receivedSeq;
+	}
+	
+	public int decodePid (String document) {
+		org.jdom2.Document jdomDoc = null;
+		
+		SAXBuilder builder = new SAXBuilder();
+		builder.setIgnoringElementContentWhitespace(true);
+
+		try {
+			jdomDoc = builder.build(new ByteArrayInputStream(document.getBytes()));
+		} catch (JDOMException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		Element root = jdomDoc.getRootElement();
+		Element tag = root.getChild("tag");
+		int receivedPid = Integer.parseInt(tag.getAttributeValue("pid"));
+				
+		return receivedPid;
 	}
 	
 	public User findUser (String userId) {
@@ -216,8 +237,10 @@ public class StoreImpl implements SDStore {
         String propertyValue = (String) messageContext.get(RelayServerHandler.REQUEST_PROPERTY);
         System.out.printf("%s got token '%s' from response context%n", CLASS_NAME, propertyValue);
         
-        int receivedTag = decode(propertyValue);
-        if (receivedTag > this.seq) {
+        int receivedSeq = decodeSeq(propertyValue);
+        int receivedPid = decodePid(propertyValue);
+        
+        if ((receivedSeq > this.seq) || ((receivedSeq==this.seq) && (receivedPid>this.pid))) {
 
         	String username = docUserPair.getUserId();
         	String document = docUserPair.getDocumentId();
@@ -245,7 +268,7 @@ public class StoreImpl implements SDStore {
         	// 3 - Else, write.
         	repository.writeDocument(document, contents);
         	
-        	this.seq = receivedTag;
+        	this.seq = receivedSeq;
         }
 
         // *** #7 ***

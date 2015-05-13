@@ -123,6 +123,7 @@ public class FrontEnd {
 		
 		byte[] finalResult = null;
 		int finalSeq = 0;
+		int finalPid = 0;
 		
 		for (Integer i : set) {
 			byte[] newResult = null;
@@ -138,9 +139,10 @@ public class FrontEnd {
 			
 			Map<String, Object> newResponseContext = (bindingProvider.get(i)).getResponseContext();
 			String newValue = (String)newResponseContext.get(RelayClientHandler.RESPONSE_PROPERTY);
-			int newSeq = decode(newValue);
+			int newSeq = decodeSeq(newValue);
+			int newPid = decodePid(newValue);
 			
-			if(newSeq>finalSeq) {
+	        if ((newSeq > finalSeq) || ((newSeq==finalSeq) && (newPid>finalPid))) {
 				finalSeq = newSeq;
 				finalResult = newResult;
 			}
@@ -169,7 +171,7 @@ public class FrontEnd {
 			(requestContext.get(i)).put(RelayClientHandler.REQUEST_PROPERTY, "");
 			(requestContext.get(i)).put(ENDPOINT_ADDRESS_PROPERTY, url.get(i));
 			
-			Response<LoadResponse> newResponse = (port.get(i)).loadAsync(docUserPair);
+			Response<LoadResponse> newResponse = (port.get(i)).loadAsync(reservedPair);
 			response.add(i, newResponse);			
 		}
 		
@@ -186,6 +188,7 @@ public class FrontEnd {
 		}
 		
 		int finalSeq = 0;
+		int finalPid = 0;
 		
 		for (Integer i : set) {
 			
@@ -199,16 +202,21 @@ public class FrontEnd {
 			
 			Map<String, Object> newResponseContext = (bindingProvider.get(i)).getResponseContext();
 			String newValue = (String)newResponseContext.get(RelayClientHandler.RESPONSE_PROPERTY);
-			int newSeq = decode(newValue);
+			int newSeq = decodeSeq(newValue);
+			int newPid = decodePid(newValue);
 			
 			if(newSeq>finalSeq) {
 				finalSeq = newSeq;
+			} else if(newSeq==finalSeq) {
+				if(newPid>finalPid) {
+					finalSeq = newSeq;
+				}
 			}
 		}
 		
 		finalSeq++;				
 	    String propertyValue = encode(docUserPair.getUserId(), docUserPair.getDocumentId(), 
-	    		contents, Integer.toString(finalSeq));
+	    		contents, Integer.toString(finalSeq), Integer.toString(pid));
 	    
 	    List<BindingProvider> bindingProvider2 = new ArrayList<BindingProvider>();
 	    List<Map<String, Object>> requestContext2 = new ArrayList<Map<String, Object>>();
@@ -248,14 +256,14 @@ public class FrontEnd {
 	    }
 	}
 	
-	public String encode (String userId, String docId, byte[] contents, String seq) {
+	public String encode (String userId, String docId, byte[] contents, String seq, String pid) {
 		Element root = new Element("root");
 		org.jdom2.Document doc = new org.jdom2.Document();
 		doc.setRootElement(root);
 		
 		Element tag = new Element("tag");
 		tag.setAttribute(new Attribute("seq", seq));
-		tag.setAttribute(new Attribute("pid", ""));
+		tag.setAttribute(new Attribute("pid", pid));
 		doc.getRootElement().addContent(tag);
 		
 		Element document = new Element("document");
@@ -267,7 +275,7 @@ public class FrontEnd {
 		return new XMLOutputter().outputString(doc);
 	}
 	
-	public int decode (String document) {
+	public int decodeSeq (String document) {
 		org.jdom2.Document jdomDoc = null;
 		
 		SAXBuilder builder = new SAXBuilder();
@@ -288,4 +296,24 @@ public class FrontEnd {
 		return receivedSeq;
 	}
 	
+	public int decodePid (String document) {
+		org.jdom2.Document jdomDoc = null;
+		
+		SAXBuilder builder = new SAXBuilder();
+		builder.setIgnoringElementContentWhitespace(true);
+
+		try {
+			jdomDoc = builder.build(new ByteArrayInputStream(document.getBytes()));
+		} catch (JDOMException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		Element root = jdomDoc.getRootElement();
+		Element tag = root.getChild("tag");
+		int receivedPid = Integer.parseInt(tag.getAttributeValue("pid"));
+				
+		return receivedPid;
+	}	
 }
