@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import javax.jws.HandlerChain;
@@ -29,6 +30,7 @@ import pt.ulisboa.tecnico.sdis.store.ws.DocUserPair;
 import pt.ulisboa.tecnico.sdis.store.ws.SDStore;
 import pt.ulisboa.tecnico.sdis.store.ws.UserDoesNotExist;
 import pt.ulisboa.tecnico.sdis.store.ws.UserDoesNotExist_Exception;
+import store.ws.handler.RelayClientHandler;
 import store.ws.impl.handler.RelayServerHandler;
 
 @WebService(
@@ -171,6 +173,15 @@ public class StoreImpl implements SDStore {
 	// for user docUserPair.getUserId()
 	public void createDoc(DocUserPair docUserPair)
 			throws DocAlreadyExists_Exception {
+
+		// retrieve message context
+        MessageContext messageContext = webServiceContext.getMessageContext();
+
+        // *** #6 ***
+        // get token from message context
+        String propertyValue = (String) messageContext.get(RelayServerHandler.REQUEST_PROPERTY);
+        System.out.printf("%s got token '%s' from response context%n", CLASS_NAME, propertyValue);
+
 		
 		String userID = docUserPair.getUserId();
 		String documentID = docUserPair.getDocumentId();
@@ -202,6 +213,13 @@ public class StoreImpl implements SDStore {
 
 		// 4 - Else, create new empty document in user repository.
 		repository.addDocument(documentID);
+	
+    // *** #7 ***
+    // put token in message context
+    String newValue = "ack";
+    System.out.printf("%s put token '%s' on request context%n", CLASS_NAME, TOKEN);
+    messageContext.put(RelayServerHandler.RESPONSE_PROPERTY, newValue);
+    
 	}
 
 	// Lists all documents for userId
