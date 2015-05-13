@@ -80,6 +80,9 @@ public class StoreImpl implements SDStore {
 
 		users.add(poe);
 		users.add(ars);
+		poe.createRepository("The Raven");
+		ars.createRepository("folha");
+		
 		
 		this.seq=0;
 		this.pid=randInt(10, 100);
