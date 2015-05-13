@@ -33,12 +33,19 @@ public class SDIdImpl implements SDId {
 	List<User> user = new ArrayList<User>();
 
 	public SDIdImpl() {
+		
+		// Users for SD
 		User alice = new User("alice", "Aaa1", "alice@tecnico.pt");
 		User bruno = new User("bruno", "Bbb2", "bruno@tecnico.pt");
 		User carla = new User("carla", "Ccc3", "carla@tecnico.pt");
 		User duarte = new User("duarte", "Ddd4", "duarte@tecnico.pt");
 		User eduardo = new User("eduardo", "Eee5", "eduardo@tecnico.pt");
 		User sdStore = new User("sdStore", "sdstore1", "sdStore@sdstore.com");
+		
+		// User for ES
+		User smf = new User("smf", "smf", "smf@smf.smf");
+		User jose = new User("jose", "jose", "jose@jose.jose");
+		User ars = new User("ars", "Antonio", "rito@tecnico.pt");
 
 		user.add(alice);
 		user.add(bruno);
@@ -46,6 +53,9 @@ public class SDIdImpl implements SDId {
 		user.add(duarte);
 		user.add(eduardo);
 		user.add(sdStore);
+		user.add(smf);
+		user.add(jose);
+		user.add(ars);
 	}
 
 	public User findUser(String userId) {

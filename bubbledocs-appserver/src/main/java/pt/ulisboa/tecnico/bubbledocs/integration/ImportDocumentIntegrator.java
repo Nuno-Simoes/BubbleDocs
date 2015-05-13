@@ -1,6 +1,7 @@
 package pt.ulisboa.tecnico.bubbledocs.integration;
 
 import pt.ulisboa.tecnico.bubbledocs.domain.Session;
+
 import pt.ulisboa.tecnico.bubbledocs.domain.Spreadsheet;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidSessionException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.RemoteInvocationException;
@@ -11,12 +12,12 @@ import pt.ulisboa.tecnico.bubbledocs.service.remote.StoreRemoteServices;
 
 public class ImportDocumentIntegrator extends BubbleDocsIntegrator {
 	
-	private String docId;
+	private String docName;
 	private String userToken;
 	private Spreadsheet result;
 	
-	public ImportDocumentIntegrator (String userToken, String docId) {
-		this.docId = docId;
+	public ImportDocumentIntegrator (String userToken, String docName) {
+		this.docName = docName;
 		this.userToken = userToken;
 	}
 
@@ -30,7 +31,7 @@ public class ImportDocumentIntegrator extends BubbleDocsIntegrator {
 		if(Session.getInstance().isValidSession(userToken)) {
 			try {
 				StoreRemoteServices remoteService = StoreRemoteServices.getInstance();
-				newFile = remoteService.loadDocument(username, docId.toString());
+				newFile = remoteService.loadDocument(username, docName);
 				ImportDocumentService localService = 
 						new ImportDocumentService(newFile, username);
 				localService.execute();

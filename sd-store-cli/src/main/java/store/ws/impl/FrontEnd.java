@@ -132,7 +132,6 @@ public class FrontEnd {
 
 			Map<String, Object> newResponseContext = (bindingProvider.get(i)).getResponseContext();
 			String newValue = (String)newResponseContext.get(RelayClientHandler.RESPONSE_PROPERTY);
-			System.out.println("NEW VALUE: " + newValue);
 			int newSeq = decodeSeq(newValue);
 			int newPid = decodePid(newValue);
 

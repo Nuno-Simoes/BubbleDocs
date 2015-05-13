@@ -19,6 +19,7 @@ import pt.ulisboa.tecnico.bubbledocs.service.remote.IDRemoteServices;
 public class RemoveUserIntegratorTest extends BubbleDocsIntegratorTest {
 
 	private static final String USERNAME_TO_DELETE = "smf";
+	private static final String USERNAME_TO_DELETE_2 = "jose";
 	private static final String NAME_TO_DELETE = "Sérgio Fernandes";
 	private static final String EMAIL_TO_DELETE = "smf@smf.com";
 	private static final String USERNAME = "ars";
@@ -43,6 +44,9 @@ public class RemoveUserIntegratorTest extends BubbleDocsIntegratorTest {
 		User smf = createUser(USERNAME_TO_DELETE,
 				NAME_TO_DELETE, EMAIL_TO_DELETE);
 		smf.setPassword(PASSWORD);
+		
+		User jose = createUser(USERNAME_TO_DELETE_2, "jose", "jose@jose.jose");
+		jose.setPassword(PASSWORD);
 
 		User zecabra = createUser(NOT_LOGGED_USERNAME,
 				NOT_LOGGED_NAME, NOT_LOGGED_EMAIL);
@@ -85,9 +89,9 @@ public class RemoveUserIntegratorTest extends BubbleDocsIntegratorTest {
 	@Test
 	public void successToDeleteIsInSession() {
 		boolean deleted = false;
-		String token = addUserToSession(USERNAME_TO_DELETE);
+		String token = addUserToSession(USERNAME_TO_DELETE_2);
 
-		RemoveUserIntegrator service = new RemoveUserIntegrator(root, USERNAME_TO_DELETE);
+		RemoveUserIntegrator service = new RemoveUserIntegrator(root, USERNAME_TO_DELETE_2);
 		service.execute();
 
 		try { 

@@ -14,8 +14,8 @@ import pt.ulisboa.tecnico.bubbledocs.exceptions.CannotLoadDocumentException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.InvalidSessionException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.RemoteInvocationException;
 import pt.ulisboa.tecnico.bubbledocs.exceptions.UnavailableServiceException;
+import pt.ulisboa.tecnico.bubbledocs.integration.ExportDocumentIntegrator;
 import pt.ulisboa.tecnico.bubbledocs.integration.ImportDocumentIntegrator;
-import pt.ulisboa.tecnico.bubbledocs.service.ExportDocumentService;
 import pt.ulisboa.tecnico.bubbledocs.service.remote.StoreRemoteServices;
 
 public class ImportDocumentIntegratorTest extends BubbleDocsIntegratorTest {
@@ -24,6 +24,7 @@ public class ImportDocumentIntegratorTest extends BubbleDocsIntegratorTest {
 	private String invalidToken;
 	private String notLoggedToken;
 	public byte[] document;
+	public Spreadsheet theRaven;
 
 	// - valid user
 	private static final String USERNAME = "poe";
@@ -62,12 +63,12 @@ public class ImportDocumentIntegratorTest extends BubbleDocsIntegratorTest {
 				NOT_LOGGED_NAME, NOT_LOGGED_EMAIL);
 		notLoggedUser.setPassword(NOT_LOGGED_PASSWORD);
 
-		Spreadsheet sheet = new Spreadsheet(DOC_NAME, DOC_LINES, DOC_COLUMNS);
-		sheet.setId(DOC_ID);
-		sheet.setOwner(USERNAME);
-		Portal.getInstance().addSpreadsheets(sheet);
+		Spreadsheet theRaven = new Spreadsheet(DOC_NAME, DOC_LINES, DOC_COLUMNS);
+		theRaven.setId(DOC_ID);
+		theRaven.setOwner(USERNAME);
+		Portal.getInstance().addSpreadsheets(theRaven);
 		Permission permission = new Permission(true, true);
-		sheet.addPermissions(permission);
+		theRaven.addPermissions(permission);
 		validUser.addPermissions(permission);
 
 		validToken = addUserToSession(USERNAME);
@@ -76,7 +77,7 @@ public class ImportDocumentIntegratorTest extends BubbleDocsIntegratorTest {
 
 		notLoggedUser.setSessionTime(0);
 
-		ExportDocumentService service = new ExportDocumentService(validToken, DOC_ID);
+		ExportDocumentIntegrator service = new ExportDocumentIntegrator(validToken, DOC_ID, USERNAME, DOC_NAME);
 		service.execute();
 		document = service.getResult();
 	}
@@ -86,7 +87,7 @@ public class ImportDocumentIntegratorTest extends BubbleDocsIntegratorTest {
 
 		Portal.getInstance().setSheetId(1);
 		ImportDocumentIntegrator integrator = 
-				new ImportDocumentIntegrator(validToken, Integer.toString(DOC_ID));
+				new ImportDocumentIntegrator(validToken, DOC_NAME);
 		integrator.execute();
 		Spreadsheet result = integrator.getResult();
 
@@ -95,11 +96,11 @@ public class ImportDocumentIntegratorTest extends BubbleDocsIntegratorTest {
 		assertEquals(result.getOwner(), USERNAME);
 		assertEquals(result.getId(), 2);		
 	}
-/*
+
 	@Test(expected=InvalidSessionException.class)
 	public void notLoggedUser() {
 		ImportDocumentIntegrator integrator =
-				new ImportDocumentIntegrator(notLoggedToken, Integer.toString(DOC_ID));
+				new ImportDocumentIntegrator(notLoggedToken, DOC_NAME);
 		integrator.execute();
 	}
 
@@ -107,7 +108,7 @@ public class ImportDocumentIntegratorTest extends BubbleDocsIntegratorTest {
 	public void documentNotExported() {
 
 		ImportDocumentIntegrator integrator =
-				new ImportDocumentIntegrator(invalidToken, Integer.toString(DOC_ID));
+				new ImportDocumentIntegrator(invalidToken, DOC_NAME);
 		integrator.execute();
 	}
 	
@@ -120,7 +121,7 @@ public class ImportDocumentIntegratorTest extends BubbleDocsIntegratorTest {
 		}};
 
 		ImportDocumentIntegrator integrator =
-				new ImportDocumentIntegrator(validToken, Integer.toString(DOC_ID));
+				new ImportDocumentIntegrator(validToken, DOC_NAME);
 		integrator.execute();
-	}*/
+	}
 }
