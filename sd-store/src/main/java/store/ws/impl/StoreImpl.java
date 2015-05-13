@@ -59,7 +59,6 @@ public class StoreImpl implements SDStore {
 		User alice = new User("alice");
 		alice.createRepository("grades");
 		User bruno = new User("bruno");
-		bruno.createRepository("project");
 		User carla = new User("carla");
 		User duarte = new User("duarte");
 		User eduardo = new User("eduardo");
@@ -183,7 +182,9 @@ public class StoreImpl implements SDStore {
 
 		
 		String userID = docUserPair.getUserId();
+		System.out.println(userID);
 		String documentID = docUserPair.getDocumentId();
+		System.out.println(documentID);
 
 		// 1 - Verify if user does not exist. If true, create new user with
 		// username userID.
@@ -207,8 +208,7 @@ public class StoreImpl implements SDStore {
 			DocAlreadyExists docAlreadyExists = new DocAlreadyExists();
 			docAlreadyExists.setDocId(documentID);
 			throw new DocAlreadyExists_Exception("Duplicate document", 
-					docAlreadyExists);
-		}
+					docAlreadyExists);		}
 
 		// 4 - Else, create new empty document in user repository.
 		repository.addDocument(documentID);

@@ -1,13 +1,19 @@
 package store.ws.impl;
 
+import org.junit.Test;
+
+import pt.ulisboa.tecnico.sdis.store.ws.DocAlreadyExists_Exception;
+import pt.ulisboa.tecnico.sdis.store.ws.DocUserPair;
+
 public class CreateDocTest extends StoreServiceTest {
 	
-/*	String USER_EXISTS = "alice";
+	String USER_EXISTS = "alice";
 	String USER_EXISTS_2 = "bruno"; 
 	String USER_DOES_NOT_EXIST = "francisco";
 	String NEW_DOC = "grades";
 	String NEW_DOC_2 = "project";
 	String NEW_DOC_3 = "pages";
+	String NEW_DOC_4 = "Biblia";
 	
 	// User that does not exist creates new document
 	@Test
@@ -15,7 +21,7 @@ public class CreateDocTest extends StoreServiceTest {
 		DocUserPair docUserPair = new DocUserPair();
 		docUserPair.setUserId(USER_DOES_NOT_EXIST);
 		docUserPair.setDocumentId(NEW_DOC);
-		port.createDoc(docUserPair);	
+		client.createDoc(docUserPair);	
 	}
 	
 	// User that already exists creates new document
@@ -23,8 +29,8 @@ public class CreateDocTest extends StoreServiceTest {
 	public void createNewDocumentSuccess() throws Exception {
 		DocUserPair docUserPair = new DocUserPair();
 		docUserPair.setUserId(USER_EXISTS);
-		docUserPair.setDocumentId(NEW_DOC);	
-		port.createDoc(docUserPair);
+		docUserPair.setDocumentId(NEW_DOC_4);	
+		client.createDoc(docUserPair);
 	}
 	
 	// User adds two new documents
@@ -34,13 +40,13 @@ public class CreateDocTest extends StoreServiceTest {
 		docUserPair.setUserId(USER_EXISTS_2);
 		docUserPair.setDocumentId(NEW_DOC_2);
 		
-		port.createDoc(docUserPair);
+		client.createDoc(docUserPair);
 		
 		DocUserPair docUserPair2 = new DocUserPair();
 		docUserPair2.setUserId(USER_EXISTS_2);
 		docUserPair2.setDocumentId(NEW_DOC_3);
 		
-		port.createDoc(docUserPair2);
+		client.createDoc(docUserPair2);
 	}
 	
 	// User already has document with given name on repository
@@ -50,6 +56,6 @@ public class CreateDocTest extends StoreServiceTest {
 		docUserPair.setUserId(USER_EXISTS);
 		docUserPair.setDocumentId(NEW_DOC);
 		
-		port.createDoc(docUserPair);
-	}*/
+		client.createDoc(docUserPair);
+	}
 }
