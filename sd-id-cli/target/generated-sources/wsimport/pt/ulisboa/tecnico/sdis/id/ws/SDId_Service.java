@@ -3,7 +3,6 @@ package pt.ulisboa.tecnico.sdis.id.ws;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import javax.jws.HandlerChain;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 import javax.xml.ws.WebEndpoint;
@@ -18,8 +17,7 @@ import javax.xml.ws.WebServiceFeature;
  * Generated source version: 2.2
  * 
  */
-@WebServiceClient(name = "SDId", targetNamespace = "urn:pt:ulisboa:tecnico:sdis:id:ws", wsdlLocation = "file:/C:/Workspace/bubbledocs/sd-id-cli/src/main/resources/SD-ID.1_1.wsdl")
-@HandlerChain(file = "SDId_Service_handler.xml")
+@WebServiceClient(name = "SDId", targetNamespace = "urn:pt:ulisboa:tecnico:sdis:id:ws", wsdlLocation = "file:/Users/nuno/Downloads/T_04_07_23-project/sd-id-cli/src/main/resources/SD-ID.1_1.wsdl")
 public class SDId_Service
     extends Service
 {
@@ -32,7 +30,7 @@ public class SDId_Service
         URL url = null;
         WebServiceException e = null;
         try {
-            url = new URL("file:/C:/Workspace/bubbledocs/sd-id-cli/src/main/resources/SD-ID.1_1.wsdl");
+            url = new URL("file:/Users/nuno/Downloads/T_04_07_23-project/sd-id-cli/src/main/resources/SD-ID.1_1.wsdl");
         } catch (MalformedURLException ex) {
             e = new WebServiceException(ex);
         }
